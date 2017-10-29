@@ -12,7 +12,7 @@ class Post:
 	FILE_PROPERTIES = "properties.json"
 	
 	PROPERTY_TITLE = "title"
-	PROPERTY_DESCRIPTION = "description"
+	PROPERTY_ABSTRACT = "abstract"
 	
 	CLASS_POST_LINK = "post-link"
 
@@ -42,7 +42,7 @@ class Post:
 		file.write(result);
 		file.close();
 		
-		return self.make_post_link(self.properties[self.PROPERTY_TITLE], self.properties[self.PROPERTY_DESCRIPTION], self.get_post_file_name());
+		return self.make_post_link(self.properties[self.PROPERTY_TITLE], self.properties[self.PROPERTY_ABSTRACT], self.get_post_file_name());
 			
 	def validate_requirements(self):
 		if not os.path.isfile(self.content):
@@ -61,13 +61,14 @@ class Post:
 	def get_post_file_name(self):
 		return self.properties[self.PROPERTY_TITLE].replace(" ", "_").lower() + ".html"
 		
-	def make_post_link(self, title, description, url):
-		return "<div class=\"" + self.CLASS_POST_LINK + "\"><h1><a href=\"" + url + "\">" + title + "</a></h1><p>" + description + "</p></div>"
+	def make_post_link(self, title, abstract, url):
+		return "<div class=\"" + self.CLASS_POST_LINK + "\"><h1><a href=\"" + url + "\">" + title + "</a></h1><p>" + abstract + "</p></div>"
 	
 	
 class Site:
 	TITLE = "Job Talle"
 	TITLE_DIVISOR = " | "
+	TITLE_ABOUT = "About"
 
 	DIR_POSTS = "posts"
 	DIR_CSS = "css"
@@ -76,6 +77,7 @@ class Site:
 	
 	FILE_TEMPLATE = "template.html"
 	FILE_LOADMORE = "loadmore.html"
+	FILE_ABOUT = "about.html"
 
 	KEY_TITLE = "$title$"
 	KEY_ADDITIONAL_CSS = "$additional-css$"
@@ -105,18 +107,44 @@ class Site:
 		for index in range(0, self.get_index_count()):
 			if os.path.isfile(self.get_index_file_name(index)):
 				os.remove(self.get_index_file_name(index))
+				
+		if os.path.isfile(self.get_about_file_name()):
+			os.remove(self.get_about_file_name())
 		
 	def build(self):
 		self.log("Starting build")
 		self.log_scope_increment()
 		
-		self.build_directories()
+		self.build_posts()
 		self.build_indices()
+		self.build_about()
 			
 		self.log_scope_decrement()
 		self.log("Done")
 	
-	def build_directories(self):
+	def build_about(self):
+		result = self.template
+		result = result.replace(self.KEY_TITLE, self.TITLE + self.TITLE_DIVISOR + self.TITLE_ABOUT)
+		result = result.replace(self.KEY_ADDITIONAL_CSS, "")
+		result = result.replace(self.KEY_ADDITIONAL_JAVASCRIPT, "")
+		result = result.replace(self.KEY_CONTENT, self.get_about())
+		result = result.replace(self.KEY_CONTENT_FOOTER, "")
+			
+		file = open(self.get_about_file_name(), "w")
+		file.write(result)
+		file.close()
+	
+	def get_about_file_name(self):
+		return "about.html"
+	
+	def get_about(self):
+		about_file = open(os.path.join(self.DIR_TEMPLATES, self.FILE_ABOUT))
+		about = about_file.read()
+		about_file.close()
+		
+		return about
+	
+	def build_posts(self):
 		self.post_links = []
 	
 		for post in self.posts:
