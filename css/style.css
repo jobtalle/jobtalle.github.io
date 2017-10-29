@@ -1,0 +1,65 @@
+body {
+	margin: 0px;
+}
+
+#menu {
+	background-color: black;
+	display: flex;
+}
+
+#menu-buttons {
+	width: 960px;
+	margin-left: auto;
+	margin-right: auto;
+}
+
+.menu-button {
+	transition: 0.3s;
+	float: left;
+	background-color: black;
+	border: none;
+	outline: none;
+	cursor: pointer;
+	font-family: "Helvetica";
+	font-size: 24;
+	color: white;
+	width: 128px;
+	text-align: center;
+}
+
+.menu-button:hover {
+	background-color: white;
+	color: black;
+}
+
+#wrapper {
+	font-family: "Helvetica";
+	width: 960px;
+	margin-left: auto;
+	margin-right: auto;
+}
+
+#header {
+	text-align: center;
+}
+
+#content-wrapper {
+	
+}
+
+#content {
+	
+}
+
+#content-footer {
+	text-align: center;
+	width: 100%;
+}
+
+#footer {
+	text-align: right;
+}
+
+.post-link {
+	background-color: cyan;
+}

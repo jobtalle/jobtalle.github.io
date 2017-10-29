@@ -14,7 +14,7 @@ class Post:
 	PROPERTY_TITLE = "title"
 	PROPERTY_DESCRIPTION = "description"
 	
-	ID_POST_LINK = "post-link"
+	CLASS_POST_LINK = "post-link"
 
 	def __init__(self, site, directory):
 		self.site = site
@@ -28,19 +28,16 @@ class Post:
 	def build(self):
 		self.site.log("Building " + self.get_post_file_name())
 	
-		# Mutate template
 		result = self.site.template
 		result = result.replace(self.site.KEY_TITLE, self.site.TITLE + self.site.TITLE_DIVISOR + self.properties[self.PROPERTY_TITLE])
 		result = result.replace(self.site.KEY_ADDITIONAL_CSS, "")
 		result = result.replace(self.site.KEY_ADDITIONAL_JAVASCRIPT, "")
 		result = result.replace(self.site.KEY_CONTENT_FOOTER, "")
 		
-		# Write content
 		contentFile = open(self.content);
 		result = result.replace(self.site.KEY_CONTENT, contentFile.read());
 		contentFile.close();
 		
-		# Write result to file
 		file = open(self.get_post_file_name(), "w");
 		file.write(result);
 		file.close();
@@ -65,7 +62,7 @@ class Post:
 		return self.properties[self.PROPERTY_TITLE].replace(" ", "_").lower() + ".html"
 		
 	def make_post_link(self, title, description, url):
-		return "<div id=\"" + self.ID_POST_LINK + "\"><h1><a href=\"" + url + "\">" + title + "</a></h1><p>" + description + "</p></div>"
+		return "<div class=\"" + self.CLASS_POST_LINK + "\"><h1><a href=\"" + url + "\">" + title + "</a></h1><p>" + description + "</p></div>"
 	
 	
 class Site:
