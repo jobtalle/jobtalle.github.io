@@ -31,8 +31,9 @@ class Post:
 		# Mutate template
 		result = self.site.template
 		result = result.replace(self.site.KEY_TITLE, self.site.TITLE + self.site.TITLE_DIVISOR + self.properties[self.PROPERTY_TITLE])
-		result = result.replace(self.site.KEY_ADDITIONAL_CSS, "");
-		result = result.replace(self.site.KEY_ADDITIONAL_JAVASCRIPT, "");
+		result = result.replace(self.site.KEY_ADDITIONAL_CSS, "")
+		result = result.replace(self.site.KEY_ADDITIONAL_JAVASCRIPT, "")
+		result = result.replace(self.site.KEY_CONTENT_FOOTER, "")
 		
 		# Write content
 		contentFile = open(self.content);
@@ -74,15 +75,20 @@ class Site:
 	DIR_POSTS = "posts"
 	DIR_CSS = "css"
 	DIR_JAVASCRIPT = "js"
-
+	DIR_TEMPLATES = "templates"
+	
 	FILE_TEMPLATE = "template.html"
+	FILE_LOADMORE = "loadmore.html"
 
 	KEY_TITLE = "$title$"
 	KEY_ADDITIONAL_CSS = "$additional-css$"
 	KEY_ADDITIONAL_JAVASCRIPT = "$additional-javascript$"
 	KEY_CONTENT = "$content$"
+	KEY_CONTENT_FOOTER = "$content-footer$"
 
 	INDEX_LINKS_PER_PAGE = 2
+	
+	ID_LOAD_MORE = "load-more"
 
 	def __init__(self):
 		self.validate_requirements()
@@ -140,6 +146,13 @@ class Site:
 		else:
 			return "index" + str(index) + ".html"
 		
+	def get_load_more(self):
+		load_more_file = open(os.path.join(self.DIR_TEMPLATES, self.FILE_LOADMORE))
+		load_more = load_more_file.read()
+		load_more_file.close()
+		
+		return load_more
+		
 	def build_index(self, index, start ,end):
 		if start == end - 1:
 			self.log("Building index for post #" + str(start))
@@ -151,10 +164,15 @@ class Site:
 		for i in range(start, end):
 			content = content + self.post_links[i];
 			
-		result = self.template
-		result = result.replace(self.KEY_TITLE, self.TITLE)
-		result = result.replace(self.KEY_ADDITIONAL_CSS, "")
-		result = result.replace(self.KEY_CONTENT, content)
+		if index == 0:
+			result = self.template
+			result = result.replace(self.KEY_TITLE, self.TITLE)
+			result = result.replace(self.KEY_ADDITIONAL_CSS, "")
+			result = result.replace(self.KEY_ADDITIONAL_JAVASCRIPT, "")
+			result = result.replace(self.KEY_CONTENT, content)
+			result = result.replace(self.KEY_CONTENT_FOOTER, self.get_load_more())
+		else:
+			result = content
 			
 		file = open(self.get_index_file_name(index), "w")
 		file.write(result)
@@ -170,7 +188,7 @@ class Site:
 		self.log_scope = self.log_scope - 1
 	
 	def read_template(self):
-		template_file = open(self.FILE_TEMPLATE);
+		template_file = open(os.path.join(self.DIR_TEMPLATES, self.FILE_TEMPLATE));
 		template = template_file.read();
 		template_file.close();
 		
@@ -181,8 +199,12 @@ class Site:
 		sys.exit()
 	
 	def validate_requirements(self):
-		if not os.path.isfile(self.FILE_TEMPLATE):
+		if not os.path.isfile(os.path.join(self.DIR_TEMPLATES, self.FILE_TEMPLATE)):
 			self.log(self.FILE_TEMPLATE + " was not found")
+			self.abort()
+			
+		if not os.path.isfile(os.path.join(self.DIR_TEMPLATES, self.FILE_LOADMORE)):
+			self.log(self.FILE_LOADMORE + + " was not found")
 			self.abort()
 			
 		if not os.path.isdir(self.DIR_POSTS):
