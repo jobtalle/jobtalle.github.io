@@ -14,7 +14,7 @@ function loadMore() {
 		
 	nextRequest.open("HEAD", "index" + currentIndex + ".html", true);
 	nextRequest.onloadend = function() {
-		if(request.status == 404)
+		if(nextRequest.status == 404)
 			document.getElementById("content-footer").innerHTML = "";
 	}
 	nextRequest.send();
