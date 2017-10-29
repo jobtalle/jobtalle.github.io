@@ -8,9 +8,14 @@ function loadMore() {
 		if(request.status >= 200 && request.status < 400)
 			document.getElementById("content").innerHTML += request.responseText;
 	}
-	request.onloadend = function() {
+	request.send();
+	
+	var nextRequest = new XMLHttpRequest();
+		
+	nextRequest.open("HEAD", "index" + currentIndex + ".html", true);
+	nextRequest.onloadend = function() {
 		if(request.status == 404)
 			document.getElementById("content-footer").innerHTML = "";
 	}
-	request.send();
+	nextRequest.send();
 }
