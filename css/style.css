@@ -1,5 +1,6 @@
 body {
 	margin: 0px;
+	background-image: url("../img/grid.png")
 }
 
 #menu {
@@ -37,18 +38,21 @@ body {
 	width: 960px;
 	margin-left: auto;
 	margin-right: auto;
+	background-color: white;
+	border-style: solid;
+	border-width: 1px;
+	border-top: none;
 }
 
 #header {
 	text-align: center;
-}
-
-#content-wrapper {
-	
+	padding: 16px;
 }
 
 #content {
-	
+	border-top: solid;
+	border-width: 1px;
+	padding: 16px;
 }
 
 #content-footer {
@@ -57,7 +61,12 @@ body {
 }
 
 #footer {
+	font-size: 11px;
 	text-align: right;
+	padding-left: 16px;
+	padding-right: 16px;
+	padding-top: 8px;
+	padding-bottom: 8px;
 }
 
 .post-link {
