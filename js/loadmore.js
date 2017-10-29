@@ -1,6 +1,15 @@
 currentIndex = 1;
 
 function loadMore() {
+	var nextRequest = new XMLHttpRequest();
+		
+	nextRequest.open("HEAD", "index" + (currentIndex + 1) + ".html", true);
+	nextRequest.onloadend = function() {
+		if(nextRequest.status == 404)
+			document.getElementById("content-footer").innerHTML = "";
+	}
+	nextRequest.send();
+	
 	var request = new XMLHttpRequest();
 	
 	request.open("GET", "index" + currentIndex++ + ".html", true);
@@ -9,13 +18,4 @@ function loadMore() {
 			document.getElementById("content").innerHTML += request.responseText;
 	}
 	request.send();
-	
-	var nextRequest = new XMLHttpRequest();
-		
-	nextRequest.open("HEAD", "index" + currentIndex + ".html", true);
-	nextRequest.onloadend = function() {
-		if(nextRequest.status == 404)
-			document.getElementById("content-footer").innerHTML = "";
-	}
-	nextRequest.send();
 }
