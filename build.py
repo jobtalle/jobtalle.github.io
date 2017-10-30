@@ -16,6 +16,21 @@ class Post:
 	PROPERTY_PREVIEW = "preview"
 	
 	CLASS_POST_LINK = "post-link"
+	
+	MONTH_ABBREVIATIONS = [
+		"Jan",
+		"Feb",
+		"Mar",
+		"Apr",
+		"May",
+		"Jun",
+		"Jul",
+		"Aug",
+		"Sept",
+		"Oct",
+		"Nov",
+		"Dec"
+	]
 
 	def __init__(self, site, directory):
 		self.site = site
@@ -35,15 +50,15 @@ class Post:
 		result = result.replace(self.site.KEY_ADDITIONAL_JAVASCRIPT, "")
 		result = result.replace(self.site.KEY_CONTENT_FOOTER, "")
 		
-		contentFile = open(self.content);
-		result = result.replace(self.site.KEY_CONTENT, contentFile.read());
-		contentFile.close();
+		contentFile = open(self.content)
+		result = result.replace(self.site.KEY_CONTENT, contentFile.read())
+		contentFile.close()
 		
-		file = open(self.get_post_file_name(), "w");
-		file.write(result);
-		file.close();
+		file = open(self.get_post_file_name(), "w")
+		file.write(result)
+		file.close()
 		
-		return self.make_post_link(self.properties[self.PROPERTY_TITLE], self.properties[self.PROPERTY_ABSTRACT], self.get_post_file_name());
+		return self.make_post_link(self.properties[self.PROPERTY_TITLE], self.properties[self.PROPERTY_ABSTRACT], self.get_post_file_name())
 			
 	def validate_requirements(self):
 		if not os.path.isfile(self.content):
@@ -55,9 +70,17 @@ class Post:
 			self.site.abort()
 			
 	def read_properties(self):
-		properties_file = open(self.properties);
+		properties_file = open(self.properties)
 		self.properties = json.load(properties_file)
-		properties_file.close();
+		properties_file.close()
+		
+	def get_date(self):
+		parts = self.directory.split("_")
+		year = parts[0]
+		month = self.MONTH_ABBREVIATIONS[int(parts[1])]
+		day = parts[2]
+		
+		return str(day) + " " + month + " " + str(year)
 		
 	def get_post_file_name(self):
 		return self.properties[self.PROPERTY_TITLE].replace(" ", "_").lower() + ".html"
@@ -66,7 +89,7 @@ class Post:
 		return os.path.join(self.site.DIR_POSTS, self.directory, self.properties[self.PROPERTY_PREVIEW])
 		
 	def make_post_link(self, title, abstract, url):
-		return "<div class=\"" + self.CLASS_POST_LINK + "\"><a href=\"" + url + "\"><img src=\"" + self.get_preview() + "\" title=\"" + self.properties[self.PROPERTY_TITLE] + "\"></a><h1><a href=\"" + url + "\">" + title + "</a></h1><p>" + abstract + "</p></div>"
+		return "<div class=\"" + self.CLASS_POST_LINK + "\"><a href=\"" + url + "\"><img src=\"" + self.get_preview() + "\" title=\"" + self.properties[self.PROPERTY_TITLE] + "\"></a><h1><a href=\"" + url + "\">" + title + "</a></h1><span class=\"date\">" + self.get_date() + "</span><p>" + abstract + "</p></div>"
 	
 	
 class Site:
@@ -216,7 +239,7 @@ class Site:
 		content = ""
 		
 		for i in range(start, end):
-			content = content + self.post_links[i];
+			content = content + self.post_links[i]
 			
 		if index == 0:
 			result = self.template
@@ -245,9 +268,9 @@ class Site:
 		self.log_scope = self.log_scope - 1
 	
 	def read_template(self):
-		template_file = open(os.path.join(self.DIR_TEMPLATES, self.FILE_TEMPLATE));
-		template = template_file.read();
-		template_file.close();
+		template_file = open(os.path.join(self.DIR_TEMPLATES, self.FILE_TEMPLATE))
+		template = template_file.read()
+		template_file.close()
 		
 		return template
 	

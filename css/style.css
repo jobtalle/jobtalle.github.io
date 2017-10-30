@@ -59,11 +59,11 @@ body {
 #content h1 {
 	color: #666666;
 	font-style: italic;
-	margin: 0;
 	border-top: solid;
 	border-color: #666666;
 	border-width: 2px;
 	padding-top: 8px;
+	margin-top: 0px;
 }
 
 #content a {
@@ -83,6 +83,15 @@ body {
 .post-link img {
 	float: right;
 	margin: 8px;
+}
+
+.post-link h1 {
+	margin-bottom: 0px;
+}
+
+.date {
+	font-size: 12px;
+	color: #666666;
 }
 
 #content-footer {
