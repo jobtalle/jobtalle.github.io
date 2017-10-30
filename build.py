@@ -51,7 +51,7 @@ class Post:
 		result = result.replace(self.site.KEY_CONTENT_FOOTER, "")
 		
 		contentFile = open(self.content)
-		result = result.replace(self.site.KEY_CONTENT, contentFile.read())
+		result = result.replace(self.site.KEY_CONTENT, self.get_post_header(self.properties[self.PROPERTY_TITLE]) + contentFile.read())
 		contentFile.close()
 		
 		file = open(self.get_post_file_name(), "w")
@@ -82,6 +82,16 @@ class Post:
 		
 		return str(day) + " " + month + " " + str(year)
 		
+	def get_post_header(self, title, url=None):
+		if url is None:
+			link_open = ""
+			link_close = ""
+		else:
+			link_open = "<a href=\"" + url + "\">"
+			link_close = "</a>"
+	
+		return "<h1>" + link_open + title + link_close + "</h1><span class=\"date\">" + self.get_date() + "</span><p>";
+		
 	def get_post_file_name(self):
 		return self.properties[self.PROPERTY_TITLE].replace(" ", "_").lower() + ".html"
 		
@@ -89,7 +99,7 @@ class Post:
 		return os.path.join(self.site.DIR_POSTS, self.directory, self.properties[self.PROPERTY_PREVIEW])
 		
 	def make_post_link(self, title, abstract, url):
-		return "<div class=\"" + self.CLASS_POST_LINK + "\"><a href=\"" + url + "\"><img src=\"" + self.get_preview() + "\" title=\"" + self.properties[self.PROPERTY_TITLE] + "\"></a><h1><a href=\"" + url + "\">" + title + "</a></h1><span class=\"date\">" + self.get_date() + "</span><p>" + abstract + "</p></div>"
+		return "<div class=\"" + self.CLASS_POST_LINK + "\"><a href=\"" + url + "\"><img src=\"" + self.get_preview() + "\" title=\"" + self.properties[self.PROPERTY_TITLE] + "\"></a>" + self.get_post_header(title, url) + abstract + "</p></div>"
 	
 	
 class Site:

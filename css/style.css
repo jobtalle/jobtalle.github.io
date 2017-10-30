@@ -70,6 +70,7 @@ body {
 	border-width: 2px;
 	padding-top: 8px;
 	margin-top: 0px;
+	margin-bottom: 0px;
 }
 
 #content a {
@@ -89,10 +90,6 @@ body {
 .post-link img {
 	float: right;
 	margin: 8px;
-}
-
-.post-link h1 {
-	margin-bottom: 0px;
 }
 
 .date {
