@@ -66,13 +66,14 @@ class Post:
 		return os.path.join(self.site.DIR_POSTS, self.directory, self.properties[self.PROPERTY_PREVIEW])
 		
 	def make_post_link(self, title, abstract, url):
-		return "<div class=\"" + self.CLASS_POST_LINK + "\"><img src=\"" + self.get_preview() + "\"><h1><a href=\"" + url + "\">" + title + "</a></h1><p>" + abstract + "</p></div>"
+		return "<div class=\"" + self.CLASS_POST_LINK + "\"><img src=\"" + self.get_preview() + "\" title=\"" + self.properties[self.PROPERTY_TITLE] + "\"><h1><a href=\"" + url + "\">" + title + "</a></h1><p>" + abstract + "</p></div>"
 	
 	
 class Site:
 	TITLE = "Job Talle"
 	TITLE_DIVISOR = " | "
 	TITLE_ABOUT = "About"
+	TITLE_CONTACT = "Contact"
 
 	DIR_POSTS = "posts"
 	DIR_CSS = "css"
@@ -82,6 +83,7 @@ class Site:
 	FILE_TEMPLATE = "template.html"
 	FILE_LOADMORE = "loadmore.html"
 	FILE_ABOUT = "about.html"
+	FILE_CONTACT = "contact.html"
 
 	KEY_TITLE = "$title$"
 	KEY_ADDITIONAL_CSS = "$additional-css$"
@@ -122,6 +124,7 @@ class Site:
 		self.build_posts()
 		self.build_indices()
 		self.build_about()
+		self.build_contact()
 			
 		self.log_scope_decrement()
 		self.log("Done")
@@ -137,9 +140,24 @@ class Site:
 		file = open(self.get_about_file_name(), "w")
 		file.write(result)
 		file.close()
+		
+	def build_contact(self):
+		result = self.template
+		result = result.replace(self.KEY_TITLE, self.TITLE + self.TITLE_DIVISOR + self.TITLE_CONTACT)
+		result = result.replace(self.KEY_ADDITIONAL_CSS, "")
+		result = result.replace(self.KEY_ADDITIONAL_JAVASCRIPT, "")
+		result = result.replace(self.KEY_CONTENT, self.get_contact())
+		result = result.replace(self.KEY_CONTENT_FOOTER, "")
+			
+		file = open(self.get_contact_file_name(), "w")
+		file.write(result)
+		file.close()
 	
 	def get_about_file_name(self):
 		return "about.html"
+		
+	def get_contact_file_name(self):
+		return "contact.html"
 	
 	def get_about(self):
 		about_file = open(os.path.join(self.DIR_TEMPLATES, self.FILE_ABOUT))
@@ -147,6 +165,13 @@ class Site:
 		about_file.close()
 		
 		return about
+
+	def get_contact(self):
+		contact_file = open(os.path.join(self.DIR_TEMPLATES, self.FILE_CONTACT))
+		contact = contact_file.read()
+		contact_file.close()
+		
+		return contact
 	
 	def build_posts(self):
 		self.post_links = []

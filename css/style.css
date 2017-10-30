@@ -1,10 +1,11 @@
 body {
 	margin: 0px;
-	background-image: url("../img/grid.png")
+	background-color: #EAEAEA;
+	color: #444444;
 }
 
 #menu {
-	background-color: black;
+	background-color: #444444;
 	display: flex;
 }
 
@@ -17,7 +18,7 @@ body {
 .menu-button {
 	transition: 0.3s;
 	float: left;
-	background-color: black;
+	background-color: #444444;
 	border: none;
 	outline: none;
 	cursor: pointer;
@@ -30,7 +31,7 @@ body {
 
 .menu-button:hover {
 	background-color: white;
-	color: black;
+	color: #444444;
 }
 
 #wrapper {
@@ -50,9 +51,39 @@ body {
 }
 
 #content {
+	overflow: auto;
 	border-top: solid;
 	border-width: 1px;
 	padding: 16px;
+}
+
+#content h1 {
+	color: #666666;
+	font-style: italic;
+	margin: 0;
+}
+
+#content a {
+	color: inherit;
+}
+
+#content a:hover {
+	color: red;
+}
+
+.post-link {
+	position: relative;
+	overflow: auto;
+}
+
+.post-link img {
+	float: right;
+	margin: 8px;
+}
+
+.post-link h1 {
+	color: #666666;
+	margin: 0;
 }
 
 #content-footer {
@@ -67,6 +98,28 @@ body {
 	padding-right: 16px;
 	padding-top: 8px;
 	padding-bottom: 8px;
+}
+
+#icons {
+	position: absolute;
+	left: 0;
+	right: 0;
+	margin-left: auto;
+	margin-right: auto;
+	width: 200px;
+	text-align: center;
+}
+
+#icons img {
+	cursor: pointer;
+	position: relative;
+	top: -16px;
+	width: 32px;
+	height: 32px;
+}
+
+#icons img:hover {
+	
 }
 
 .post-link {
