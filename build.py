@@ -66,7 +66,7 @@ class Post:
 		return os.path.join(self.site.DIR_POSTS, self.directory, self.properties[self.PROPERTY_PREVIEW])
 		
 	def make_post_link(self, title, abstract, url):
-		return "<div class=\"" + self.CLASS_POST_LINK + "\"><img src=\"" + self.get_preview() + "\" title=\"" + self.properties[self.PROPERTY_TITLE] + "\"><h1><a href=\"" + url + "\">" + title + "</a></h1><p>" + abstract + "</p></div>"
+		return "<div class=\"" + self.CLASS_POST_LINK + "\"><a href=\"" + url + "\"><img src=\"" + self.get_preview() + "\" title=\"" + self.properties[self.PROPERTY_TITLE] + "\"></a><h1><a href=\"" + url + "\">" + title + "</a></h1><p>" + abstract + "</p></div>"
 	
 	
 class Site:
