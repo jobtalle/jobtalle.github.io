@@ -5,33 +5,45 @@ body {
 	font-family: "Raleway";
 }
 
-#menu {
-	background-color: #444444;
-	display: flex;
-}
-
 #menu-buttons {
-	width: 960px;
+	width: 100%;
+	display: flex;
 	margin-left: auto;
 	margin-right: auto;
+	background-color: #50314c;
 }
 
 .menu-button {
-	transition: 0.3s;
 	float: left;
-	background-color: #444444;
+	background-color: #50314c;
 	border: none;
 	outline: none;
 	cursor: pointer;
-	font-size: 24;
+	font-size: 24px;
 	color: white;
 	width: 128px;
 	text-align: center;
+	padding-top: 5px;
+	padding-bottom: 5px;
 }
 
 .menu-button:hover {
 	background-color: white;
 	color: #444444;
+}
+
+.menu-button-current {
+	float: left;
+	background-color: white;
+	border: none;
+	outline: none;
+	cursor: pointer;
+	font-size: 24px;
+	color: #444444;
+	width: 128px;
+	text-align: center;
+	padding-top: 5px;
+	padding-bottom: 5px;
 }
 
 #wrapper {
@@ -41,8 +53,10 @@ body {
 	background-color: white;
 	border-style: solid;
 	border-width: 1px;
+	border-color: #50314c;
 	border-top: none;
 	border-radius: 0px 0px 16px 16px;
+	box-shadow: 0px 0px 8px #50314c;
 }
 
 #header {
@@ -51,7 +65,6 @@ body {
 }
 
 #header h1 {
-	color: #666666;
 	font-weight: lighter;
 	font-size: 36px;
 }
@@ -63,11 +76,10 @@ body {
 }
 
 #content h1 {
-	color: #666666;
 	font-weight: lighter;
 	font-style: italic;
 	border-top: solid;
-	border-color: #666666;
+	border-color: #50314c;
 	border-width: 2px;
 	padding-top: 8px;
 	margin-top: 0px;
@@ -80,7 +92,7 @@ body {
 }
 
 #content a:hover {
-	color: #3399ff;
+	color: #C667bb;
 }
 
 .post-link {
@@ -94,6 +106,7 @@ body {
 }
 
 .date {
+	padding-left: 16px;
 	font-size: 12px;
 	color: #666666;
 }
@@ -125,10 +138,6 @@ body {
 	top: -16px;
 	width: 32px;
 	height: 32px;
-}
-
-#icons img:hover {
-	
 }
 
 .post-link {
