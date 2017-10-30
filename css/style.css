@@ -32,6 +32,11 @@ body {
 	color: #444444;
 }
 
+.menu-button:active {
+	background-color: white;
+	color: #444444;
+}
+
 .menu-button-current {
 	float: left;
 	background-color: white;
