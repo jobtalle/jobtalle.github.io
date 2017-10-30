@@ -13,6 +13,7 @@ class Post:
 	
 	PROPERTY_TITLE = "title"
 	PROPERTY_ABSTRACT = "abstract"
+	PROPERTY_PREVIEW = "preview"
 	
 	CLASS_POST_LINK = "post-link"
 
@@ -61,8 +62,11 @@ class Post:
 	def get_post_file_name(self):
 		return self.properties[self.PROPERTY_TITLE].replace(" ", "_").lower() + ".html"
 		
+	def get_preview(self):
+		return os.path.join(self.site.DIR_POSTS, self.directory, self.properties[self.PROPERTY_PREVIEW])
+		
 	def make_post_link(self, title, abstract, url):
-		return "<div class=\"" + self.CLASS_POST_LINK + "\"><h1><a href=\"" + url + "\">" + title + "</a></h1><p>" + abstract + "</p></div>"
+		return "<div class=\"" + self.CLASS_POST_LINK + "\"><img src=\"" + self.get_preview() + "\"><h1><a href=\"" + url + "\">" + title + "</a></h1><p>" + abstract + "</p></div>"
 	
 	
 class Site:
@@ -195,7 +199,10 @@ class Site:
 			result = result.replace(self.KEY_ADDITIONAL_CSS, "")
 			result = result.replace(self.KEY_ADDITIONAL_JAVASCRIPT, "")
 			result = result.replace(self.KEY_CONTENT, content)
-			result = result.replace(self.KEY_CONTENT_FOOTER, self.get_load_more())
+			if self.get_index_count() == 1:
+				result = result.replace(self.KEY_CONTENT_FOOTER, "")
+			else:
+				result = result.replace(self.KEY_CONTENT_FOOTER, self.get_load_more())
 		else:
 			result = content
 			
