@@ -2,7 +2,7 @@ body {
 	margin: 0px;
 	background-color: #EAEAEA;
 	color: #444444;
-	font-family: "Arial";
+	font-family: "Raleway";
 }
 
 #menu {
@@ -42,6 +42,7 @@ body {
 	border-style: solid;
 	border-width: 1px;
 	border-top: none;
+	border-radius: 0px 0px 16px 16px;
 }
 
 #header {
