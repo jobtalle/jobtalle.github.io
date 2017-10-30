@@ -1,6 +1,6 @@
 body {
 	margin: 0px;
-	background-color: #EAEAEA;
+	background-color: #eaeaea;
 	color: #444444;
 	font-family: "Raleway";
 }
@@ -18,7 +18,6 @@ body {
 	background-color: #50314c;
 	border: none;
 	outline: none;
-	cursor: pointer;
 	font-size: 24px;
 	color: white;
 	width: 128px;
@@ -145,6 +144,20 @@ body {
 	height: 32px;
 }
 
-.post-link {
-	
+#load-more {
+	padding: 8px;
+	margin: 8px auto 8px auto;
+	width: 150px;
+	color: white;
+	border-radius: 16px;
+	background-color: #50314c;
+	border: solid;
+	border-color: #50314c;
+	border-width: 1px;
+}
+
+#load-more:hover {
+	cursor: pointer;
+	background-color: white;
+	color: #444444;
 }

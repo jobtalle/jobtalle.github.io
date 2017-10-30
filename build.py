@@ -122,7 +122,7 @@ class Site:
 	KEY_CONTENT = "$content$"
 	KEY_CONTENT_FOOTER = "$content-footer$"
 
-	INDEX_LINKS_PER_PAGE = 2
+	INDEX_LINKS_PER_PAGE = 1
 	
 	ID_LOAD_MORE = "load-more"
 	
@@ -185,7 +185,7 @@ class Site:
 				link_pre = "<a href=\"" + page + "\">"
 				link_post = "</a>"
 		
-			result = result + link_pre + "<div class=\"" + div_class + "\">" + title + "</div>" + link_post
+			result = result + link_pre + "<div class=\"" + div_class + "\" title=\"" + title + "\">" + title + "</div>" + link_post
 			
 		return result
 	
