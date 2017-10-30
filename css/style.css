@@ -37,11 +37,11 @@ body {
 }
 
 .menu-button-current {
+	cursor: pointer;
 	float: left;
 	background-color: white;
 	border: none;
 	outline: none;
-	cursor: pointer;
 	font-size: 24px;
 	color: #444444;
 	width: 128px;
@@ -65,12 +65,27 @@ body {
 
 #header {
 	text-align: center;
-	padding: 16px;
+	margin: 32px;
 }
 
 #header h1 {
 	font-weight: lighter;
 	font-size: 36px;
+	margin-top: 0px;
+	margin-bottom: 6px;
+}
+
+#header h2 {
+	border-top: solid;
+	border-width: 1px;
+	border-color: #444444;
+	margin-left: auto;
+	margin-right: auto;
+	width: 40%;
+	font-size: 16px;
+	padding-top: 6px;
+	margin-top: 0px;
+	margin-bottom: 0px;
 }
 
 #content {

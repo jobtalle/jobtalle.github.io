@@ -122,7 +122,7 @@ class Site:
 	KEY_CONTENT = "$content$"
 	KEY_CONTENT_FOOTER = "$content-footer$"
 
-	INDEX_LINKS_PER_PAGE = 1
+	INDEX_LINKS_PER_PAGE = 6
 	
 	ID_LOAD_MORE = "load-more"
 	
@@ -255,7 +255,7 @@ class Site:
 			result = self.template
 			result = result.replace(self.KEY_TITLE, self.TITLE)
 			result = result.replace(self.KEY_ADDITIONAL_CSS, "")
-			result = result.replace(self.KEY_ADDITIONAL_JAVASCRIPT, "")
+			result = result.replace(self.KEY_ADDITIONAL_JAVASCRIPT, "<script src=\"js/loadmore.js\"></script>")
 			result = result.replace(self.KEY_MENU_BUTTONS, self.build_menu("index.html"))
 			result = result.replace(self.KEY_CONTENT, content)
 			
