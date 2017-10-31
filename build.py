@@ -176,7 +176,7 @@ class Site:
 				link_pre = "<a href=\"" + page + "\">"
 				link_post = "</a>"
 		
-			result = result + link_pre + "<div class=\"" + div_class + "\" title=\"" + title + "\">" + title + "</div>" + link_post
+			result = result + link_pre + "<div class=\"" + div_class + "\">" + title + "</div>" + link_post
 			
 		return result
 	
