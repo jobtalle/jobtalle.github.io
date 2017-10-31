@@ -5,6 +5,10 @@ body {
 	font-family: "Raleway";
 }
 
+h1 {
+	font-size: 36px;
+}
+
 #menu-buttons {
 	width: 100%;
 	display: flex;
@@ -71,7 +75,6 @@ body {
 
 #header h1 {
 	font-weight: lighter;
-	font-size: 36px;
 	margin: 0px;
 	padding-bottom: 6px;
 }
@@ -90,9 +93,8 @@ body {
 }
 
 #content {
-	overflow: auto;
-	padding-left: 16px;
-	padding-right: 16px;
+	padding-left: 64px;
+	padding-right: 64px;
 }
 
 #content h1 {
@@ -106,13 +108,45 @@ body {
 	margin-bottom: 0px;
 }
 
-#content a {
-	color: inherit;
+#content h1 a {
 	text-decoration: none;
+	color: inherit;
+}
+
+#content h2 {
+	font-size: 18px;
+}
+
+#content p a {
+	color: #50314c;
+	font-weight: 900;
+	text-decoration: inherit;
 }
 
 #content a:hover {
 	color: #9C7E50;
+}
+
+#content figure {
+	display: table;
+	float: right;
+	padding: 16px;
+	margin: auto 0px auto 0px;
+	text-align: center;
+	clear: right;
+}
+
+#content figure img {
+	border: solid;
+	border-width: 1px;
+	border-color: #444444;
+}
+
+#content figure figcaption {
+	display: table-caption;
+	caption-side: bottom;
+	font-style: italic;
+	margin-top: 8px;
 }
 
 .round-button {
@@ -133,8 +167,8 @@ body {
 } 
 
 .tag {
-	margin: 0px 4px 8px 4px;
-	float: left;
+	margin: 8px 4px 8px 4px;
+	float: right;
 }
 
 .post-link {

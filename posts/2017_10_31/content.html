@@ -1,42 +1,7 @@
-<html>
-	<head>
-		<script async src="https://www.googletagmanager.com/gtag/js?id=UA-109031298-1"></script>
-		<script>
-		window.dataLayer = window.dataLayer || [];
-		function gtag(){dataLayer.push(arguments);}
-		gtag('js', new Date());
-		gtag('config', 'UA-109031298-1');
-		</script>
-		<script type="text/javascript" async
-		  src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.2/MathJax.js?config=TeX-MML-AM_CHTML">
-		</script>
-		<script type="text/x-mathjax-config">
-		  MathJax.Hub.Config({tex2jax: {inlineMath: [['$','$']]}});
-		  MathJax.Hub.Config({messageStyle: 'none',tex2jax: {preview: 'none'}});
-		</script>
-		<script src="js/copyrightyear.js"></script>
-		
-		<title>Job Talle | Cubic Noise</title>
-		<meta charset="UTF-8">
-		<meta name="description" content="Coherent random noise can be used to create a great variety of effects. The algorithm for generating cubic noise is explained, along with some demonstrations.">
-		<meta name="keywords" content="game development, AI, algorithms, programming, job talle">
-		<meta name="author" content="Job Talle">
-		<meta name="viewport" content="width=device-width, initial-scale=1.0">
-		<link href="https://fonts.googleapis.com/css?family=Raleway" rel="stylesheet">
-		<link rel="stylesheet" type="text/css" href="css/style.css">
-		
-	</head>
-	<body>
-		<div id="wrapper">
-			<div id="menu-buttons"><a href="index.html"><div class="menu-button">Home</div></a><a href="about.html"><div class="menu-button">About</div></a><a href="contact.html"><div class="menu-button">Contact</div></a></div>
-			<div id="header">
-				<h1>Job Talle</h1>
-				<h2>On game development, AI & Algorithms</h2>
-			</div>
-			<div id="content"><h1>Cubic Noise</h1><span class="date">31 Nov 2017</span><p><h2>Coherent random noise</h2>
+<h2>Coherent random noise</h2>
 <p>Coherent random noise is random noise which is not totally random; in other words, adjecent values in coherent random noise have some relation to each other, but the noise as a whole is random. An example of pure random noise is white noise, which is produced by a TV if no cable is plugged in. The noise is totally random, no patterns can be recognized. A cloudy sky is an example of coherent random noise. The pattern of clouds cannot be predicted, but the clouds themselves form recognizable features.</p>
 <figure id="figure1" title="Grayscale cubic noise">
-	<img src="posts\2017_10_31\img\cubic_noise.jpg">
+	<img src="img\cubic_noise.jpg">
 	<figcaption>
 		Figure 1: Grayscale cubic noise with some octaves
 	</figcaption>
@@ -46,7 +11,7 @@
 <p><a href="#figure1">Figure 1</a> shows an example of <i>cubic noise</i>. Cubic noise is essentially scaled up white noise with cubic interpolation. Cubic interpolation ensures the result is smoothed enough to remove grid like artifacts. The values are based on coordinates, every pixel in this example represents a set of coordinates. These coordinate values can be tiled to make a tiling noise texture.</p>
 <p>The algorithm for cubic noise can be found in <a href="https://www.github.com/jobtalle/CubicNoise" target="_blank">this repository</a>. Implementations for several programming languages are included. The algorithm is very simple, so it can easily be ported to other programming languages.</p>
 <figure id="figure2" title="Different stages of cubic noise with four octaves">
-	<img src="posts\2017_10_31\img\octaves.jpg">
+	<img src="img\octaves.jpg">
 	<figcaption>
 		Figure 2: Four stages of noise generation with octaves
 	</figcaption>
@@ -59,14 +24,4 @@
 <p>$influence = \frac{\frac{(falloff - 1) * {falloff} ^ {octaves}}{{falloff} ^ {octaves} - 1}}{falloff}$</p>
 <p>Of course the formula for influence will not work when $falloff = 1$ or $falloff = 0$. If $falloff = 1$, amplitude is simply $\frac{1}{octaves}$. The second case shouldn't occur, because $falloff = 0$ makes no sense; the influence of every next octave would be infinitely larger than the previous one.</p>
 <h2 id="applications">Applications</h2>
-<h2>Conclusion</h2><div id="tags"><a href="tag_interactive.html" title="Show posts tagged with 'Interactive'"><div class="tag round-button">Interactive</div></a><a href="tag_procedural_generation.html" title="Show posts tagged with 'Procedural generation'"><div class="tag round-button">Procedural generation</div></a><a href="tag_source_included.html" title="Show posts tagged with 'Source included'"><div class="tag round-button">Source included</div></a></div></div>
-			<div id="content-footer"></div>
-			<div id="footer">&copy Job Talle </div>
-			<div id="icons">
-				<a href="mailto:jobtalle@hotmail.com?Subject=Contact"><div class="icon" id="icon-mail" title="Mail"></div></a>
-				<a href="http://www.github.com/jobtalle" target="_blank"><div class="icon" id="icon-github" title="Github"></div></a>
-				<a href="http://www.linkedin.com/in/job-talle-b2b582aa" target="_blank"><div class="icon" id="icon-linkedin" title="LinkedIn"></div></a>
-			</div>
-		</div>
-	</body>
-</html>
+<h2>Conclusion</h2>

@@ -51,6 +51,13 @@ class Post:
 		self.validate_requirements()
 		self.read_properties()
 		
+	def get_content(self):
+		contentFile = open(self.content)
+		content = self.get_post_header(self.properties[self.PROPERTY_TITLE]) + contentFile.read() + self.build_tags()
+		contentFile.close()
+	
+		return content.replace("src=\"", "src=\"" + self.site.DIR_POSTS + os.sep + self.directory + os.sep)
+		
 	def build(self):
 		self.site.log("Building " + self.get_post_file_name())
 	
@@ -61,10 +68,8 @@ class Post:
 		result = result.replace(self.site.KEY_ADDITIONAL_JAVASCRIPT, "")
 		result = result.replace(self.site.KEY_CONTENT_FOOTER, "")
 		result = result.replace(self.site.KEY_MENU_BUTTONS, self.site.build_menu())
-		
-		contentFile = open(self.content)
-		result = result.replace(self.site.KEY_CONTENT, self.get_post_header(self.properties[self.PROPERTY_TITLE]) + contentFile.read() + self.build_tags())
-		contentFile.close()
+		result = result.replace(self.site.KEY_CONTENT, self.get_content())
+
 		
 		file = open(self.get_post_file_name(), "w")
 		file.write(result)
