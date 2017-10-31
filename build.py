@@ -113,7 +113,7 @@ class Post:
 		return self.properties[self.PROPERTY_TAGS]
 		
 	def build_tag(self, tag):
-		return "<a href=\"" + get_tag_url(tag) + "\"><div class=\"" + self.CLASS_TAG + " round-button\">" + tag + "</div></a>"
+		return "<a href=\"" + get_tag_url(tag) + "\" title=\"Show posts tagged with '" + tag + "'\"><div class=\"" + self.CLASS_TAG + " round-button\">" + tag + "</div></a>"
 		
 	def build_tags(self):
 		result = "<div id=\"" + self.ID_TAGS + "\">"
@@ -371,6 +371,7 @@ def main():
 	if len(argv) > 1 and argv[1] == "clean":
 		site.clean()
 	else:
+		site.clean()
 		site.build()
 	
 if __name__ == "__main__":
