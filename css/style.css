@@ -71,8 +71,8 @@ body {
 #header h1 {
 	font-weight: lighter;
 	font-size: 36px;
-	margin-top: 0px;
-	margin-bottom: 6px;
+	margin: 0px;
+	padding-bottom: 6px;
 }
 
 #header h2 {
@@ -111,7 +111,7 @@ body {
 }
 
 #content a:hover {
-	color: #C667bb;
+	color: #9C7E50;
 }
 
 .post-link {
@@ -151,12 +151,30 @@ body {
 	text-align: center;
 }
 
-#icons img {
+.icon {
+	display: inline-block;
 	cursor: pointer;
 	position: relative;
 	top: -16px;
+	background-size: 64px 32px;
 	width: 32px;
 	height: 32px;
+}
+
+.icon:hover {
+	background-position: 32px 0px;
+}
+
+#icon-mail {
+	background-image: url("../img/ico_mail.svg");
+}
+
+#icon-github {
+	background-image: url("../img/ico_github.svg");
+}
+
+#icon-linkedin {
+	background-image: url("../img/ico_linkedin.svg");
 }
 
 #load-more {
