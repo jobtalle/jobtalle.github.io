@@ -27,6 +27,8 @@ class Post:
 	ID_TAGS = "tags"
 	CLASS_TAG = "tag"
 	
+	MATHJAX_CONFIG = "<script type=\"text/javascript\" async src=\"https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.2/MathJax.js?config=TeX-MML-AM_CHTML\"></script><script type=\"text/x-mathjax-config\">MathJax.Hub.Config({tex2jax: {inlineMath: [['$','$']]}});MathJax.Hub.Config({messageStyle: 'none',tex2jax: {preview: 'none'}});</script>"
+	
 	MONTH_ABBREVIATIONS = [
 		"Jan",
 		"Feb",
@@ -60,15 +62,20 @@ class Post:
 		
 	def build(self):
 		self.site.log("Building " + self.get_post_file_name())
+		
+		content = self.get_content()
+		javascript = ""
+		if "$" in content:
+			javascript = javascript + self.MATHJAX_CONFIG
 	
 		result = self.site.template
 		result = result.replace(self.site.KEY_TITLE, self.site.TITLE + self.site.TITLE_DIVISOR + self.properties[self.PROPERTY_TITLE])
 		result = result.replace(self.site.KEY_DESCRIPTION, self.properties[self.PROPERTY_ABSTRACT])
 		result = result.replace(self.site.KEY_ADDITIONAL_CSS, "")
-		result = result.replace(self.site.KEY_ADDITIONAL_JAVASCRIPT, "")
+		result = result.replace(self.site.KEY_ADDITIONAL_JAVASCRIPT, javascript)
 		result = result.replace(self.site.KEY_CONTENT_FOOTER, "")
 		result = result.replace(self.site.KEY_MENU_BUTTONS, self.site.build_menu())
-		result = result.replace(self.site.KEY_CONTENT, self.get_content())
+		result = result.replace(self.site.KEY_CONTENT, content)
 
 		
 		file = open(self.get_post_file_name(), "w")
