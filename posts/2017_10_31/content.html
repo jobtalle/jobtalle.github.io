@@ -1,5 +1,5 @@
 <h2>Coherent random noise</h2>
-<p>Coherent random noise is random noise which is not totally random; in other words, adjecent values in coherent random noise have some relation to each other, but the noise as a whole is random. An example of pure random noise is white noise, which is produced by a TV if no cable is plugged in. The noise is totally random, no patterns can be recognized. A cloudy sky is an example of coherent random noise. The pattern of clouds cannot be predicted, but the clouds themselves form recognizable features.</p>
+<p>Coherent random noise is random noise which is not totally unpredictable; in other words, adjecent values in coherent random noise have some relation to each other, but the noise as a whole is random. An example of pure random noise is white noise, which is produced by a TV if no cable is plugged in. The noise is totally random, no patterns can be recognized. A cloudy sky is an example of coherent random noise. The patterns and shapes of individual clouds cannot be predicted, but the clouds themselves form recognizable features.</p>
 <figure id="figure1" title="Grayscale cubic noise">
 	<img src="img\cubic_noise.jpg">
 	<figcaption>
@@ -17,13 +17,13 @@
 	</figcaption>
 </figure>
 <h2>Octaves & falloff</h2>
-<p>The example in <a href="#figure1">figure 1</a> shows some small scale detail, instead of just large smooth gradients. This is achieved by adding several <i>octaves</i> to the noise. The first octave has the largest influence and the largest scale. Every next octave has smaller influence and a finer scale than its predecessor. This process is shown in <a href="#figure2">figure 2</a>.</p>
-<p>Adding octaves proposes a challenge. It is important that the sum of all octave influences is one; if this is not the case, the resulting noise will probably be either too dark or oversaturated. I define falloff $f$ as the number each successive octave influence is divided by. For example, if $f = 2$, the initial influence is $\frac{1}{f}$, the next influence is $\frac{\frac{1}{f}}{f}$ and so forth.</p>
+<p>The example in <a href="#figure1">figure 1</a> shows some small scale detail, instead of just large smooth gradients. This is achieved by adding several <i>octaves</i> to the noise. The first octave has the largest influence and the largest scale (which means it has been zoomed in a lot). Every next octave has smaller influence and a finer scale than its predecessor. This process is shown in <a href="#figure2">figure 2</a>.</p>
+<p>Adding octaves presents a challenge. It is important that the sum of all octave influences is one; if this is not the case, the resulting noise will probably be either too dark or oversaturated. I define falloff $f$ as the number each successive octave influence is divided by. For example, if $f = 2$, the initial influence is $\frac{1}{f}$, the next influence is $\frac{\frac{1}{f}}{f}$ and so forth.</p>
 <p>The number of octaves is defined as $o_{total}$. If $o_{total} = 3$, the total influence will be $\frac{1}{2} + \frac{1}{4} + \frac{1}{8} = \frac{7}{8}$. Unfortunately, this does not sum up to one. To normalize the total influence, it needs to be multiplied by the swapped fraction of the total sum (since $\frac{x}{y} * \frac{y}{x} = 1$), which is $\frac{8}{7}$ in this example. I call this normalizer $n$. The influence of the first octave $i$ can now be defined as $i = n * \frac{1}{f}$, which leads to</p>
 <p>$$n * {\sum_{o=1}^{o_{total}} \frac{1}{{f} ^ {o}}} = 1$$</p>
-<p>If $n$ can be calculated from falloff and octaves, we have a general formula that yields an initial influence $i$ which will lead to the sum of all octaves being one. Luckily, this is possible using the following formula, which calculates the numerator and denominator of the total sum given $f$ and $o_{total}$ and swaps them:</p>
+<p>If $n$ can be calculated from falloff and octaves, we have a general formula that yields an initial influence $i$ which will lead to the sum of all octaves being one. Luckily this is possible using the following formula, which calculates the numerator and denominator of the total sum given $f$ and $o_{total}$ and swaps them:</p>
 <p>$$i = \frac{\frac{(f - 1) * {f} ^ {o_{total}}}{{f} ^ {o_{total}} - 1}}{f}$$</p>
-<p>Of course this formula for $i$ will not work when $f = 1$ or $f = 0$. For $f = 1$, $i = \frac{1}{o_{total}}$, since every octave has the same influence. The second case shouldn't occur, because $f = 0$ makes no sense; the influence of every next octave would be infinitely larger than the previous one.</p>
+<p>Of course this formula for $i$ will not work when $f = 1$ or $f = 0$ because those values will result in divisions by zero. For $f = 1$, $i = \frac{1}{o_{total}}$, since every octave has the same influence. The second case shouldn't occur, because $f = 0$ makes no sense; the influence of every next octave would be infinitely larger than the previous one.</p>
 <p>An interactive demonstration of cubic noise with octaves is given below. All previously described parameters can be changed. Every next octave, the period of the noise is halved</p>
 <div class="full-width">
 	<canvas id="cubic-noise-renderer" width=512 height=384></canvas>
@@ -84,7 +84,7 @@
 			</tr>
 			<tr>
 				<td>Period</td>
-				<td><input id="terrain-period" type="range" min="4" max="256" value="45" onchange="terrainStart()"></td>
+				<td><input id="terrain-period" type="range" min="4" max="256" value="40" onchange="terrainStart()"></td>
 			</tr>
 			<tr>
 				<td>Octaves</td>
@@ -110,14 +110,15 @@
 	</div>
 	<script>terrainInitialize();</script>
 </div>
-<p>The example above doesn't do much more than generating a noise with octaves, but the generated terrain already looks decent. There are many ways to improve this. Adding cliffs and irregular terrain features would add some nice variety, and creating continuous rivers would separate different sections of terrain from each other. Some erosion could be simulated to make the mountains look much more natural.</p>
+<p>The example above doesn't do much more than generating a noise with octaves, but the generated terrain already looks decent. There are many ways to improve this. Adding cliffs and irregular terrain features would add some nice variety, and creating continuous rivers would separate different sections of terrain from each other. Erosion could be simulated to make the mountains look much more natural.</p>
 <p>A good way to add more variety would be adding biomes. The biome could be determined by sampling a large scale cubic noise, where every biome would be represented by a range of values in the noise. Different biomes can then have different amplitudes, frequencies, features and colors.</p>
 <h2>Conclusion</h2>
-<p>Cubic noise can be a good method for coherent random noise generation, and I haven't discussed all use cases by far. Just to name a few examples:</p>
+<p>Cubic noise can be a good method for coherent random noise generation, and there are many use cases imaginable. Just to name a few examples:</p>
 <ul>
 	<li>Animating movement by sampling a point moving over a noise, creating a fluctuation effect</li>
 	<li>Generating or animating wave shapes by sampling just one dimension of the noise</li>
+	<li>Simulating hand drawn graphics by offsetting the lines a bit</li>
 	<li>Random initialization for points in a simulation that need to be clustered</li>
 	<li>Generating procedural tiling textures</li>
 </ul>
-<p>The list could go on for a while. Anywhere randomization is used, coherent randomizers my be able to create more interesting effects. The noise function used for the examples above can be found <a href="https://github.com/jobtalle/CubicNoise" target="_blank">in this repository</a>, but there are many more variants. Some interesting other methods are <a href="https://en.wikipedia.org/wiki/Perlin_noise" target="_blank">Perlin noise</a>, <a href="https://en.wikipedia.org/wiki/Simplex_noise" target="_blank">simplex noise</a> and <a href="https://en.wikipedia.org/wiki/Worley_noise" target="_blank">worley noise</a>.</p>
+<p>The list could go on for a while. Anywhere randomization is used, coherent randomizers my be able to create more interesting effects. The noise function used for the examples above can be found <a href="https://github.com/jobtalle/CubicNoise" target="_blank">in this repository</a>, but there are many more variants. Some other interesting methods are <a href="https://en.wikipedia.org/wiki/Perlin_noise" target="_blank">Perlin noise</a>, <a href="https://en.wikipedia.org/wiki/Simplex_noise" target="_blank">simplex noise</a> and <a href="https://en.wikipedia.org/wiki/Worley_noise" target="_blank">worley noise</a>.</p>
