@@ -1,6 +1,6 @@
 body {
 	margin: 0px;
-	background-color: #F9F3EA;
+	background-color: #f9f3ea;
 	color: #444444;
 	font-family: "Raleway";
 }
@@ -151,6 +151,15 @@ h1 {
 
 .full-width {
 	width: 100%;
+	clear: both;
+	overflow: hidden;
+}
+
+.full-width canvas {
+	border: solid;
+	border-width: 1px;
+	border-color: #444444;
+	background-color: #f9f3ea;
 }
 
 .round-button {

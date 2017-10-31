@@ -30,7 +30,7 @@ class Post:
 	ID_TAGS = "tags"
 	CLASS_TAG = "tag"
 	
-	MATHJAX_CONFIG = "<script type=\"text/javascript\" async src=\"https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.2/MathJax.js?config=TeX-MML-AM_CHTML\"></script><script type=\"text/x-mathjax-config\">MathJax.Hub.Config({tex2jax: {inlineMath: [['$','$']]}});MathJax.Hub.Config({messageStyle: 'none',tex2jax: {preview: 'none'}});</script>"
+	MATHJAX_CONFIG = "<script type=\"text/javascript\" async src=\"https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.2/MathJax.js?config=TeX-MML-AM_CHTML\"></script><script type=\"text/x-mathjax-config\">MathJax.Hub.Config({tex2jax: {inlineMath: [['$','$']]}});</script>"
 	
 	MONTH_ABBREVIATIONS = [
 		"Jan",
@@ -125,7 +125,7 @@ class Post:
 	def get_date(self):
 		parts = self.directory.split("_")
 		year = parts[0]
-		month = self.MONTH_ABBREVIATIONS[int(parts[1])]
+		month = self.MONTH_ABBREVIATIONS[int(parts[1]) - 1]
 		day = parts[2]
 		
 		return str(day) + " " + month + " " + str(year)
@@ -188,6 +188,8 @@ class Site:
 	INDEX_LINKS_PER_PAGE = 6
 	
 	ID_LOAD_MORE = "load-more"
+	
+	SCRIPT_LOAD_MORE = "<script src=\"js/loadmore.js\"></script>"
 	
 	MENU_PAGES = [
 		"index.html",
@@ -346,7 +348,7 @@ class Site:
 			result = result.replace(self.KEY_TITLE, self.TITLE)
 			result = result.replace(self.KEY_DESCRIPTION, self.DESCRIPTION)
 			result = result.replace(self.KEY_ADDITIONAL_CSS, "")
-			result = result.replace(self.KEY_ADDITIONAL_JAVASCRIPT, "<script src=\"js/loadmore.js\"></script>")
+			result = result.replace(self.KEY_ADDITIONAL_JAVASCRIPT, self.SCRIPT_LOAD_MORE)
 			result = result.replace(self.KEY_MENU_BUTTONS, self.build_menu("index.html"))
 			result = result.replace(self.KEY_CONTENT, content)
 			

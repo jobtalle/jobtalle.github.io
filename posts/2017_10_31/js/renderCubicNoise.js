@@ -1,17 +1,32 @@
-const CUBIC_NOISE_DISCRETE_STEP = 32;
-const CUBIC_NOISE_DISCRETE_RED = 0.8;
-const CUBIC_NOISE_DISCRETE_GREEN = 1;
-const CUBIC_NOISE_DISCRETE_BLUE = 0.4;
-
-function cubicNoiseSetup() {
-	document.getElementById("cubic-noise-randomize-seed").click();
+function cubicNoiseDrawRendering() {
+	var canvas = document.getElementById("cubic-noise-renderer");
+	var context = canvas.getContext("2d");
+	var width = 150;
+	var height = 60;
+	var message = "Rendering...";
+	
+	context.fillStyle = "#ffffff";
+	context.fillRect((canvas.width - width) / 2, (canvas.height - height) / 2, width, height);
+	
+	context.strokeStyle = "#000000";
+	context.beginPath();
+	context.lineWidth = "1";
+	context.lineCap = "butt";
+	context.rect((canvas.width - width) / 2, (canvas.height - height) / 2, width, height);
+	context.stroke();
+	
+	context.fillStyle = "#000000";
+	context.font = "18px Calibri";
+	context.fillText(message,
+		(canvas.width - context.measureText(message).width) / 2,
+		(canvas.height + 9) / 2);
 }
 
 function cubicNoiseRender() {
-	drawRendering();
+	cubicNoiseDrawRendering();
 	
 	setTimeout(function() {
-		var canvas = getCanvas();
+		var canvas = document.getElementById("cubic-noise-renderer");
 		var context = canvas.getContext("2d");
 		
 		context.clearRect(0, 0, canvas.width, canvas.height);
@@ -20,7 +35,6 @@ function cubicNoiseRender() {
 		const quality = parseFloat(1 << (5 - document.getElementById("cubic-noise-quality").value));
 		const octaves = parseFloat(document.getElementById("cubic-noise-octaves").value);
 		const falloff = parseFloat(document.getElementById("cubic-noise-falloff").value);
-		const gradientStyle = document.getElementById("cubic-noise-gradient").value;
 		
 		var imageData = context.getImageData(0, 0, canvas.width, canvas.height);
 		var period = parseFloat(document.getElementById("cubic-noise-period").value) / quality;
@@ -56,27 +70,12 @@ function cubicNoiseRender() {
 			amplitude /= falloff;
 		}
 		
-		if(gradientStyle != "grayscale") {
-			for(var y = 0; y < canvas.height; ++y) {
-				for(var x = 0; x < canvas.width; ++x) {
-					const index = (x + y * canvas.width) * 4;
-					var value = imageData.data[index];
-					
-					switch(gradientStyle) {
-						case "discrete":
-							value = Math.round(value / CUBIC_NOISE_DISCRETE_STEP) * CUBIC_NOISE_DISCRETE_STEP;
-							break;
-					}
-					
-					imageData.data[index] = value * CUBIC_NOISE_DISCRETE_RED;
-					imageData.data[index + 1] = value * CUBIC_NOISE_DISCRETE_GREEN;
-					imageData.data[index + 2] = value * CUBIC_NOISE_DISCRETE_BLUE;
-				}
-			}
-		}
-		
 		context.putImageData(imageData, 0, 0);
-	}, LOAD_DELAY);
+	}, 20);
+}
+
+function cubicNoiseInitialize() {
+	document.getElementById("cubic-noise-seed").value = getRandomSeed();
 }
 
 function cubicNoiseRandomizeSeed() {

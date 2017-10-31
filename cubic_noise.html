@@ -2,13 +2,12 @@
 	<head>
 		<script async src="https://www.googletagmanager.com/gtag/js?id=UA-109031298-1"></script>
 		<script>
-		window.dataLayer = window.dataLayer || [];
-		function gtag(){dataLayer.push(arguments);}
-		gtag('js', new Date());
-		gtag('config', 'UA-109031298-1');
+			window.dataLayer = window.dataLayer || [];
+			function gtag(){dataLayer.push(arguments);}
+			gtag('js', new Date());
+			gtag('config', 'UA-109031298-1');
 		</script>
-		<script src="js/copyrightyear.js"></script>
-		<script src="posts\2017_10_31\js\cubicNoise.js"></script><script src="posts\2017_10_31\js\renderCubicNoise.js"></script><script type="text/javascript" async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.2/MathJax.js?config=TeX-MML-AM_CHTML"></script><script type="text/x-mathjax-config">MathJax.Hub.Config({tex2jax: {inlineMath: [['$','$']]}});MathJax.Hub.Config({messageStyle: 'none',tex2jax: {preview: 'none'}});</script>
+		<script src="posts\2017_10_31\js\animate.js"></script><script src="posts\2017_10_31\js\cubicNoise.js"></script><script src="posts\2017_10_31\js\renderCubicNoise.js"></script><script src="posts\2017_10_31\js\renderTerrain.js"></script><script src="posts\2017_10_31\js\utils.js"></script><script type="text/javascript" async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.2/MathJax.js?config=TeX-MML-AM_CHTML"></script><script type="text/x-mathjax-config">MathJax.Hub.Config({tex2jax: {inlineMath: [['$','$']]}});</script>
 		<title>Job Talle | Cubic Noise</title>
 		<meta charset="UTF-8">
 		<meta name="description" content="Coherent random noise can be used to create a great variety of effects. The algorithm for generating cubic noise is explained. Some interactive demonstrations are included to demonstrate the technique.">
@@ -17,7 +16,7 @@
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
 		<link href="https://fonts.googleapis.com/css?family=Raleway" rel="stylesheet">
 		<link rel="stylesheet" type="text/css" href="css/style.css">
-		
+		<link rel="stylesheet" type="text/css" href="posts\2017_10_31\css\examples.css">
 	</head>
 	<body>
 		<div id="wrapper">
@@ -26,7 +25,7 @@
 				<h1>Job Talle</h1>
 				<h2>On game development, AI & Algorithms</h2>
 			</div>
-			<div id="content"><h1>Cubic Noise</h1><span class="date">31 Nov 2017</span><p><h2>Coherent random noise</h2>
+			<div id="content"><h1>Cubic Noise</h1><span class="date">31 Oct 2017</span><p><h2>Coherent random noise</h2>
 <p>Coherent random noise is random noise which is not totally random; in other words, adjecent values in coherent random noise have some relation to each other, but the noise as a whole is random. An example of pure random noise is white noise, which is produced by a TV if no cable is plugged in. The noise is totally random, no patterns can be recognized. A cloudy sky is an example of coherent random noise. The pattern of clouds cannot be predicted, but the clouds themselves form recognizable features.</p>
 <figure id="figure1" title="Grayscale cubic noise">
 	<img src="posts\2017_10_31\img\cubic_noise.jpg">
@@ -47,24 +46,125 @@
 <h2>Octaves & falloff</h2>
 <p>The example in <a href="#figure1">figure 1</a> shows some small scale detail, instead of just large smooth gradients. This is achieved by adding several <i>octaves</i> to the noise. The first octave has the largest influence and the largest scale. Every next octave has smaller influence and a finer scale than its predecessor. This process is shown in <a href="#figure2">figure 2</a>.</p>
 <p>Adding octaves proposes a challenge. It is important that the sum of all octave influences is one; if this is not the case, the resulting noise will probably be either too dark or oversaturated. I define falloff $f$ as the number each successive octave influence is divided by. For example, if $f = 2$, the initial influence is $\frac{1}{f}$, the next influence is $\frac{\frac{1}{f}}{f}$ and so forth.</p>
-<p>The number of octaves is defined as $o_{total}$. If $o_{total} = 3$, the total influence will be $\frac{1}{2} + \frac{1}{4} + \frac{1}{8} = \frac{7}{8}$. Unfortunately, this does not sum up to one. To normalize the total influence, it needs to be multiplied by the swapped fraction of the total sum (since $\frac{x}{y} * \frac{y}{x} = 1$), which is $\frac{8}{7}$ in this example. I call this normalizer $n$. The influence of the first octave $i$ can now be defined as $i = \frac{1}{f} * n$, which leads to</p>
-<p>$$\sum_{o=1}^{o_{total}} \frac{1}{{f} ^ {o}} * n = 1$$</p>
+<p>The number of octaves is defined as $o_{total}$. If $o_{total} = 3$, the total influence will be $\frac{1}{2} + \frac{1}{4} + \frac{1}{8} = \frac{7}{8}$. Unfortunately, this does not sum up to one. To normalize the total influence, it needs to be multiplied by the swapped fraction of the total sum (since $\frac{x}{y} * \frac{y}{x} = 1$), which is $\frac{8}{7}$ in this example. I call this normalizer $n$. The influence of the first octave $i$ can now be defined as $i = n * \frac{1}{f}$, which leads to</p>
+<p>$$n * {\sum_{o=1}^{o_{total}} \frac{1}{{f} ^ {o}}} = 1$$</p>
 <p>If $n$ can be calculated from falloff and octaves, we have a general formula that yields an initial influence $i$ which will lead to the sum of all octaves being one. Luckily, this is possible using the following formula, which calculates the numerator and denominator of the total sum given $f$ and $o_{total}$ and swaps them:</p>
 <p>$$i = \frac{\frac{(f - 1) * {f} ^ {o_{total}}}{{f} ^ {o_{total}} - 1}}{f}$$</p>
-<p>Of course this formula for $i$ will not work when $f = 1$ or $f = 0$. If $f = 1$, $i = \frac{1}{o_{total}}$, since every octave has the same influence. The second case shouldn't occur, because $f = 0$ makes no sense; the influence of every next octave would be infinitely larger than the previous one.</p>
-<p>An interactive demonstration of cubic noise with octaves is given below.</p>
-<div class="full-width" id="noisedemo">
-	<canvas width=512 height=384>
+<p>Of course this formula for $i$ will not work when $f = 1$ or $f = 0$. For $f = 1$, $i = \frac{1}{o_{total}}$, since every octave has the same influence. The second case shouldn't occur, because $f = 0$ makes no sense; the influence of every next octave would be infinitely larger than the previous one.</p>
+<p>An interactive demonstration of cubic noise with octaves is given below. All previously described parameters can be changed. Every next octave, the period of the noise is halved</p>
+<div class="full-width">
+	<canvas id="cubic-noise-renderer" width=512 height=384></canvas>
+	<div id="cubic-noise-controls">
+		<table>
+			<tr>
+				<td><button id="cubic-noise-generate" onclick="cubicNoiseRender()">Generate</button></td>
+				<td><button id="cubic-noise-randomize-seed" onclick="cubicNoiseRandomizeSeed()">Randomize seed</button></td>
+			</tr>
+			<tr>
+				<td>Seed</td>
+				<td><input id="cubic-noise-seed" type="number"></td>
+			</tr>
+			<tr>
+				<td>Quality</td>
+				<td><input id="cubic-noise-quality" type="range" min="1" max="5" value="3" onchange="cubicNoiseRender()"></td>
+			</tr>
+			<tr>
+				<td>Period</td>
+				<td><input id="cubic-noise-period" type="range" min="1" max="256" value="128" onchange="cubicNoiseRender()"></td>
+			</tr>
+			<tr>
+				<td>Octaves</td>
+				<td><input id="cubic-noise-octaves" type="range" min="1" max="10" value="3" onchange="cubicNoiseRender()"></td>
+			</tr>
+			<tr>
+				<td>Falloff</td>
+				<td><input id="cubic-noise-falloff" type="range" min="0.25" max="16" value="7" step="0.5" onchange="cubicNoiseRender()"></td>
+			</tr>
+		</table>
+	</div>
+	<script>cubicNoiseInitialize();</script>
 </div>
 <h2 id="applications">Applications</h2>
-<h2>Conclusion</h2><div id="tags"><a href="tag_interactive.html" title="Show posts tagged with 'Interactive'"><div class="tag round-button">Interactive</div></a><a href="tag_procedural_generation.html" title="Show posts tagged with 'Procedural generation'"><div class="tag round-button">Procedural generation</div></a><a href="tag_source_included.html" title="Show posts tagged with 'Source included'"><div class="tag round-button">Source included</div></a></div></div>
+<p>Coherent random noise has many applications in pseudorandom number generation. When numbers must be random but not noisy, cubic noise comes in handy. A classic example is random terrain generation. A 2d grayscale noise is generated, and every pixel is translated into terrain height. Additionally, tunnels and caves can be generated by clearing a certain range of values in a 3d noise.</p>
+<p>An example of 2D terrain generation is shown below. Terrain is generated from 2d cubic noise. The values on the noise determine terrain height, and the height determines terrain color. By using a height dependent color gradient, water, beaches and snowy peaks can be seen.</p>
+<div class="full-width">
+	<canvas id="terrain-renderer" width=512 height=384></canvas>
+	<div id="terrain-controls">
+		<table>
+			<tr>
+				<td><button id="terrain-generate" onclick="terrainStart()">Generate</button></td>
+				<td><button id="terrain-randomize-seed" onclick="terrainRandomizeSeed()">Randomize seed</button></td>
+			</tr>
+			<tr>
+				<td>Gradient style</td>
+				<td>
+					<select id="terrain-gradient" onchange="terrainStart()">
+						<option value="earth">Earth</option>
+						<option value="desert">Desert</option>
+						<option value="grayscale">Grayscale</option>
+					</select>
+				</td>
+			</tr>
+			<tr>
+				<td>Seed</td>
+				<td><input id="terrain-seed" type="number"></td>
+			</tr>
+			<tr>
+				<td>Period</td>
+				<td><input id="terrain-period" type="range" min="4" max="256" value="45" onchange="terrainStart()"></td>
+			</tr>
+			<tr>
+				<td>Octaves</td>
+				<td><input id="terrain-octaves" type="range" min="1" max="10" value="3" onchange="terrainStart()"></td>
+			</tr>
+			<tr>
+				<td>Falloff</td>
+				<td><input id="terrain-falloff" type="range" min="0.25" max="16" value="4" step="0.5" onchange="terrainStart()"></td>
+			</tr>
+			<tr>
+				<td>Amplitude</td>
+				<td><input id="terrain-amplitude" type="range" min="10" max="200" value="85" onchange="terrainStart()"></td>
+			</tr>
+			<tr>
+				<td>Power</td>
+				<td><input id="terrain-power" type="range" min="0.2" max="2" value="1.2" step="0.1" onchange="terrainStart()"></td>
+			</tr>
+			<tr>
+				<td>Lower bound</td>
+				<td><input id="terrain-lower-bound" type="range" min="0" max="0.5" value="0.36" step="0.01" onchange="terrainStart()"></td>
+			</tr>
+		</table>
+	</div>
+	<script>terrainInitialize();</script>
+</div>
+<p>The example above doesn't do much more than generating a noise with octaves, but the generated terrain already looks decent. There are many ways to improve this. Adding cliffs and irregular terrain features would add some nice variety, and creating continuous rivers would separate different sections of terrain from each other. Some erosion could be simulated to make the mountains look much more natural.</p>
+<p>A good way to add more variety would be adding biomes. The biome could be determined by sampling a large scale cubic noise, where every biome would be represented by a range of values in the noise. Different biomes can then have different amplitudes, frequencies, features and colors.</p>
+<h2>Conclusion</h2>
+<p>Cubic noise can be a good method for coherent random noise generation, and I haven't discussed all use cases by far. Just to name a few examples:</p>
+<ul>
+	<li>Animating movement by sampling a point moving over a noise, creating a fluctuation effect</li>
+	<li>Generating or animating wave shapes by sampling just one dimension of the noise</li>
+	<li>Random initialization for points in a simulation that need to be clustered</li>
+	<li>Generating procedural tiling textures</li>
+</ul>
+<p>The list could go on for a while. Anywhere randomization is used, coherent randomizers my be able to create more interesting effects. The noise function used for the examples above can be found <a href="https://github.com/jobtalle/CubicNoise" target="_blank">in this repository</a>, but there are many more variants. Some interesting other methods are <a href="https://en.wikipedia.org/wiki/Perlin_noise" target="_blank">Perlin noise</a>, <a href="https://en.wikipedia.org/wiki/Simplex_noise" target="_blank">simplex noise</a> and <a href="https://en.wikipedia.org/wiki/Worley_noise" target="_blank">worley noise</a>.</p><div id="tags"><a href="tag_interactive.html" title="Show posts tagged with 'Interactive'"><div class="tag round-button">Interactive</div></a><a href="tag_procedural_generation.html" title="Show posts tagged with 'Procedural generation'"><div class="tag round-button">Procedural generation</div></a><a href="tag_source_included.html" title="Show posts tagged with 'Source included'"><div class="tag round-button">Source included</div></a></div></div>
 			<div id="content-footer"></div>
 			<div id="footer">&copy Job Talle </div>
 			<div id="icons">
-				<a href="mailto:jobtalle@hotmail.com?Subject=Contact"><div class="icon" id="icon-mail" title="Mail"></div></a>
+				<a href="mailto:contact@jobtalle.com?Subject=Contact"><div class="icon" id="icon-mail" title="Mail"></div></a>
 				<a href="http://www.github.com/jobtalle" target="_blank"><div class="icon" id="icon-github" title="Github"></div></a>
 				<a href="http://www.linkedin.com/in/job-talle-b2b582aa" target="_blank"><div class="icon" id="icon-linkedin" title="LinkedIn"></div></a>
 			</div>
 		</div>
+		<script>
+			var startYear = 2017;
+			var currentYear = new Date().getFullYear();
+			var result = startYear;
+			
+			if(currentYear > startYear)
+				result += " - " + currentYear;
+			
+			document.getElementById("footer").innerHTML += result;
+		</script>
 	</body>
 </html>

@@ -2,12 +2,11 @@
 	<head>
 		<script async src="https://www.googletagmanager.com/gtag/js?id=UA-109031298-1"></script>
 		<script>
-		window.dataLayer = window.dataLayer || [];
-		function gtag(){dataLayer.push(arguments);}
-		gtag('js', new Date());
-		gtag('config', 'UA-109031298-1');
+			window.dataLayer = window.dataLayer || [];
+			function gtag(){dataLayer.push(arguments);}
+			gtag('js', new Date());
+			gtag('config', 'UA-109031298-1');
 		</script>
-		<script src="js/copyrightyear.js"></script>
 		$additional-javascript$
 		<title>$title$</title>
 		<meta charset="UTF-8">
@@ -30,10 +29,20 @@
 			<div id="content-footer">$content-footer$</div>
 			<div id="footer">&copy Job Talle </div>
 			<div id="icons">
-				<a href="mailto:jobtalle@hotmail.com?Subject=Contact"><div class="icon" id="icon-mail" title="Mail"></div></a>
+				<a href="mailto:contact@jobtalle.com?Subject=Contact"><div class="icon" id="icon-mail" title="Mail"></div></a>
 				<a href="http://www.github.com/jobtalle" target="_blank"><div class="icon" id="icon-github" title="Github"></div></a>
 				<a href="http://www.linkedin.com/in/job-talle-b2b582aa" target="_blank"><div class="icon" id="icon-linkedin" title="LinkedIn"></div></a>
 			</div>
 		</div>
+		<script>
+			var startYear = 2017;
+			var currentYear = new Date().getFullYear();
+			var result = startYear;
+			
+			if(currentYear > startYear)
+				result += " - " + currentYear;
+			
+			document.getElementById("footer").innerHTML += result;
+		</script>
 	</body>
 </html>

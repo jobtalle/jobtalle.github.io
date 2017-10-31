@@ -1,0 +1,49 @@
+#cubic-noise-renderer {
+	float: left;
+}
+
+#cubic-noise-controls {
+	float: left;
+	margin-left: 16px;
+}
+
+#cubic-noise-controls td {
+	text-align: right;
+}
+
+#cubic-noise-controls button {
+	width: 100%;
+}
+
+#cubic-noise-controls select {
+	width: 100%;
+}
+
+#cubic-noise-controls input {
+	width: 100%;
+}
+
+#terrain-renderer {
+	float: left;
+}
+
+#terrain-controls {
+	float: left;
+	margin-left: 16px;
+}
+
+#terrain-controls td {
+	text-align: right;
+}
+
+#terrain-controls button {
+	width: 100%;
+}
+
+#terrain-controls select {
+	width: 100%;
+}
+
+#terrain-controls input {
+	width: 100%;
+}
