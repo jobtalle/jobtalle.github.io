@@ -56,6 +56,7 @@ class Post:
 	
 		result = self.site.template
 		result = result.replace(self.site.KEY_TITLE, self.site.TITLE + self.site.TITLE_DIVISOR + self.properties[self.PROPERTY_TITLE])
+		result = result.replace(self.site.KEY_DESCRIPTION, self.properties[self.PROPERTY_ABSTRACT])
 		result = result.replace(self.site.KEY_ADDITIONAL_CSS, "")
 		result = result.replace(self.site.KEY_ADDITIONAL_JAVASCRIPT, "")
 		result = result.replace(self.site.KEY_CONTENT_FOOTER, "")
@@ -130,6 +131,8 @@ class Post:
 class Site:
 	TITLE = "Job Talle"
 	TITLE_DIVISOR = " | "
+	
+	DESCRIPTION = "A blog on game development, AI & Algorithms"
 
 	DIR_POSTS = "posts"
 	DIR_CSS = "css"
@@ -145,6 +148,7 @@ class Site:
 	KEY_MENU_BUTTONS = "$menu-buttons$"
 	KEY_CONTENT = "$content$"
 	KEY_CONTENT_FOOTER = "$content-footer$"
+	KEY_DESCRIPTION = "$description$"
 
 	INDEX_LINKS_PER_PAGE = 6
 	
@@ -211,6 +215,7 @@ class Site:
 		
 			result = self.template
 			result = result.replace(self.KEY_TITLE, self.TITLE + self.TITLE_DIVISOR + tag)
+			result = result.replace(self.KEY_DESCRIPTION, self.DESCRIPTION)
 			result = result.replace(self.KEY_ADDITIONAL_CSS, "")
 			result = result.replace(self.KEY_ADDITIONAL_JAVASCRIPT, "")
 			result = result.replace(self.KEY_MENU_BUTTONS, self.build_menu())
@@ -245,6 +250,7 @@ class Site:
 	
 		result = self.template
 		result = result.replace(self.KEY_TITLE, self.TITLE + self.TITLE_DIVISOR + title)
+		result = result.replace(self.KEY_DESCRIPTION, self.DESCRIPTION)
 		result = result.replace(self.KEY_ADDITIONAL_CSS, "")
 		result = result.replace(self.KEY_ADDITIONAL_JAVASCRIPT, "")
 		result = result.replace(self.KEY_MENU_BUTTONS, self.build_menu(page))
@@ -303,6 +309,7 @@ class Site:
 		if index == 0:
 			result = self.template
 			result = result.replace(self.KEY_TITLE, self.TITLE)
+			result = result.replace(self.KEY_DESCRIPTION, self.DESCRIPTION)
 			result = result.replace(self.KEY_ADDITIONAL_CSS, "")
 			result = result.replace(self.KEY_ADDITIONAL_JAVASCRIPT, "<script src=\"js/loadmore.js\"></script>")
 			result = result.replace(self.KEY_MENU_BUTTONS, self.build_menu("index.html"))
