@@ -44,7 +44,7 @@ body {
 	border: none;
 	outline: none;
 	font-size: 24px;
-	color: #444444;
+	color: inherit;
 	width: 128px;
 	text-align: center;
 	padding-top: 5px;
@@ -66,7 +66,7 @@ body {
 
 #header {
 	text-align: center;
-	margin: 32px;
+	margin: 32px 0px 48px 0px;
 }
 
 #header h1 {
@@ -113,6 +113,28 @@ body {
 
 #content a:hover {
 	color: #9C7E50;
+}
+
+.round-button {
+	padding: 4px 16px 4px 16px;
+	color: white;
+	border-radius: 16px;
+	background-color: #50314c;
+}
+
+.round-button:hover {
+	cursor: pointer;
+	background-color: #9C7E50;
+}
+
+#tags {
+	width: 100%;
+	display: inline-block;
+} 
+
+.tag {
+	margin: 0px 4px 8px 4px;
+	float: left;
 }
 
 .post-link {
@@ -179,19 +201,6 @@ body {
 }
 
 #load-more {
-	padding: 8px;
 	margin: 8px auto 8px auto;
-	width: 150px;
-	color: white;
-	border-radius: 16px;
-	background-color: #50314c;
-	border: solid;
-	border-color: #50314c;
-	border-width: 1px;
-}
-
-#load-more:hover {
-	cursor: pointer;
-	background-color: white;
-	color: #444444;
+	display: inline-block;
 }

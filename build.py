@@ -6,6 +6,12 @@ import os.path
 from sys import argv
 from os import listdir
 
+def format_page_name(name):
+	return name.replace(" ", "_").lower() + ".html"
+
+def get_tag_url(tag):
+	return format_page_name("tag " + tag)
+	
 
 class Post:
 	FILE_CONTENT = "content.html"
@@ -14,8 +20,12 @@ class Post:
 	PROPERTY_TITLE = "title"
 	PROPERTY_ABSTRACT = "abstract"
 	PROPERTY_PREVIEW = "preview"
+	PROPERTY_TAGS = "tags"
 	
 	CLASS_POST_LINK = "post-link"
+	
+	ID_TAGS = "tags"
+	CLASS_TAG = "tag"
 	
 	MONTH_ABBREVIATIONS = [
 		"Jan",
@@ -52,14 +62,14 @@ class Post:
 		result = result.replace(self.site.KEY_MENU_BUTTONS, self.site.build_menu())
 		
 		contentFile = open(self.content)
-		result = result.replace(self.site.KEY_CONTENT, self.get_post_header(self.properties[self.PROPERTY_TITLE]) + contentFile.read())
+		result = result.replace(self.site.KEY_CONTENT, self.get_post_header(self.properties[self.PROPERTY_TITLE]) + contentFile.read() + self.build_tags())
 		contentFile.close()
 		
 		file = open(self.get_post_file_name(), "w")
 		file.write(result)
 		file.close()
 		
-		return self.make_post_link(self.properties[self.PROPERTY_TITLE], self.properties[self.PROPERTY_ABSTRACT], self.get_post_file_name())
+		return self.build_post_link()
 			
 	def validate_requirements(self):
 		if not os.path.isfile(self.content):
@@ -94,13 +104,27 @@ class Post:
 		return "<h1>" + link_open + title + link_close + "</h1><span class=\"date\">" + self.get_date() + "</span><p>";
 		
 	def get_post_file_name(self):
-		return self.properties[self.PROPERTY_TITLE].replace(" ", "_").lower() + ".html"
+		return format_page_name(self.properties[self.PROPERTY_TITLE])
 		
 	def get_preview(self):
 		return os.path.join(self.site.DIR_POSTS, self.directory, self.properties[self.PROPERTY_PREVIEW])
 		
-	def make_post_link(self, title, abstract, url):
-		return "<div class=\"" + self.CLASS_POST_LINK + "\"><a href=\"" + url + "\"><img src=\"" + self.get_preview() + "\" title=\"" + self.properties[self.PROPERTY_TITLE] + "\"></a>" + self.get_post_header(title, url) + abstract + "</p></div>"
+	def get_tags(self):
+		return self.properties[self.PROPERTY_TAGS]
+		
+	def build_tag(self, tag):
+		return "<a href=\"" + get_tag_url(tag) + "\"><div class=\"" + self.CLASS_TAG + " round-button\">" + tag + "</div></a>"
+		
+	def build_tags(self):
+		result = "<div id=\"" + self.ID_TAGS + "\">"
+		
+		for tag in self.properties[self.PROPERTY_TAGS]:
+			result = result + self.build_tag(tag)
+			
+		return result + "</div>"
+		
+	def build_post_link(self):
+		return "<div class=\"" + self.CLASS_POST_LINK + "\"><a href=\"" + self.get_post_file_name() + "\"><img src=\"" + self.get_preview() + "\" title=\"" + self.properties[self.PROPERTY_TITLE] + "\"></a>" + self.get_post_header(self.properties[self.PROPERTY_TITLE], self.get_post_file_name()) + self.properties[self.PROPERTY_ABSTRACT] + "</p>" + self.build_tags() + "</div>"
 	
 	
 class Site:
@@ -160,8 +184,41 @@ class Site:
 		for index in range(1, len(self.MENU_PAGES)):
 			self.build_page(self.MENU_PAGES[index], self.MENU_TITLES[index])
 			
+		self.build_tags()
+			
 		self.log_scope_decrement()
 		self.log("Done")
+		
+	def build_tags(self):
+		all_tags = []
+		
+		for post in self.posts:
+			for tag in post.get_tags():
+				if tag not in all_tags:
+					all_tags.append(tag)
+					
+		for tag in all_tags:
+			self.log("Building index for posts tagged with \"" + tag + "\"")
+		
+			posts = ""
+			
+			for post, post_link in zip(self.posts, self.post_links):
+				if tag in post.get_tags():
+					posts = posts + post_link
+		
+			page = get_tag_url(tag)
+		
+			result = self.template
+			result = result.replace(self.KEY_TITLE, self.TITLE + self.TITLE_DIVISOR + tag)
+			result = result.replace(self.KEY_ADDITIONAL_CSS, "")
+			result = result.replace(self.KEY_ADDITIONAL_JAVASCRIPT, "")
+			result = result.replace(self.KEY_MENU_BUTTONS, self.build_menu())
+			result = result.replace(self.KEY_CONTENT, posts)
+			result = result.replace(self.KEY_CONTENT_FOOTER, "")
+				
+			file = open(page, "w")
+			file.write(result)
+			file.close()
 		
 	def build_menu(self, current = None):
 		result = ""
