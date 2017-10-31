@@ -146,18 +146,9 @@ class Site:
 		self.posts = self.get_posts()
 		
 	def clean(self):
-		for post in self.posts:
-			file_name = post.get_post_file_name()
-			
-			if os.path.isfile(file_name):
-				os.remove(file_name)
-				
-		for index in range(0, self.get_index_count()):
-			if os.path.isfile(self.get_index_file_name(index)):
-				os.remove(self.get_index_file_name(index))
-				
-		if os.path.isfile(self.get_about_file_name()):
-			os.remove(self.get_about_file_name())
+		for file in listdir("."):
+			if file.endswith(".html"):
+				os.remove(file)
 		
 	def build(self):
 		self.log("Starting build")
