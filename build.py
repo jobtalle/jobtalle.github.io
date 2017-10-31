@@ -22,6 +22,9 @@ class Post:
 	PROPERTY_PREVIEW = "preview"
 	PROPERTY_TAGS = "tags"
 	
+	DIR_JAVASCRIPT = "js"
+	DIR_CSS = "css"
+	
 	CLASS_POST_LINK = "post-link"
 	
 	ID_TAGS = "tags"
@@ -64,27 +67,48 @@ class Post:
 		self.site.log("Building " + self.get_post_file_name())
 		
 		content = self.get_content()
-		javascript = ""
+		javascript = self.get_javascript()
 		if "$" in content:
 			javascript = javascript + self.MATHJAX_CONFIG
 	
 		result = self.site.template
 		result = result.replace(self.site.KEY_TITLE, self.site.TITLE + self.site.TITLE_DIVISOR + self.properties[self.PROPERTY_TITLE])
 		result = result.replace(self.site.KEY_DESCRIPTION, self.properties[self.PROPERTY_ABSTRACT])
-		result = result.replace(self.site.KEY_ADDITIONAL_CSS, "")
+		result = result.replace(self.site.KEY_ADDITIONAL_CSS, self.get_css())
 		result = result.replace(self.site.KEY_ADDITIONAL_JAVASCRIPT, javascript)
 		result = result.replace(self.site.KEY_CONTENT_FOOTER, "")
 		result = result.replace(self.site.KEY_MENU_BUTTONS, self.site.build_menu())
 		result = result.replace(self.site.KEY_CONTENT, content)
 
-		
 		file = open(self.get_post_file_name(), "w")
 		file.write(result)
 		file.close()
 		
 		return self.build_post_link()
-			
-	def validate_requirements(self):
+		
+	def get_javascript(self):
+		result = ""
+		
+		dir = os.path.join(Site.DIR_POSTS, self.directory, self.DIR_JAVASCRIPT)
+		if os.path.isdir(dir):
+			for file in listdir(dir):
+				if file.endswith(".js"):
+					result = result + "<script src=\"" + os.path.join(dir, file) + "\"></script>"
+		
+		return result
+	
+	def get_css(self):
+		result = ""
+		
+		dir = os.path.join(Site.DIR_POSTS, self.directory, self.DIR_CSS)
+		if os.path.isdir(dir):
+			for file in listdir(dir):
+				if file.endswith(".css"):
+					result = result + "<link rel=\"stylesheet\" type=\"text/css\" href=\"" + os.path.join(dir, file) + "\">"
+		
+		return result
+	
+	def validate_requirements(self):	
 		if not os.path.isfile(self.content):
 			self.site.log("Post " + self.directory + " has no " + self.FILE_CONTENT)
 			self.site.abort()
@@ -147,7 +171,6 @@ class Site:
 	DESCRIPTION = "A blog on game development, AI & Algorithms"
 
 	DIR_POSTS = "posts"
-	DIR_CSS = "css"
 	DIR_JAVASCRIPT = "js"
 	DIR_TEMPLATES = "templates"
 	
@@ -369,10 +392,6 @@ class Site:
 			
 		if not os.path.isdir(self.DIR_POSTS):
 			self.log("Directory " + self.DIR_POSTS + " was not found")
-			self.abort()
-			
-		if not os.path.isdir(self.DIR_CSS):
-			self.log("Directory " + self.DIR_CSS + " was not found")
 			self.abort()
 			
 		if not os.path.isdir(self.DIR_JAVASCRIPT):

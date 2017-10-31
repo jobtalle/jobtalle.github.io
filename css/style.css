@@ -149,6 +149,10 @@ h1 {
 	margin-bottom: 8px;
 }
 
+.full-width {
+	width: 100%;
+}
+
 .round-button {
 	padding: 4px 16px 4px 16px;
 	color: white;

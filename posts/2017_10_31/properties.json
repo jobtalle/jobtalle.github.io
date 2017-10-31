@@ -1,6 +1,6 @@
 {
 	"title": "Cubic Noise",
-	"abstract": "Coherent random noise can be used to create a great variety of effects. The algorithm for generating cubic noise is explained, along with some demonstrations.",
+	"abstract": "Coherent random noise can be used to create a great variety of effects. The algorithm for generating cubic noise is explained. Some interactive demonstrations are included to demonstrate the technique.",
 	"preview": "img/preview.jpg",
 	"tags": ["Interactive", "Procedural generation", "Source included"]
 }
