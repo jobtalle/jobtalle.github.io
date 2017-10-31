@@ -169,7 +169,8 @@ class Site:
 		self.template = self.read_template()
 		self.posts = self.get_posts()
 		
-	def clean(self):
+	@staticmethod
+	def clean():
 		for file in listdir("."):
 			if file.endswith(".html"):
 				os.remove(file)
@@ -366,11 +367,11 @@ class Site:
 		return [Post(self, dir) for dir in directories]
 
 def main():
-	site = Site()
-	
 	if len(argv) > 1 and argv[1] == "clean":
-		site.clean()
+		Site.clean()
 	else:
+		site = Site()
+	
 		site.clean()
 		site.build()
 	
