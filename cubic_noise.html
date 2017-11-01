@@ -50,7 +50,8 @@
 <p>The number of octaves is defined as $o_{total}$. If $o_{total} = 3$, the total influence will be $\frac{1}{2} + \frac{1}{4} + \frac{1}{8} = \frac{7}{8}$. Unfortunately, this does not sum up to one. To normalize the total influence, it needs to be multiplied by the swapped fraction of the total sum (since $\frac{x}{y} * \frac{y}{x} = 1$), which is $\frac{8}{7}$ in this example. I call this normalizer $n$. The influence of the first octave $i$ can now be defined as $i = n * \frac{1}{f}$, which leads to</p>
 <p>$$n * {\sum_{o=1}^{o_{total}} \frac{1}{{f} ^ {o}}} = 1$$</p>
 <p>If $n$ can be calculated from falloff and octaves, we have a general formula that yields an initial influence $i$ which will lead to the sum of all octaves being one. Luckily this is possible using the following formula, which calculates the numerator and denominator of the total sum given $f$ and $o_{total}$ and swaps them:</p>
-<p>$$i = \frac{\frac{(f - 1) * {f} ^ {o_{total}}}{{f} ^ {o_{total}} - 1}}{f}$$</p>
+<p>$$n = \frac{(f - 1) * {f} ^ {o_{total}}}{{f} ^ {o_{total}} - 1}$$</p>
+<p>$$i = \frac{n}{f}$$</p>
 <p>Of course this formula for $i$ will not work when $f = 1$ or $f = 0$ because those values will result in divisions by zero. For $f = 1$, $i = \frac{1}{o_{total}}$, since every octave has the same influence. The second case shouldn't occur, because $f = 0$ makes no sense; the influence of every next octave would be infinitely larger than the previous one.</p>
 <p>An interactive demonstration of cubic noise with octaves is given below. All previously described parameters can be changed. Every next octave, the period of the noise is halved</p>
 <div class="full-width">
