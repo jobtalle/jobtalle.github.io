@@ -1,5 +1,6 @@
 #cubic-noise-renderer {
 	float: left;
+	background-image: url("../img/noise_default.jpg");
 }
 
 #cubic-noise-controls {
@@ -25,6 +26,7 @@
 
 #terrain-renderer {
 	float: left;
+	background-image: url("../img/terrain_default.jpg");
 }
 
 #terrain-controls {

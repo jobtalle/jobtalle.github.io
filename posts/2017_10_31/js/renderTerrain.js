@@ -32,7 +32,10 @@ function terrainRenderBase() {
 	var canvas = document.getElementById("terrain-renderer");
 	var context = canvas.getContext("2d");
 	
-	context.clearRect(0, 0, canvas.width, canvas.height);
+	context.fillStyle = "#FFFFFF";
+	context.beginPath();
+	context.rect(0, 0, canvas.width, canvas.height);
+	context.fill();
 	
 	context.fillStyle = TERRAIN_EDGE_COLOR_RIGHT;
 	context.strokeStyle = "#000000";
