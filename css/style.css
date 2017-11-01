@@ -1,7 +1,16 @@
+:root {
+	--color-white: #FFFFFF;
+	--color-gray: #444444;
+	--color-elements: #50314C;
+	--color-background: #F9F3EA;
+	--color-hover: #9C7E50;
+	--color-light: #666666;
+}
+
 body {
 	margin: 0px;
-	background-color: #f9f3ea;
-	color: #444444;
+	background-color: var(--color-background);
+	color: var(--color-gray);
 	font-family: "Raleway";
 }
 
@@ -14,17 +23,17 @@ h1 {
 	display: flex;
 	margin-left: auto;
 	margin-right: auto;
-	background-color: #50314c;
+	background-color: var(--color-elements);
 }
 
 .menu-button {
 	transition: 0.15s;
 	float: left;
-	background-color: #50314c;
+	background-color: var(--color-elements);
 	border: none;
 	outline: none;
 	font-size: 24px;
-	color: white;
+	color: var(--color-white);
 	width: 128px;
 	text-align: center;
 	padding-top: 5px;
@@ -32,19 +41,19 @@ h1 {
 }
 
 .menu-button:hover {
-	background-color: white;
-	color: #444444;
+	background-color: var(--color-white);
+	color: var(--color-gray);
 }
 
 .menu-button:active {
-	background-color: white;
-	color: #444444;
+	background-color: var(--color-white);
+	color: var(--color-gray);
 }
 
 .menu-button-current {
 	cursor: pointer;
 	float: left;
-	background-color: white;
+	background-color: var(--color-white);
 	border: none;
 	outline: none;
 	font-size: 24px;
@@ -59,13 +68,13 @@ h1 {
 	width: 960px;
 	margin-left: auto;
 	margin-right: auto;
-	background-color: white;
+	background-color: var(--color-white);
 	border-style: solid;
 	border-width: 1px;
-	border-color: #50314c;
+	border-color: var(--color-elements);
 	border-top: none;
 	border-radius: 0px 0px 16px 16px;
-	box-shadow: 0px 0px 8px #50314c;
+	box-shadow: 0px 0px 8px var(--color-elements);
 }
 
 #header {
@@ -82,7 +91,7 @@ h1 {
 #header h2 {
 	border-top: solid;
 	border-width: 1px;
-	border-color: #444444;
+	border-color: var(--color-gray);
 	margin-left: auto;
 	margin-right: auto;
 	width: 40%;
@@ -101,7 +110,7 @@ h1 {
 	font-weight: lighter;
 	font-style: italic;
 	border-top: solid;
-	border-color: #50314c;
+	border-color: var(--color-elements);
 	border-width: 2px;
 	padding-top: 8px;
 	margin-top: 0px;
@@ -119,13 +128,13 @@ h1 {
 }
 
 #content p a {
-	color: #50314c;
+	color: var(--color-elements);
 	font-weight: 900;
 	text-decoration: inherit;
 }
 
 #content a:hover {
-	color: #9C7E50;
+	color: var(--color-hover);
 }
 
 #content figure {
@@ -140,7 +149,7 @@ h1 {
 #content figure img {
 	border: solid;
 	border-width: 1px;
-	border-color: #444444;
+	border-color: var(--color-gray);
 }
 
 #content figure figcaption {
@@ -159,20 +168,20 @@ h1 {
 .full-width canvas {
 	border: solid;
 	border-width: 1px;
-	border-color: #444444;
-	background-color: #f9f3ea;
+	border-color: var(--color-gray);
+	background-color: var(--color-background);
 }
 
 .round-button {
 	padding: 4px 16px 4px 16px;
-	color: white;
+	color: var(--color-white);
 	border-radius: 16px;
-	background-color: #50314c;
+	background-color: var(--color-elements);
 }
 
 .round-button:hover {
 	cursor: pointer;
-	background-color: #9C7E50;
+	background-color: var(--color-hover);
 }
 
 #tags {
@@ -198,7 +207,7 @@ h1 {
 .date {
 	margin-left: 16px;
 	font-size: 12px;
-	color: #666666;
+	color: var(--color-light);
 }
 
 #content-footer {
@@ -209,6 +218,7 @@ h1 {
 #footer {
 	font-size: 11px;
 	text-align: right;
+	color: var(--color-light);
 	padding: 8px 16px 8px 16px;
 }
 
