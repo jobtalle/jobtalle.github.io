@@ -197,7 +197,7 @@ class Site:
 		"contact.html"
 	]
 	MENU_TITLES = [
-		"Home",
+		"Blog",
 		"About",
 		"Contact"
 	]
