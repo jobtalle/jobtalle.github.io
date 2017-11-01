@@ -169,10 +169,6 @@ h1 {
 	background-color: #50314c;
 }
 
-.round-button::before {
-	content: "• ";
-}
-
 .round-button:hover {
 	cursor: pointer;
 	background-color: #9C7E50;
