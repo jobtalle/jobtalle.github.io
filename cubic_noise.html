@@ -141,8 +141,15 @@
 </div>
 <p>The example above doesn't do much more than generating a noise with octaves, but the generated terrain already looks decent. There are many ways to improve this. Adding cliffs and irregular terrain features would add some nice variety, and creating continuous rivers would separate different sections of terrain from each other. Erosion could be simulated to make the mountains look much more natural.</p>
 <p>A good way to add more variety would be adding biomes. The biome could be determined by sampling a large scale cubic noise, where every biome would be represented by a range of values in the noise. Different biomes can then have different amplitudes, frequencies, features and colors.</p>
+<h2>Why use cubic noise?</h2>
+<p>The informed reader may ask, why use cubic noise in particular? The industry standard has been Perlin noise for a while, and to a lesser degree simplex noise. Both algorithms are faster than cubic noise, at least when surrounding values in cubic noise are not buffered. Granted, there are many cases in which Perlin or simplex noise is favorable. Cubic noise however has properties that sometimes come in handy:</p>
+<ul>
+	<li>Cubic noise has more variance in its peaks and valleys than perlin noise because of cubic interpolation. If the neighboring tiles have contrasting values, peaks can sometimes be extraordinarily high. This effect can be seen in the terrain examlpe above. Snowy mountain peaks are rare, but do occur occasionally.</li>
+	<li>Gradient based noise like Perlin noise is more consistent. This can be either an advantage or a disadvantage, depending on what you want to do with the noise. In perlin noise, every peak is succeeded by a valley with a somewhat consistent rate. There are no large low or high areas possible because of the way the gradients work. Cubic noise is based on interpolated white noise, and a good randomizer can produce islands of high or low values spanning multiple cells (although the chances are slim). This increased "randomness" may be useful.</li>
+	<li>Particularly Perlin noise has strong directional artifacts when zoomed out. Horizontal, vertical and diagonal shapes are clearly visible. This is especially disadvantageous when generating procedural textures. This effect is strongly reduced in cubic noise, although it still exists. Simplex noise also greatly reduces this effect compared to Perlin noise, but it remains similar in other aspects.</li>
+</ul>
 <h2>Conclusion</h2>
-<p>Cubic noise can be a good method for coherent random noise generation, and there are many use cases imaginable. Just to name a few examples:</p>
+<p>Cubic noise can be a good method for coherent random noise generation, and there are many other use cases imaginable than the ones demonstrated here. Just to name a few:</p>
 <ul>
 	<li>Animating movement by sampling a point moving over a noise, creating a fluctuation effect</li>
 	<li>Generating or animating wave shapes by sampling just one dimension of the noise</li>
