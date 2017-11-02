@@ -194,6 +194,10 @@ h1 {
 	float: right;
 }
 
+.tag::before {
+	content: "#";
+}
+
 .post-link {
 	position: relative;
 	overflow: auto;
