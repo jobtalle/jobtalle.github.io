@@ -272,6 +272,9 @@ h1 {
 #contact-form {
 	width: 600px;
 	padding-top: 8px;
+	margin-left: auto;
+	margin-right: auto;
+	text-align: center;
 }
 
 #contact-form input {
