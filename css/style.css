@@ -102,17 +102,16 @@ h1 {
 }
 
 #content {
-	padding-left: 32px;
-	padding-right: 32px;
+	padding-left: 7%;
+	padding-right: 7%;
 }
 
 #content h1 {
 	font-weight: lighter;
-	font-style: italic;
 	border-top: solid;
 	border-color: var(--color-elements);
 	border-width: 2px;
-	padding-top: 8px;
+	padding-top: 16px;
 	margin-top: 0px;
 	margin-bottom: 0px;
 }
@@ -213,6 +212,7 @@ h1 {
 
 .post-link img {
 	float: right;
+	top: 0px;
 	margin: 8px;
 	max-width: 100%;
 }

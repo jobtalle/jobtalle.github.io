@@ -140,10 +140,16 @@ class Post:
 	
 		return "<h1>" + link_open + title + link_close + "</h1><span class=\"date\">" + self.get_date() + "</span><p>";
 		
+	def get_preview(self):
+		return "<a href=\"" + self.get_post_file_name() + "\"><img src=\"" + self.get_preview_file() + "\" title=\"" + self.properties[self.PROPERTY_TITLE] + "\"></a>"
+		
+	def get_abstract(self):
+		return "<p>" + self.properties[self.PROPERTY_ABSTRACT] + "</p>"
+		
 	def get_post_file_name(self):
 		return format_page_name(self.properties[self.PROPERTY_TITLE])
 		
-	def get_preview(self):
+	def get_preview_file(self):
 		return os.path.join(self.site.DIR_POSTS, self.directory, self.properties[self.PROPERTY_PREVIEW])
 		
 	def get_tags(self):
@@ -161,7 +167,7 @@ class Post:
 		return result + "</div>"
 		
 	def build_post_link(self):
-		return "<div class=\"" + self.CLASS_POST_LINK + "\"><a href=\"" + self.get_post_file_name() + "\"><img src=\"" + self.get_preview() + "\" title=\"" + self.properties[self.PROPERTY_TITLE] + "\"></a>" + self.get_post_header(self.properties[self.PROPERTY_TITLE], self.get_post_file_name()) + self.properties[self.PROPERTY_ABSTRACT] + "</p>" + self.build_tags() + "</div>"
+		return "<div class=\"" + self.CLASS_POST_LINK + "\">" + self.get_preview() + self.get_post_header(self.properties[self.PROPERTY_TITLE], self.get_post_file_name()) + self.get_abstract() + self.build_tags() + "</div>"
 	
 	
 class Site:
