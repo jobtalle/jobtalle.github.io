@@ -41,8 +41,7 @@ h1 {
 }
 
 .menu-button:hover {
-	background-color: var(--color-white);
-	color: var(--color-gray);
+	background-color: var(--color-hover);
 }
 
 .menu-button:active {
@@ -68,6 +67,7 @@ h1 {
 	max-width: 960px;
 	margin-left: auto;
 	margin-right: auto;
+	margin-bottom: 32px;
 	background-color: var(--color-white);
 	border-style: solid;
 	border-width: 1px;
@@ -126,6 +126,10 @@ h1 {
 	padding-top: 16px;
 }
 
+#content p {
+	text-align: justify;
+}
+
 #content p a {
 	color: var(--color-elements);
 	font-weight: 900;
@@ -161,11 +165,19 @@ h1 {
 	width: 100%;
 }
 
+#content ul {
+	list-style-type: dot;
+}
+
+#content ul li {
+	padding: 4px 0px 4px 0px;
+}
+
 .full-width {
 	width: 100%;
 	max-width: 100%;
 	clear: both;
-	overflow: hidden;
+	display: inline-block;
 }
 
 .full-width canvas {

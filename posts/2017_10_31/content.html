@@ -9,7 +9,7 @@
 <p>Random noise is often used to produce pseudorandom effects in software. A notable example is terrain in games. 2D coherent random noise is produced, and the values are interpreted as a heightmap. An interactive demonstration of this technique can be found <a href="#applications">further down this page</a>.</p>
 <h2>Cubic noise</h2>
 <p><a href="#figure1">Figure 1</a> shows an example of <i>cubic noise</i>. Cubic noise is essentially scaled up white noise with cubic interpolation. Cubic interpolation ensures the result is smoothed enough to remove grid like artifacts. The values are based on coordinates, every pixel in this example represents a set of coordinates. These coordinate values can be tiled to make a tiling noise texture. All values produced by the cubic noise algorithm lie within $[0, 1]$.</p>
-<p>The algorithm for cubic noise can be found in <a href="https://www.github.com/jobtalle/CubicNoise" target="_blank">this repository</a>. Implementations for several programming languages are included. The algorithm is very simple, so it can easily be ported to other programming languages. I have published the repository under the unlicense, so there's no licensing to worry about.</p>
+<p>The algorithm for cubic noise can be found in <a href="https://www.github.com/jobtalle/CubicNoise" target="_blank">this repository</a>. Implementations for several programming languages are included. The algorithm is very simple, so it can easily be ported to other languages. I have published the repository under the unlicense, so there's no licensing to worry about.</p>
 <figure id="figure2" title="Different stages of cubic noise with four octaves">
 	<img src="img\octaves.jpg">
 	<figcaption>
