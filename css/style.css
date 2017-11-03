@@ -65,7 +65,7 @@ h1 {
 }
 
 #wrapper {
-	width: 960px;
+	max-width: 960px;
 	margin-left: auto;
 	margin-right: auto;
 	background-color: var(--color-white);
@@ -229,11 +229,10 @@ h1 {
 }
 
 #icons {
-	position: absolute;
-	left: 0;
-	right: 0;
+	position: relative;
 	margin-left: auto;
 	margin-right: auto;
+	height: 0px;
 	width: 200px;
 	text-align: center;
 }
@@ -270,7 +269,6 @@ h1 {
 }
 
 #contact-form {
-	width: 600px;
 	padding-top: 8px;
 	margin-left: auto;
 	margin-right: auto;
