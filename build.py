@@ -16,41 +16,69 @@ def format_page_name(name):
 def get_tag_url(tag):
 	return format_page_name("tag " + tag)
 
-def parse_latex(string, centered):
-	if centered:
-		centered = "true"
-	else:
-		centered = "false"
-
-	return subprocess.check_output("node -e \"var katex = require('./katex/katex.js'); console.log(katex.renderToString('" + string + "', {displayMode: " + centered + "}));\"")
+def parse_latex(strings, centered):
+	command = "node -e \"var katex = require('./katex/katex.js');"
+	
+	for string, center in zip(strings, centered):
+		if center:
+			center = "true"
+		else:
+			center = "false"
+			
+		command += "console.log(katex.renderToString('" + string + "', {displayMode: " + center + "}));"
+		
+	command += "\""
+		
+	return subprocess.check_output(command)
 	
 def parse_math(content, site):
-	parsed = ""
-	formula = ""
 	in_formula = False
+	first_formula_char = True
 	centered = False
+	start_index = 0
+	stop_index = 0
+	text_ranges = []
+	formula_ranges = []
+	formula_centered = []
 
 	for i, c in enumerate(content):
 		if in_formula:
 			if c == '$':
-				if formula == "":
+				if first_formula_char:
 					centered = True
-				else:
-					site.log("Parsing " + formula)
-					parsed += parse_latex(formula, centered)
 					
-					formula = ""
+					start_index = start_index + 1
+				else:
+					formula_ranges.append([start_index, stop_index])
+					formula_centered.append(centered)
+					start_index = stop_index + 1
+					
 					in_formula = False
 					centered = False
+					first_formula_char = True
 			else:
-				formula += c
+				first_formula_char = False
+				
+			stop_index = stop_index + 1
 		else:
 			if c == '$':
+				text_ranges.append([start_index, stop_index])
+				start_index = stop_index + 1
+				stop_index = start_index
+				
 				in_formula = True
 			else:
-				parsed += c
-
-	return parsed;
+				stop_index = stop_index + 1
+				
+	text_ranges.append([start_index, stop_index])
+	
+	if len(formula_ranges) > 0:
+		site.log("Parsing " + str(len(formula_ranges)) + " formulas")
+			
+		parsed = parse_latex([content[range[0]:range[1]] for range in formula_ranges], formula_centered).split('\n')
+		return "".join([content[text_range[0]:text_range[1]] + parsed[index] for index, text_range in enumerate(text_ranges)])
+	else:
+		return content
 	
 
 class Post:
