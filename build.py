@@ -341,7 +341,7 @@ class Site:
 		
 		for page, title in zip(self.MENU_PAGES, self.MENU_TITLES):
 			if page == current:
-				div_class = "menu-button-current"
+				div_class = "menu-button menu-button-current"
 				link_pre = ""
 				link_post = ""
 			else:

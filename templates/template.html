@@ -21,8 +21,8 @@
 		$additional-css$
 	</head>
 	<body>
+		<div id="menu-wrapper"><div id="menu-buttons">$menu-buttons$</div></div>
 		<div id="wrapper" class="container">
-			<div id="menu-buttons">$menu-buttons$</div>
 			<div id="header">
 				<h1>Job Talle</h1>
 				<h2>On game development, AI & Algorithms</h2>
@@ -37,11 +37,10 @@
 			</div>
 		</div>
 		<script>
-			var startYear = 2017;
+			var result = 2017;
 			var currentYear = new Date().getFullYear();
-			var result = startYear;
 			
-			if(currentYear > startYear)
+			if(currentYear > result)
 				result += " - " + currentYear;
 			
 			document.getElementById("footer").innerHTML += result;

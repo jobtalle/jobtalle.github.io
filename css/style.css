@@ -5,6 +5,7 @@
 	--color-background: #F9F3EA;
 	--color-hover: #9C7E50;
 	--color-light: #7A7A7A;
+	--max-width: 960px;
 }
 
 body {
@@ -18,11 +19,16 @@ h1 {
 	font-size: 36px;
 }
 
-#menu-buttons {
-	width: 100%;
+#menu-wrapper {
+	width: var(--max-width);
 	margin-left: auto;
 	margin-right: auto;
-	display: inline-block;
+}
+
+#menu-buttons {
+	position: fixed;
+	top: 0px;
+	width: var(--max-width);
 	background-color: var(--color-elements);
 }
 
@@ -34,10 +40,8 @@ h1 {
 	outline: none;
 	font-size: 24px;
 	color: var(--color-white);
-	width: 128px;
 	text-align: center;
-	padding-top: 5px;
-	padding-bottom: 5px;
+	padding: 8px 24px 8px 24px;
 }
 
 .menu-button:hover {
@@ -50,24 +54,15 @@ h1 {
 }
 
 .menu-button-current {
-	cursor: pointer;
-	float: left;
 	background-color: var(--color-white);
-	border: none;
-	outline: none;
-	font-size: 24px;
 	color: inherit;
-	width: 128px;
-	text-align: center;
-	padding-top: 5px;
-	padding-bottom: 5px;
+	pointer-events: none;
 }
 
 #wrapper {
-	max-width: 960px;
-	margin-left: auto;
-	margin-right: auto;
-	margin-bottom: 32px;
+	max-width: var(--max-width);
+	margin: 0px auto 32px auto;
+	padding-top: 37px;
 	background-color: var(--color-white);
 	border-style: solid;
 	border-width: 1px;
