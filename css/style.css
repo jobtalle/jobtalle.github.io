@@ -141,20 +141,20 @@ h1 {
 }
 
 #content figure {
-	display: table;
 	float: right;
 	padding: 16px;
 	margin: auto 0px auto 0px;
 	text-align: center;
 	clear: right;
 	max-width: 100%;
+	display: table;
 }
 
 #content figure img {
 	border: solid;
 	border-width: 1px;
 	border-color: var(--color-gray);
-	width: 100%;
+	max-width: 100%;
 }
 
 #content figure figcaption {
@@ -162,7 +162,7 @@ h1 {
 	caption-side: bottom;
 	font-style: italic;
 	margin-bottom: 8px;
-	width: 100%;
+	max-width: 100%;
 }
 
 #content ul {
