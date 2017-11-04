@@ -16,7 +16,7 @@ def format_page_name(name):
 def get_tag_url(tag):
 	return format_page_name("tag " + tag)
 
-def parse_latex(string, centered = False):
+def parse_latex(string, centered):
 	if centered:
 		centered = "true"
 	else:
@@ -28,18 +28,20 @@ def parse_math(content, site):
 	parsed = ""
 	formula = ""
 	in_formula = False
+	centered = False
 
 	for i, c in enumerate(content):
 		if in_formula:
 			if c == '$':
 				if formula == "":
-					formula += c
+					centered = True
 				else:
 					site.log("Parsing " + formula)
-					parsed += parse_latex(formula)
+					parsed += parse_latex(formula, centered)
 					
 					formula = ""
 					in_formula = False
+					centered = False
 			else:
 				formula += c
 		else:
