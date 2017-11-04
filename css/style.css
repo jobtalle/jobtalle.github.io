@@ -22,6 +22,7 @@ h1 {
 #menu-wrapper {
 	max-width: var(--max-width);
 	margin: 0px auto 0px auto;
+	padding: 0px 1px 0px 1px;
 }
 
 #menu-buttons {
