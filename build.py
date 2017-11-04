@@ -16,8 +16,13 @@ def format_page_name(name):
 def get_tag_url(tag):
 	return format_page_name("tag " + tag)
 
-def parse_latex(string):
-	return subprocess.check_output("node -e \"var katex = require('./katex/katex.js'); console.log(katex.renderToString('" + string + "'));\"")
+def parse_latex(string, centered = False):
+	if centered:
+		centered = "true"
+	else:
+		centered = "false"
+
+	return subprocess.check_output("node -e \"var katex = require('./katex/katex.js'); console.log(katex.renderToString('" + string + "', {displayMode: " + centered + "}));\"")
 	
 def parse_math(content, site):
 	parsed = ""
