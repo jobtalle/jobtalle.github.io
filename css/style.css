@@ -87,13 +87,10 @@ h1 {
 	border-top: solid;
 	border-width: 1px;
 	border-color: var(--color-gray);
-	margin-left: auto;
-	margin-right: auto;
+	margin: 0px auto 0px auto;
 	width: 40%;
 	font-size: 16px;
 	padding-top: 6px;
-	margin-top: 0px;
-	margin-bottom: 0px;
 }
 
 #content {
@@ -107,8 +104,7 @@ h1 {
 	border-color: var(--color-elements);
 	border-width: 2px;
 	padding-top: 16px;
-	margin-top: 0px;
-	margin-bottom: 0px;
+	margin: 0px auto 0px auto;
 }
 
 #content h1 a {
@@ -243,9 +239,7 @@ h1 {
 }
 
 #icons {
-	position: relative;
-	margin-left: auto;
-	margin-right: auto;
+	margin: 0px auto 0px auto;
 	height: 0px;
 	width: 200px;
 	text-align: center;
@@ -284,8 +278,7 @@ h1 {
 
 #contact-form {
 	padding-top: 8px;
-	margin-left: auto;
-	margin-right: auto;
+	margin: 0px auto 0px auto;
 	text-align: center;
 }
 
