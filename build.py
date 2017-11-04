@@ -2,15 +2,48 @@ import json
 import math
 import sys
 import os.path
+import subprocess
 
 from sys import argv
 from os import listdir
+
+reload(sys)
+sys.setdefaultencoding('utf-8')
 
 def format_page_name(name):
 	return name.replace(" ", "_").lower() + ".html"
 
 def get_tag_url(tag):
 	return format_page_name("tag " + tag)
+
+def parse_latex(string):
+	return subprocess.check_output("node -e \"var katex = require('./katex/katex.js'); console.log(katex.renderToString('" + string + "'));\"")
+	
+def parse_math(content, site):
+	parsed = ""
+	formula = ""
+	in_formula = False
+
+	for i, c in enumerate(content):
+		if in_formula:
+			if c == '$':
+				if formula == "":
+					formula += c
+				else:
+					site.log("Parsing " + formula)
+					parsed += parse_latex(formula)
+					
+					formula = ""
+					in_formula = False
+			else:
+				formula += c
+		else:
+			if c == '$':
+				in_formula = True
+			else:
+				parsed += c
+
+	return parsed;
 	
 
 class Post:
@@ -29,8 +62,6 @@ class Post:
 	
 	ID_TAGS = "tags"
 	CLASS_TAG = "tag"
-	
-	MATHJAX_CONFIG = "<script type=\"text/javascript\" async src=\"https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.2/MathJax.js?config=TeX-MML-AM_CHTML\"></script><script type=\"text/x-mathjax-config\">MathJax.Hub.Config({tex2jax: {inlineMath: [['$','$']]}});</script>"
 	
 	MONTH_ABBREVIATIONS = [
 		"Jan",
@@ -65,11 +96,10 @@ class Post:
 		
 	def build(self):
 		self.site.log("Building " + self.get_post_file_name())
+		self.site.log_scope_increment()
 		
-		content = self.get_content()
+		content = parse_math(self.get_content(), self.site)
 		javascript = self.get_javascript()
-		if "$" in content:
-			javascript = javascript + self.MATHJAX_CONFIG
 	
 		result = self.site.template
 		result = result.replace(self.site.KEY_TITLE, self.site.TITLE + self.site.TITLE_DIVISOR + self.properties[self.PROPERTY_TITLE])
@@ -83,6 +113,8 @@ class Post:
 		file = open(self.get_post_file_name(), "w")
 		file.write(result)
 		file.close()
+		
+		self.site.log_scope_decrement()
 		
 		return self.build_post_link()
 		
