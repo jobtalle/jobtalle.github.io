@@ -10,7 +10,7 @@
 		
 		<title>Job Talle | 2D Platformer physics</title>
 		<meta charset="UTF-8">
-		<meta name="description" content="2d platformer tutorial.">
+		<meta name="description" content="In this tutorial I walk through the process of writing a simple grid based platformer in javascript. The result is a universal platform physics engine you can use as a template for any platformer.">
 		<meta name="keywords" content="game development, AI, algorithms, programming, job talle">
 		<meta name="author" content="Job Talle">
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -28,7 +28,12 @@
 					<h1>Job Talle</h1>
 					<h2>On game development, AI & Algorithms</h2>
 				</div>
-				<div id="content"><h1>2D Platformer physics</h1><span class="date">6 Nov 2017</span><p><pre class="prettyprint lang-js">
+				<div id="content"><h1>2D Platformer physics</h1><span class="date">6 Nov 2017</span><p><figure title="Theoretical jump height versus real jump height">
+	<img src="posts\2017_11_6\img/jump.jpg">
+	<figcaption>Figure 1: Theoretical jump height versus real jump height</figcaption>
+</figure>
+
+<pre class="prettyprint lang-js">
 // Grid cell, can have a wall on the left and a ceiling on top
 function PlatformerGridCell() {
   this.wall = false;

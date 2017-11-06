@@ -1,6 +1,6 @@
 {
 	"title": "2D Platformer physics",
-	"abstract": "2d platformer tutorial.",
+	"abstract": "In this tutorial I walk through the process of writing a simple grid based platformer in javascript. The result is a universal platform physics engine you can use as a template for any platformer.",
 	"preview": "img/preview.jpg",
 	"tags": ["Interactive", "Tutorial", "Source included"]
 }
