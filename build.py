@@ -228,7 +228,9 @@ class Post:
 	def build_tags(self):
 		result = "<div id=\"" + self.ID_TAGS + "\">"
 		
-		for tag in self.properties[self.PROPERTY_TAGS]:
+		tags = self.properties[self.PROPERTY_TAGS]
+		tags.sort()
+		for tag in tags:
 			result = result + self.build_tag(tag)
 			
 		return result + "</div>"
@@ -475,7 +477,7 @@ class Site:
 			
 	def get_posts(self):
 		directories = [dir for dir in listdir(self.DIR_POSTS)]
-		directories.sort()
+		directories.sort(reverse=True)
 		
 		return [Post(self, dir) for dir in directories]
 
