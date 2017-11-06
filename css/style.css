@@ -5,6 +5,7 @@
 	--color-background: #F9F3EA;
 	--color-hover: #9C7E50;
 	--color-light: #7A7A7A;
+	--color-code: #F0F0F0;
 	--max-width: 960px;
 }
 
@@ -60,9 +61,7 @@ h1 {
 	margin: 0px auto 32px auto;
 	padding-top: 37px;
 	background-color: var(--color-white);
-	border-style: solid;
-	border-width: 1px;
-	border-color: var(--color-elements);
+	border: 1px solid var(--color-elements);
 	border-top: none;
 	border-radius: 0px 0px 16px 16px;
 }
@@ -79,9 +78,7 @@ h1 {
 }
 
 #header h2 {
-	border-top: solid;
-	border-width: 1px;
-	border-color: var(--color-gray);
+	border-top: 1px solid var(--color-gray);
 	margin: 0px auto 0px auto;
 	width: 40%;
 	font-size: 16px;
@@ -95,9 +92,7 @@ h1 {
 
 #content h1 {
 	font-weight: lighter;
-	border-top: solid;
-	border-color: var(--color-elements);
-	border-width: 2px;
+	border-top: 2px solid var(--color-gray);
 	padding-top: 16px;
 	margin: 0px auto 0px auto;
 }
@@ -126,20 +121,26 @@ h1 {
 	color: var(--color-hover);
 }
 
+#content pre {
+	max-height: 400px;
+	overflow: auto;
+	background-color: var(--color-code);
+	border: none;
+	padding: 4px 0px 4px 8px;
+	margin: 8px auto 8px auto;
+}
+
 #content figure {
 	float: right;
 	padding: 16px;
 	margin: auto 0px auto 0px;
-	text-align: center;
 	clear: right;
 	max-width: 100%;
 	display: table;
 }
 
 #content figure img {
-	border: solid;
-	border-width: 1px;
-	border-color: var(--color-gray);
+	border: 1px solid var(--color-gray);
 	max-width: 100%;
 }
 
@@ -149,6 +150,7 @@ h1 {
 	font-style: italic;
 	margin-bottom: 8px;
 	max-width: 100%;
+	text-align: center;
 }
 
 #content ul {
@@ -167,9 +169,7 @@ h1 {
 }
 
 .full-width canvas {
-	border: solid;
-	border-width: 1px;
-	border-color: var(--color-gray);
+	border: 1px solid var(--color-gray);
 	background-color: var(--color-background);
 	background-size: cover;
 	max-width: 100%;
@@ -194,12 +194,12 @@ h1 {
 	display: inline-block;
 } 
 
-.tag {
+.post-tag {
 	margin: 8px 4px 8px 4px;
 	float: right;
 }
 
-.tag::before {
+.post-tag::before {
 	content: "#";
 }
 

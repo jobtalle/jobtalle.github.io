@@ -96,7 +96,7 @@ class Post:
 	CLASS_POST_LINK = "post-link"
 	
 	ID_TAGS = "tags"
-	CLASS_TAG = "tag"
+	CLASS_TAG = "post-tag"
 	
 	MONTH_ABBREVIATIONS = [
 		"Jan",
