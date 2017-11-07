@@ -1,3 +1,4 @@
+<!DOCTYPE html>
 <html>
 	<head>
 		<script async src="https://www.googletagmanager.com/gtag/js?id=UA-109031298-1"></script>
@@ -551,7 +552,7 @@ Game.prototype = {
   ERASE_STROKE_STYLE: "red",
   PLAYER_JUMP_SPEED: -650,
   PLAYER_WALK_SPEED: 270,
-  PLAYER_WALK_ACCELERATION: 3500,
+  PLAYER_ACCELERATION: 3500,
   PLAYER_SPAWN_X: 100,
   PLAYER_SPAWN_Y: 100,
   KEY_JUMP: 87,
@@ -669,11 +670,11 @@ Game.prototype = {
   
   movePlayer(timeStep) {
     if(this.rightDown) {
-      this.player.setvx(Math.min(this.player.vx + this.PLAYER_WALK_ACCELERATION * timeStep, this.PLAYER_WALK_SPEED));
+      this.player.setvx(Math.min(this.player.vx + this.PLAYER_ACCELERATION * timeStep, this.PLAYER_WALK_SPEED));
     }
     
     if(this.leftDown) {
-      this.player.setvx(Math.max(this.player.vx - this.PLAYER_WALK_ACCELERATION * timeStep, -this.PLAYER_WALK_SPEED));
+      this.player.setvx(Math.max(this.player.vx - this.PLAYER_ACCELERATION * timeStep, -this.PLAYER_WALK_SPEED));
     }
     
     if(
@@ -727,11 +728,22 @@ Game.prototype = {
 <div class="full-width" id="game" onclick="new Game().run(); document.getElementById('game').onclick = function() { return false; }">
 	<canvas id="renderer" width=600 height=400></canvas>
 </div>
-
+<p>Note that the platformer engine knows no concept of jumping, walking or running. This is all up to the user by altering horizontal and vertical speeds in a certain way. The source code for the platformer engine and this example game can be found <a href="https://github.com/jobtalle/PlatformerPhysics" target="_blank">in this repository</a>.</p>
+<h2>Conclusion</h2>
+<h2>Appendix: jump height</h2>
 <figure title="Theoretical jump height versus real jump height">
 	<img src="posts\2017_11_7\img/jump.jpg">
 	<figcaption>Figure 2: Theoretical jump height versus real jump height</figcaption>
-</figure><div id="tags"><a href="tag_interactive.html" title="Show posts tagged with 'Interactive'"><div class="post-tag round-button">Interactive</div></a><a href="tag_source_included.html" title="Show posts tagged with 'Source included'"><div class="post-tag round-button">Source included</div></a><a href="tag_tutorial.html" title="Show posts tagged with 'Tutorial'"><div class="post-tag round-button">Tutorial</div></a></div></div>
+</figure>
+<p>In this tutorial, I picked some arbitrary jump speed which turns out to jump a little over two grid cells high. When designing a game, knowing movement limits is essential. You'll want to know how wide a passable ravine can be, and what the height limit of a reachable ledge is. When a game runs on variable time step like this one, it's not always simple. Figure 2 shows a problem: the blue curve is the theoretical jump curve, which hits the blue line. This is the theoretical maximum jump height. The red curve however shows the actual path a player traverses when a jump takes six frames. This path never reaches the theoretical jump height. The fewer frames your system produces, the further a player may end up below the blue line.</p>
+<p>A solution is to pick a good margin by which to overshoot the blue line. If I want the jump height to be 64 pixels for examples, I would like the blue line to be at 80 pixels. This ensures that the height of 64 pixels is always reached regardless of frame rate. Instead of picking arbitrary values for gravity and jump speed, we should calculate them to have the properties we want. We need to get control over the following constants:</p>
+<ul>
+	<li>Maximum jump height</li>
+	<li>Jump time</li>
+</ul>
+<p>I call maximum jump height $\alpha$ and jump time $t$. I want to compute a gravity constant $\gamma$ and a jump speed $j$, which is the speed the player gets when the jump button is pressed. The following formulas obtain $\gamma$ and $j$ from $\alpha$ and $t$:</p>
+<p>$$\gamma = \frac{2 * j}{t^2}$$</p>
+<p>$$j = - \sqrt{2 * \gamma * j}$$</p><div id="tags"><a href="tag_interactive.html" title="Show posts tagged with 'Interactive'"><div class="post-tag round-button">Interactive</div></a><a href="tag_source_included.html" title="Show posts tagged with 'Source included'"><div class="post-tag round-button">Source included</div></a><a href="tag_tutorial.html" title="Show posts tagged with 'Tutorial'"><div class="post-tag round-button">Tutorial</div></a></div></div>
 				<div id="content-footer"></div>
 				<div id="footer">&copy Job Talle </div>
 				<div id="icons">
@@ -742,6 +754,19 @@ Game.prototype = {
 			</div>
 		</div>
 		<script src="https://cdn.rawgit.com/google/code-prettify/master/loader/run_prettify.js"></script>
+		<script src="katex/katex.js"></script>
+		<script src="katex/contrib/auto-render.js"></script>
+		<script>
+			  renderMathInElement(
+				  document.getElementById("content"),
+				  {
+					  delimiters: [
+						  {left: "$$", right: "$$", display: true},
+						  {left: "$", right: "$", display: false}
+					  ]
+				  }
+			  );
+		</script>
 		<script>
 			var result = 2017;
 			var currentYear = new Date().getFullYear();

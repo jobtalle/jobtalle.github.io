@@ -24,7 +24,7 @@ def parse_latex(strings, centered):
 			center = "true"
 		else:
 			center = "false"
-			
+		
 		command += "console.log(katex.renderToString('" + string + "', {displayMode: " + center + "}));"
 		
 	command += "\""
@@ -132,18 +132,15 @@ class Post:
 	def build(self):
 		self.site.log("Building " + self.get_post_file_name())
 		self.site.log_scope_increment()
-		
-		content = parse_math(self.get_content(), self.site)
-		javascript = self.get_javascript()
 	
 		result = self.site.template
 		result = result.replace(self.site.KEY_TITLE, self.site.TITLE + self.site.TITLE_DIVISOR + self.properties[self.PROPERTY_TITLE])
 		result = result.replace(self.site.KEY_DESCRIPTION, self.properties[self.PROPERTY_ABSTRACT])
 		result = result.replace(self.site.KEY_ADDITIONAL_CSS, self.get_css())
-		result = result.replace(self.site.KEY_ADDITIONAL_JAVASCRIPT, javascript)
+		result = result.replace(self.site.KEY_ADDITIONAL_JAVASCRIPT, self.get_javascript())
 		result = result.replace(self.site.KEY_CONTENT_FOOTER, "")
 		result = result.replace(self.site.KEY_MENU_BUTTONS, self.site.build_menu())
-		result = result.replace(self.site.KEY_CONTENT, content)
+		result = result.replace(self.site.KEY_CONTENT, self.get_content())
 
 		file = open(self.get_post_file_name(), "w")
 		file.write(result)

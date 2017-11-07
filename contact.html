@@ -1,3 +1,4 @@
+<!DOCTYPE html>
 <html>
 	<head>
 		<script async src="https://www.googletagmanager.com/gtag/js?id=UA-109031298-1"></script>
@@ -47,6 +48,19 @@
 			</div>
 		</div>
 		<script src="https://cdn.rawgit.com/google/code-prettify/master/loader/run_prettify.js"></script>
+		<script src="katex/katex.js"></script>
+		<script src="katex/contrib/auto-render.js"></script>
+		<script>
+			  renderMathInElement(
+				  document.getElementById("content"),
+				  {
+					  delimiters: [
+						  {left: "$$", right: "$$", display: true},
+						  {left: "$", right: "$", display: false}
+					  ]
+				  }
+			  );
+		</script>
 		<script>
 			var result = 2017;
 			var currentYear = new Date().getFullYear();
