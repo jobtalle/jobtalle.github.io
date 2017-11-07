@@ -28,9 +28,75 @@
 					<h1>Job Talle</h1>
 					<h2>On game development, AI & Algorithms</h2>
 				</div>
-				<div id="content"><h1>2D Platformer physics</h1><span class="date">6 Nov 2017</span><p><figure title="Theoretical jump height versus real jump height">
-	<img src="posts\2017_11_6\img/jump.jpg">
-	<figcaption>Figure 1: Theoretical jump height versus real jump height</figcaption>
+				<div id="content"><h1>2D Platformer physics</h1><span class="date">7 Nov 2017</span><p><h2>Creating a platformer</h2>
+<p>The platformer is one of the most classic genres in gaming. From super mario bros. to the most popular games today, platforming mechanics don't go out of style. In this tutorial, I will walk through the process of creating a 2D platformer in javascript. The implementation in split up in two parts:</p>
+<ul>
+	<li>The platformer engine, which is independent from the game itself, it can be reused anywhere</li>
+	<li>The game, which tells the platformer engine what the shape of the level is, where to spawn the player and how to move the player</li>
+</ul>
+<p>The end result is a solid understanding of simple platformer physics and a simple to use but very solid platformer engine to use as a template for 2D platformers. I use javascript in this article to be able to provide an interactive example, but the code could easily be ported to your favourite language in 15 minutes or so. The resulting engine and example can be found <a href="https://github.com/jobtalle/PlatformerPhysics" target="_blank">in this repository</a>.</p>
+<h2>Requirements</h2>
+<p>Building a system from the ground up gives you the luxury of setting your own requirements. Personally, I've built this system to serve as a very general template for platformers. I may use it at a game jam for example, where quick deployment is vital. Therefore, I need it to be as generic as possible. I define my requirements as follows:</p>
+<figure title="Super mario bros.">
+	<img src="posts\2017_11_7\img/supermario.jpg">
+	<figcaption>Figure 1: Super mario bros.</figcaption>
+</figure>
+<ol>
+	<li>The system must be self contained, so no external dependencies or references</li>
+	<li>It must be as unrestrictive as possible, so no predefined constants</li>
+	<li>It shouldn't handle graphics, this is out of scope</li>
+	<li>It shouldn't be grid based but edge based</li>
+</ol>
+<p>The last point requires some explanation. Most platformers, especially the classics, were grid based. The world was a grid, and cells were either air or solid (unpassable). The world is built with blocks. Figure 1 shows a well known example of such a system. While this works, I want my system to be as generic as possible as per point 2 on the list of requirements. I therefore make the system edge based. Not entire cells are impassable, but edges of these cells. If I'd like to make a cell based game, I can just make the edges around the cells solid. If I want to make levels more compact, I can define walls and ceilings by edges instead of entire grid cells.</p>
+<h2>The system</h2>
+<p>Now that the requirements are clearly defined, a suitable system can be designed to fulfill these requirements. I chose three classes to represent my environment:</p>
+<ul>
+	<li>A grid, which contains solid shapes the player can collide with</li>
+	<li>A moveable grid node representing the player or enemies, which can be added to a grid</li>
+	<li>A grid cell, which can have a ceiling and / or a wall</li>
+</ul>
+<h2>The grid</h2>
+<p>Using this division of responsibilities, only the grid class needs updating. When it does, it iterates over all added nodes and moves them over the grid. The grid's main property is its resolution which determines the length or height of edges. The grid then contains cells, which I define as this very simple class:</p>
+<pre class="prettyprint lang-js">
+function PlatformerGridCell() {
+	this.wall = false;
+	this.ceiling = false;
+}
+</pre>
+<p>A grid cell can have a ceiling and / or a wall. If <code class="prettyprint lang-js">wall = true</code>, it means the left edge of the cell is impassable. If <code class="prettyprint lang-js">ceiling = true</code>, it means the top edge of the cell is impassable. The grid is initially filled with empty cells, which are stored in a one dimensional array.</p>
+<p>Besides a resolution and size, the grid requires some properties influencing node behavior. It requires a gravity constant, determining how fast the nodes will accelerate downwards. Friction is also defined, which decelerates nodes while they move over a horizontal surface. I chose some defaults that could (and should) be overridden by the user. The constructor is shown below.</p>
+<pre class="prettyprint lang-js">
+function PlatformerGrid(width, height, resolution, gravity = 2500, friction = 1700) {
+	this.width = width + 1;
+	this.height = height + 1;
+	this.resolution = resolution;
+	this.gravity = gravity;
+	this.friction = friction;
+	this.cells = [];
+	this.nodes = [];
+	
+	for(var i = 0; i < this.width * this.height; ++i)
+		this.cells.push(new PlatformerGridCell());
+}
+</pre>
+<p>Note that the <code class="prettyprint lang-js">width</code> and <code class="prettyprint lang-js">height</code> properties are incremented by one. This is done because cells can only define their left and top edges; a 2x2 grid wouldn't be able to define a 2x2 box because there wouldn't be enough cells to close the box on the right and bottom side.</p>
+<h2>The node</h2>
+<p>Nodes are the moving parts on a grid. These can be players, enemies or debris for that matter; it's anything that moves <em>and</em> collides. All nodes have a rectangular shape with which they interact with the environment. They also have a x and y position, and a x and y velocity. Note that I keep horizontal and vertical velocity separated instead of defining and using it as one vector, this keeps movement and collision handling simpler. Finally, each node has a boolean <code class="prettyprint lang-js">onGround</code> indicating whether the node is resting on a horizontal surface. The constructor for a node is given below:</p>
+<pre class="prettyprint lang-js">
+function PlatformerNode(x, y, width, height) {
+	this.x = x;
+	this.y = y;
+	this.vx = 0;
+	this.vy = 0;
+	this.width = width;
+	this.height = height;
+	this.onGround = false;
+}
+</pre>
+
+<figure title="Theoretical jump height versus real jump height">
+	<img src="posts\2017_11_7\img/jump.jpg">
+	<figcaption>Figure 2: Theoretical jump height versus real jump height</figcaption>
 </figure>
 
 <pre class="prettyprint lang-js">

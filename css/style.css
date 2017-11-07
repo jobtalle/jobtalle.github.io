@@ -131,6 +131,11 @@ h1 {
 	margin: 8px auto 8px auto;
 }
 
+#content code {
+	background-color: var(--color-code);
+	padding: 0px 4px 0px 4px;
+}
+
 #content figure {
 	float: right;
 	padding: 16px;
@@ -159,6 +164,10 @@ h1 {
 }
 
 #content ul li {
+	padding: 4px 0px 4px 0px;
+}
+
+#content ol li {
 	padding: 4px 0px 4px 0px;
 }
 
