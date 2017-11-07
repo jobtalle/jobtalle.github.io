@@ -171,6 +171,10 @@ h1 {
 	padding: 4px 0px 4px 0px;
 }
 
+.list-skip {
+	list-style-type:none;
+}
+
 .full-width {
 	width: 100%;
 	max-width: 100%;
