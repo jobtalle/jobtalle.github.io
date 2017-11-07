@@ -35,7 +35,7 @@
 	<li>The platformer engine, which is independent from the game itself, it can be reused anywhere</li>
 	<li>The game, which tells the platformer engine what the shape of the level is, where to spawn the player and how to move the player</li>
 </ul>
-<p>The end result is a solid understanding of simple platformer physics and a simple to use but very solid platformer engine to use as a template for 2D platformers. I use javascript in this article to be able to provide an interactive example, but the code could easily be ported to your favourite language in 15 minutes or so. The resulting engine and example can be found <a href="https://github.com/jobtalle/PlatformerPhysics" target="_blank">in this repository</a>.</p>
+<p>The end result is a solid understanding of simple platformer physics and a simple to use but very solid platformer engine to use as a template for 2D platformers. I use javascript in this article to be able to provide an interactive example, but the code could easily be ported to your favourite language in 15 minutes or so. The resulting engine and example can be found <a href="https://github.com/jobtalle/PlatformerPhysics" target="_blank">in this repository</a>, and the game can be played at the end of this article.</p>
 <h2>Requirements</h2>
 <p>Building a system from the ground up gives you the luxury of setting your own requirements. Personally, I've built this system to serve as a very general template for platformers. I may use it at a game jam for example, where quick deployment is vital. Therefore, I need it to be as generic as possible. I define my requirements as follows:</p>
 <figure title="Super mario bros.">
@@ -50,10 +50,10 @@
 </ol>
 <p>The last point requires some explanation. Most platformers, especially the classics, were grid based. The world was a grid, and cells were either air or solid (unpassable). The world is built with blocks. Figure 1 shows a well known example of such a system. While this works, I want my system to be as generic as possible as per point 2 on the list of requirements. I therefore make the system edge based. Not entire cells are impassable, but edges of these cells. If I'd like to make a cell based game, I can just make the edges around the cells solid. If I want to make levels more compact, I can define walls and ceilings by edges instead of entire grid cells.</p>
 <h2>The system</h2>
-<p>Now that the requirements are clearly defined, a suitable system can be designed to fulfill these requirements. I chose three classes to represent my environment:</p>
+<p>Now that the requirements are clearly defined, a suitable system can be designed to fulfill these requirements. I chose three classes to represent the environment:</p>
 <ul>
 	<li>A grid, which contains solid shapes the player can collide with</li>
-	<li>A moveable grid node representing the player or enemies, which can be added to a grid</li>
+	<li>A moveable grid node representing a player or enemies, which can be added to a grid</li>
 	<li>A grid cell, which can have a ceiling and / or a wall</li>
 </ul>
 <h2>The grid</h2>
@@ -80,9 +80,9 @@ function PlatformerGrid(width, height, resolution, gravity = 2500, friction = 17
     this.cells.push(new PlatformerGridCell());
 }
 </pre>
-<p>Note that the <code class="prettyprint lang-js">width</code> and <code class="prettyprint lang-js">height</code> properties are incremented by one. This is done because cells can only define their left and top edges; a 2x2 grid wouldn't be able to define a 2x2 box because there wouldn't be enough cells to close the box on the right and bottom side.</p>
+<p>Note that the <code class="prettyprint lang-js">width</code> and <code class="prettyprint lang-js">height</code> properties are incremented by one. This is done because cells can only define their left and top edges; a 2x2 grid wouldn't be able to define a 2x2 box because there wouldn't be enough cells to close the box on the right and bottom side, so I pad the grid with an extra row and an extra column.</p>
 <h2>The node</h2>
-<p>Nodes are the moving parts on a grid. These can be players, enemies or debris for that matter; it's anything that moves <em>and</em> collides. All nodes have a rectangular shape with which they interact with the environment. They also have a x and y position, and a x and y velocity. Note that I keep horizontal and vertical velocity separated instead of defining and using it as one vector, this keeps movement and collision handling simpler. To get a node moving, the user only needs to change the speed variables. Finally, each node has a boolean <code class="prettyprint lang-js">onGround</code> indicating whether the node is resting on a horizontal surface. The constructor for a node is given below:</p>
+<p>Nodes are the moving parts on a grid. These can be players, enemies or debris for that matter; it's anything that moves <em>and</em> collides. All nodes have a rectangular hit box with which they interact with the environment. They also have an x and y position, and x and y velocity. Note that I keep horizontal and vertical velocity separated instead of defining and using it as one vector, this keeps movement and collision handling simpler. To get a node moving, the user only needs to change the speed variables. Finally, each node has a boolean <code class="prettyprint lang-js">onGround</code> indicating whether the node is resting on a horizontal surface. This is a very useful variable, because certain actions should only be possible when a node is resting on the ground (like jumping) or when it is flying (like double jumping). The constructor for a node is given below:</p>
 <pre class="prettyprint lang-js">
 function PlatformerNode(x, y, width, height) {
   this.x = x;
@@ -154,9 +154,9 @@ function PlatformerNode(x, y, width, height) {
 	</ol>
 </ol>
 <p>The three big steps in the algorithm are straightforward. Move horizontally first, then check if you're still on solid ground (start falling otherwise), then handle vertical movement. Movement is only handled when speed is nonzero. This makes the algorithm more efficient, having many (mostly) idle nodes will not give a significant performance hit.</p>
-<p>Collision checks for both horizontal and vertical collisions are also used sparsely. For example, if a node is moving to the right, the algorithm only performs checks when the right edge of the node crossed a grid line. This makes sense, because only grid lines can contain solid edges.</p>
+<p>Collision checks for both horizontal and vertical collisions are also used sparsely. For example, if a node is moving to the right, the algorithm only performs checks when the right edge of the node crossed a grid line. This makes sense, because only grid lines can contain solid edges. This is also the reason why the loop stores the nodes previous x and y positions; it can then check whether the new x or y position falls in a new grid cell.</p>
 <p>When it comes to a collision check, the node dimensions are taken into account. I added the functions <code class="prettyprint lang-js">getXCells()</code> and <code class="prettyprint lang-js">getYCells()</code> to node, which returns the entire range of cells a node can possibly collide with for that dimension. Because of this system, weirdly shaped nodes are possible. I also added a bunch of helper functions to node. These functions are used to set horizontal or vertical speed, and to find the coordinate of the cell north, east, west or south of the node.</p>
-<p>Node speed is limited depending on the grid resolution. If a node would move faster than the grid resolution for a frame, it may skip an entire cell. It could be that this cell contains a solid wall, which should not have been passed. Limiting movement per frame to the grid resolution solves this problem, but then I assume this speed probably won't be reached in my game. If this would be the case, I would need to expand the collision algorithm a bit and check collisions for all cells passed between the previous frame and the current one. This is called <em>continuous collision detection</em>, and it can be quite an issue in many big game engines.</p>
+<p>Node speed is limited depending on the grid resolution. If a node would move faster than the grid resolution for a frame, it may skip an entire cell. It could be that this cell contains a solid wall, which should not have been passed. Limiting movement per frame to the grid resolution solves this problem, but then I assume this speed probably won't be reached in my game. If this assumption doesn't hold, I would need to expand the collision algorithm a bit and check collisions for all cells passed between the previous frame and the current one. This is called <em>continuous collision detection</em>, and it can be quite an issue in many big game engines.</p>
 <p>The source code for the finished collision engine is given below:</p>
 <pre class="prettyprint lang-js">
 // Grid cell, can have a wall on the left and a ceiling on top
@@ -734,16 +734,16 @@ Game.prototype = {
 <ul>
 	<li>Add a friction and mass factor for nodes, so that some nodes have more or less friction and gravity than others</li>
 	<li>Add callback function to node, which will trigger when the node hits a wall or lands on the ground</li>
-	<li>Support moving platforms by making every subplatform another grid, where new nodes will be transfered to when they land on them</li>
+	<li>Support moving platforms by making every moving platform another grid, where new nodes will be transfered to when they land on them</li>
 	<li>Implement collision events between nodes</li>
 </ul>
-<p>The next step in building a game would be implementing core mechanics and graphics. A level editor should be created (or an existing one should be used) to fill the grid, probably by storing the cells as json data or some other suitable format. Because the physics engine has no dependencies on the game, any graphics system can be used.</p>
+<p>The next step in building a game would be implementing core mechanics and graphics. A level editor should be created (or an existing one could be used) to fill the grid, probably by storing the cells as json data or some other suitable format. Because the physics engine has no dependencies on the game, any graphics system can be used.</p>
 <h2>Appendix: jump height</h2>
 <figure title="Theoretical jump height versus actual jump height">
 	<img src="posts\2017_11_7\img/jump.jpg">
 	<figcaption>Figure 2: Theoretical jump height versus actual jump height</figcaption>
 </figure>
-<p>In this tutorial, I picked some arbitrary jump speed which turns out to jump a little over two grid cells high. When designing a game, knowing movement limits is essential. You'll want to know how wide a passable ravine can be, and what the height limit of a reachable ledge is. When a game runs on variable time step like this one, it's not always simple. Figure 2 shows a problem: the blue curve is the theoretical jump curve, which hits the blue line. This is the theoretical maximum jump height. The red curve however shows the actual path a player traverses when a jump takes six frames. This path never reaches the theoretical jump height. The fewer frames your system produces, the further a player may end up below the blue line.</p>
+<p>In this tutorial, I picked some arbitrary jump speed which turns out to jump a little over two grid cells high. When designing a game, knowing movement limits is essential. You'll want to know how wide a passable ravine can be, and what the height limit of a reachable ledge is. When a game runs on variable time step like this one, it's not always simple. Figure 2 shows a problem: the blue curve is the theoretical jump curve, which hits the blue line. This is the theoretical maximum jump height. The red curve however shows the actual path a player traverses when a jump takes six frames. This path never reaches the theoretical jump height. The fewer frames your system produces, the further a player may end up below the blue line. If your end user plays the game on a slow system, fewer frames will be produced.</p>
 <p>A solution is to pick a good margin by which to overshoot the blue line. If I want the jump height to be 64 pixels for examples, I would like the blue line to be at 80 pixels. This ensures that the height of 64 pixels is always reached regardless of frame rate (for any expectable range of frame rates). Instead of picking arbitrary values for gravity and jump speed, we should calculate them to have the properties we want. We need to get control over the following constants:</p>
 <ul>
 	<li>Maximum jump height</li>
@@ -751,7 +751,7 @@ Game.prototype = {
 </ul>
 <p>I call maximum jump height $\alpha$ and jump time $t$. I want to compute a gravity constant $\gamma$ and a jump speed $j$, which is the speed the player gets when the jump button is pressed. The following formulas obtain $\gamma$ and $j$ from $\alpha$ and $t$:</p>
 <p>$$\gamma = \frac{2 * \alpha}{t^2}$$</p>
-<p>$$j = - \sqrt{2 * \gamma * \alpha}$$</p>
+<p>$$j = - \sqrt{2 * \alpha * \gamma}$$</p>
 <p>With these formulas, we can choose a desired jump time and height and calculate our constants from that. If I would make a game where the grid resolution is 32 and the player should be able to jump two cells high but no higher, I would set $\alpha$ to $80$ ($2.5 * 32$). The player will now jump over two cells high with a safe margin of $50\%$. The value of $t$ is a matter of feel; fast paced games will keep this value rather low, while a jump in a low gravity environment should take a while.</p><div id="tags"><a href="tag_interactive.html" title="Show posts tagged with 'Interactive'"><div class="post-tag round-button">Interactive</div></a><a href="tag_source_included.html" title="Show posts tagged with 'Source included'"><div class="post-tag round-button">Source included</div></a><a href="tag_tutorial.html" title="Show posts tagged with 'Tutorial'"><div class="post-tag round-button">Tutorial</div></a></div></div>
 				<div id="content-footer"></div>
 				<div id="footer">&copy Job Talle </div>
