@@ -721,6 +721,6 @@ Game.prototype = {
 	<li>Jump time</li>
 </ul>
 <p>I call maximum jump height $\alpha$ and jump time $t$. I want to compute a gravity constant $\gamma$ and a jump speed $j$, which is the speed the player gets when the jump button is pressed. The following formulas obtain $\gamma$ and $j$ from $\alpha$ and $t$:</p>
-<p>$$\gamma = \frac{2 * \alpha}{t^2}$$</p>
-<p>$$j = - \sqrt{2 * \alpha * \gamma}$$</p>
+<p>$$\gamma = \frac{2 \alpha}{t^2}$$</p>
+<p>$$j = - \sqrt{2 \alpha \gamma}$$</p>
 <p>With these formulas, we can choose a desired jump time and height and calculate our constants from that. If I would make a game where the grid resolution is 32 and the player should be able to jump two cells high but no higher, I would set $\alpha$ to $80$ ($2.5 * 32$). The player will now jump over two cells high with a safe margin of $50\%$. The value of $t$ is a matter of feel; fast paced games will keep this value rather low, while a jump in a low gravity environment should take a while.</p>
