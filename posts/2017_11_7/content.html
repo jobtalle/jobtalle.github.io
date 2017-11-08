@@ -76,7 +76,7 @@ function PlatformerNode(x, y, width, height) {
 			<li>If right edge moves over grid edge</li>
 			<ol>
 				<li>Check if right edge crossed any solid edge</li>
-				<li>If solid edge was crossed, move node to the left until it stands against the border it crossed</li>
+				<li>If solid edge was crossed, move node to the left until it stands against the border it crossed, set <code class="prettyprint lang-js">vx</code> to zero</li>
 			</ol>
 		</ol>
 		<li class="list-skip" value=3>else</li>
@@ -84,7 +84,7 @@ function PlatformerNode(x, y, width, height) {
 			<li>If left edge moves over grid edge</li>
 			<ol>
 				<li>Check if left edge crossed any solid edge</li>
-				<li>If solid edge was crossed, move node to the right until it stands against the border it crossed</li>
+				<li>If solid edge was crossed, move node to the right until it stands against the border it crossed, set <code class="prettyprint lang-js">vx</code> to zero</li>
 			</ol>
 		</ol>
 		<li>If <code class="prettyprint lang-js">onGround = true</code></li>
@@ -109,7 +109,7 @@ function PlatformerNode(x, y, width, height) {
 			<li>If bottom edge moves over grid edge</li>
 			<ol>
 				<li>Check if bottom edge crossed any solid edge</li>
-				<li>If solid edge was crossed, move node up until it stands against the border it crossed</li>
+				<li>If solid edge was crossed, move node up until it stands against the border it crossed, set <code class="prettyprint lang-js">vy</code> to zero</li>
 			</ol>
 		</ol>
 		<li class="list-skip" value=3>else</li>
@@ -117,7 +117,7 @@ function PlatformerNode(x, y, width, height) {
 			<li>If top edge moves over grid edge</li>
 			<ol>
 				<li>Check if top edge crossed any solid edge</li>
-				<li>If solid edge was crossed, move node down until it stands against the border it crossed</li>
+				<li>If solid edge was crossed, move node down until it stands against the border it crossed, set <code class="prettyprint lang-js">vy</code> to zero</li>
 			</ol>
 		</ol>
 	</ol>
