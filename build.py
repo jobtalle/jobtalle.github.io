@@ -29,6 +29,10 @@ class Post:
 	ID_TAGS = "tags"
 	CLASS_TAG = "post-tag"
 	
+	KATEX_CSS = "<link rel=\"stylesheet\" href=\"https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.9.0-alpha1/katex.min.css\" integrity=\"sha384-8QOKbPtTFvh/lMY0qPVbXj9hDh+v8US0pD//FcoYFst2lCIf0BmT58+Heqj0IGyx\" crossorigin=\"anonymous\">"
+	KATEX_POST_SCRIPT = "<script src=\"https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.9.0-alpha1/katex.min.js\" integrity=\"sha384-GR8SEkOO1rBN/jnOcQDFcFmwXAevSLx7/Io9Ps1rkxWp983ZIuUGfxivlF/5f5eJ\" crossorigin=\"anonymous\"></script><script src=\"https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.9.0-alpha1/contrib/auto-render.min.js\" integrity=\"sha384-cXpztMJlr2xFXyDSIfRWYSMVCXZ9HeGXvzyKTYrn03rsMAlOtIQVzjty5ULbaP8L\" crossorigin=\"anonymous\"></script><script>renderMathInElement(document.getElementById(\"content\"),{delimiters:[{left:\"$$\",right:\"$$\",display:true},{left:\"$\",right:\"$\",display:false}]});</script>"
+	PRETTIFY_SCRIPT = "<script src=\"https://cdn.rawgit.com/google/code-prettify/master/loader/run_prettify.js\"></script>"
+	
 	MONTH_ABBREVIATIONS = [
 		"Jan",
 		"Feb",
@@ -64,14 +68,27 @@ class Post:
 		self.site.log("Building " + self.get_post_file_name())
 		self.site.log_scope_increment()
 	
+		content = self.get_content()
+		
+		if "$" in content:
+			post_script = self.KATEX_POST_SCRIPT
+			additional_css = self.get_css() + self.KATEX_CSS
+		else:
+			post_script = ""
+			additional_css = self.get_css()
+		
+		if "<pre" in content or "<code" in content:
+			post_script += self.PRETTIFY_SCRIPT
+	
 		result = self.site.template
 		result = result.replace(self.site.KEY_TITLE, self.site.TITLE + self.site.TITLE_DIVISOR + self.properties[self.PROPERTY_TITLE])
 		result = result.replace(self.site.KEY_DESCRIPTION, self.properties[self.PROPERTY_ABSTRACT])
-		result = result.replace(self.site.KEY_ADDITIONAL_CSS, self.get_css())
+		result = result.replace(self.site.KEY_ADDITIONAL_CSS, additional_css)
 		result = result.replace(self.site.KEY_ADDITIONAL_JAVASCRIPT, self.get_javascript())
 		result = result.replace(self.site.KEY_CONTENT_FOOTER, "")
 		result = result.replace(self.site.KEY_MENU_BUTTONS, self.site.build_menu())
-		result = result.replace(self.site.KEY_CONTENT, self.get_content())
+		result = result.replace(self.site.KEY_CONTENT, content)
+		result = result.replace(self.site.KEY_POST_SCRIPT, post_script);
 
 		file = open(self.get_post_file_name(), "w")
 		file.write(result)
@@ -186,6 +203,7 @@ class Site:
 	KEY_MENU_BUTTONS = "$menu-buttons$"
 	KEY_CONTENT = "$content$"
 	KEY_CONTENT_FOOTER = "$content-footer$"
+	KEY_POST_SCRIPT = "$post-script$"
 	KEY_DESCRIPTION = "$description$"
 
 	INDEX_LINKS_PER_PAGE = 6
@@ -261,6 +279,7 @@ class Site:
 			result = result.replace(self.KEY_MENU_BUTTONS, self.build_menu())
 			result = result.replace(self.KEY_CONTENT, posts)
 			result = result.replace(self.KEY_CONTENT_FOOTER, "")
+			result = result.replace(self.KEY_POST_SCRIPT, "")
 				
 			file = open(page, "w")
 			file.write(result)
@@ -296,6 +315,7 @@ class Site:
 		result = result.replace(self.KEY_MENU_BUTTONS, self.build_menu(page))
 		result = result.replace(self.KEY_CONTENT, source)
 		result = result.replace(self.KEY_CONTENT_FOOTER, "")
+		result = result.replace(self.KEY_POST_SCRIPT, "")
 			
 		file = open(page, "w")
 		file.write(result)
@@ -354,6 +374,7 @@ class Site:
 			result = result.replace(self.KEY_ADDITIONAL_JAVASCRIPT, self.SCRIPT_LOAD_MORE)
 			result = result.replace(self.KEY_MENU_BUTTONS, self.build_menu("index.html"))
 			result = result.replace(self.KEY_CONTENT, content)
+			result = result.replace(self.KEY_POST_SCRIPT, "")
 			
 			if self.get_index_count() == 1:
 				result = result.replace(self.KEY_CONTENT_FOOTER, "")
