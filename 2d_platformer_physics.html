@@ -733,9 +733,10 @@ Game.prototype = {
 <p>We now have boilerplate code for any 2D platformer. The physics engine itself could be extended in a number of ways:</p>
 <ul>
 	<li>Add a friction and mass factor for nodes, so that some nodes have more or less friction and gravity than others</li>
-	<li>Add callback function to node, which will trigger when the node hits a wall or lands on the ground</li>
+	<li>Add callback functions to node, which will trigger when the node hits a wall or lands on the ground</li>
 	<li>Support moving platforms by making every moving platform another grid, where new nodes will be transfered to when they land on them</li>
 	<li>Implement collision events between nodes</li>
+	<li>Implement slopes</li>
 </ul>
 <p>The next step in building a game would be implementing core mechanics and graphics. A level editor should be created (or an existing one could be used) to fill the grid, probably by storing the cells as json data or some other suitable format. Because the physics engine has no dependencies on the game, any graphics system can be used.</p>
 <h2>Appendix: jump height</h2>
