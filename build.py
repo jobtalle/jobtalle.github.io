@@ -30,7 +30,7 @@ class Post:
 	CLASS_TAG = "post-tag"
 	
 	KATEX_CSS = "<link rel=\"stylesheet\" href=\"https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.9.0-alpha1/katex.min.css\" integrity=\"sha384-8QOKbPtTFvh/lMY0qPVbXj9hDh+v8US0pD//FcoYFst2lCIf0BmT58+Heqj0IGyx\" crossorigin=\"anonymous\">"
-	KATEX_POST_SCRIPT = "<script src=\"https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.9.0-alpha1/katex.min.js\" integrity=\"sha384-GR8SEkOO1rBN/jnOcQDFcFmwXAevSLx7/Io9Ps1rkxWp983ZIuUGfxivlF/5f5eJ\" crossorigin=\"anonymous\"></script><script src=\"https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.9.0-alpha1/contrib/auto-render.min.js\" integrity=\"sha384-cXpztMJlr2xFXyDSIfRWYSMVCXZ9HeGXvzyKTYrn03rsMAlOtIQVzjty5ULbaP8L\" crossorigin=\"anonymous\"></script><script>renderMathInElement(document.getElementById(\"content\"),{delimiters:[{left:\"$$\",right:\"$$\",display:true},{left:\"$\",right:\"$\",display:false}]});</script>"
+	KATEX_POST_SCRIPT = "<script src=\"https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.9.0-alpha1/katex.min.js\" integrity=\"sha384-GR8SEkOO1rBN/jnOcQDFcFmwXAevSLx7/Io9Ps1rkxWp983ZIuUGfxivlF/5f5eJ\" crossorigin=\"anonymous\"></script><script src=\"https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.9.0-alpha1/contrib/auto-render.min.js\" integrity=\"sha384-cXpztMJlr2xFXyDSIfRWYSMVCXZ9HeGXvzyKTYrn03rsMAlOtIQVzjty5ULbaP8L\" crossorigin=\"anonymous\"></script><script>renderMathInElement(document.getElementById(\"content\"),{delimiters:[{left:\"$$\",right:\"$$\",display:true},{left:\"$\",right:\"$\",display:false}]})</script>"
 	PRETTIFY_SCRIPT = "<script src=\"https://cdn.rawgit.com/google/code-prettify/master/loader/run_prettify.js\"></script>"
 	
 	MONTH_ABBREVIATIONS = [
@@ -88,7 +88,8 @@ class Post:
 		result = result.replace(self.site.KEY_CONTENT_FOOTER, "")
 		result = result.replace(self.site.KEY_MENU_BUTTONS, self.site.build_menu())
 		result = result.replace(self.site.KEY_CONTENT, content)
-		result = result.replace(self.site.KEY_POST_SCRIPT, post_script);
+		result = result.replace(self.site.KEY_POST_SCRIPT, post_script)
+		result = result.replace(self.site.KEY_META, self.get_meta())
 
 		file = open(self.get_post_file_name(), "w")
 		file.write(result)
@@ -97,6 +98,12 @@ class Post:
 		self.site.log_scope_decrement()
 		
 		return self.build_post_link()
+		
+	def make_meta(self, property, content):
+		return "<meta property=\"" + property + "\" content=\"" + content + "\"/>"
+		
+	def get_meta(self):
+		return self.make_meta("og:title", self.properties[self.PROPERTY_TITLE]) + self.make_meta("og:url", self.site.URL + self.get_post_file_name()) + self.make_meta("og:description", self.properties[self.PROPERTY_ABSTRACT]) + self.make_meta("og:image", self.properties[self.PROPERTY_PREVIEW])
 		
 	def get_javascript(self):
 		result = ""
@@ -150,7 +157,7 @@ class Post:
 			link_open = "<a href=\"" + url + "\">"
 			link_close = "</a>"
 	
-		return "<h1>" + link_open + title + link_close + "</h1><span class=\"date\">" + self.get_date() + "</span><p>";
+		return "<h1>" + link_open + title + link_close + "</h1><span class=\"date\">" + self.get_date() + "</span><p>"
 		
 	def get_preview(self):
 		return "<a href=\"" + self.get_post_file_name() + "\"><img src=\"" + self.get_preview_file() + "\" title=\"" + self.properties[self.PROPERTY_TITLE] + "\"></a>"
@@ -185,6 +192,10 @@ class Post:
 	
 	
 class Site:
+	URL = "jobtalle.com/"
+	
+	LOCALE = "en_US"
+	
 	TITLE = "Job Talle"
 	TITLE_DIVISOR = " | "
 	
@@ -205,6 +216,7 @@ class Site:
 	KEY_CONTENT_FOOTER = "$content-footer$"
 	KEY_POST_SCRIPT = "$post-script$"
 	KEY_DESCRIPTION = "$description$"
+	KEY_META = "$additional-meta$"
 
 	INDEX_LINKS_PER_PAGE = 6
 	
@@ -280,6 +292,7 @@ class Site:
 			result = result.replace(self.KEY_CONTENT, posts)
 			result = result.replace(self.KEY_CONTENT_FOOTER, "")
 			result = result.replace(self.KEY_POST_SCRIPT, "")
+			result = result.replace(self.KEY_META, "")
 				
 			file = open(page, "w")
 			file.write(result)
@@ -316,6 +329,7 @@ class Site:
 		result = result.replace(self.KEY_CONTENT, source)
 		result = result.replace(self.KEY_CONTENT_FOOTER, "")
 		result = result.replace(self.KEY_POST_SCRIPT, "")
+		result = result.replace(self.KEY_META, "")
 			
 		file = open(page, "w")
 		file.write(result)
@@ -375,6 +389,7 @@ class Site:
 			result = result.replace(self.KEY_MENU_BUTTONS, self.build_menu("index.html"))
 			result = result.replace(self.KEY_CONTENT, content)
 			result = result.replace(self.KEY_POST_SCRIPT, "")
+			result = result.replace(self.KEY_META, "")
 			
 			if self.get_index_count() == 1:
 				result = result.replace(self.KEY_CONTENT_FOOTER, "")
