@@ -8,7 +8,7 @@
 			gtag('js', new Date());
 			gtag('config', 'UA-109031298-1');
 		</script>
-		<script src="posts\2017_11_7\js\game.js"></script><script src="posts\2017_11_7\js\platformer.js"></script>
+		<script src="posts/2017_11_7/js/game.js"></script><script src="posts/2017_11_7/js/platformer.js"></script>
 		<title>Job Talle | 2D Platformer physics</title>
 		<meta charset="UTF-8">
 		<meta name="description" content="In this tutorial I walk through the process of writing a simple grid based platformer in javascript. The result is a universal platform physics engine you can use as a template for any platformer."/>
@@ -16,11 +16,11 @@
 		<meta name="author" content="Job Talle"/>
 		<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 		<meta property="og:locale" content="en_US"/>
-		<meta property="og:title" content="2D Platformer physics"/><meta property="og:url" content="jobtalle.com/2d_platformer_physics.html"/><meta property="og:description" content="In this tutorial I walk through the process of writing a simple grid based platformer in javascript. The result is a universal platform physics engine you can use as a template for any platformer."/><meta property="og:image" content="posts\2017_11_7\img/preview.jpg"/>
+		<meta property="og:title" content="2D Platformer physics"/><meta property="og:url" content="jobtalle.com/2d_platformer_physics.html"/><meta property="og:description" content="In this tutorial I walk through the process of writing a simple grid based platformer in javascript. The result is a universal platform physics engine you can use as a template for any platformer."/><meta property="og:image" content="posts/2017_11_7/img/preview.jpg"/>
 		<link href="https://fonts.googleapis.com/css?family=Raleway" rel="stylesheet"/>
 		<link rel="shortcut icon" type="image/gif" href="img/favicon.gif"/>
 		<link rel="stylesheet" type="text/css" href="css/style.css"/>
-		<link rel="stylesheet" type="text/css" href="posts\2017_11_7\css\game.css"><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.9.0-alpha1/katex.min.css" integrity="sha384-8QOKbPtTFvh/lMY0qPVbXj9hDh+v8US0pD//FcoYFst2lCIf0BmT58+Heqj0IGyx" crossorigin="anonymous">
+		<link rel="stylesheet" type="text/css" href="posts/2017_11_7/css/game.css"><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.9.0-alpha1/katex.min.css" integrity="sha384-8QOKbPtTFvh/lMY0qPVbXj9hDh+v8US0pD//FcoYFst2lCIf0BmT58+Heqj0IGyx" crossorigin="anonymous">
 	</head>
 	<body>
 		<div id="container">
@@ -40,7 +40,7 @@
 <h2>Requirements</h2>
 <p>Building a system from the ground up gives you the luxury of setting your own requirements. Personally, I've built this system to serve as a very general template for platformers. I may use it at a game jam for example, where quick deployment is vital. Therefore, I need it to be as generic as possible. I define my requirements as follows:</p>
 <figure title="Super mario bros.">
-	<img src="posts\2017_11_7\img/supermario.jpg">
+	<img src="posts/2017_11_7/img/supermario.jpg">
 	<figcaption>Figure 1: Super mario bros.</figcaption>
 </figure>
 <ol>
@@ -743,7 +743,7 @@ Game.prototype = {
 <p>The next step in building a game would be implementing core mechanics and graphics. A level editor should be created (or an existing one could be used) to fill the grid, probably by storing the cells as json data or some other suitable format. Because the physics engine has no dependencies on the game, any graphics system can be used.</p>
 <h2>Appendix: jump height</h2>
 <figure title="Theoretical jump height versus actual jump height">
-	<img src="posts\2017_11_7\img/jump.jpg">
+	<img src="posts/2017_11_7/img/jump.jpg">
 	<figcaption>Figure 2: Theoretical jump height versus actual jump height</figcaption>
 </figure>
 <p>In this tutorial, I picked some arbitrary jump speed which turns out to jump a little over two grid cells high. When designing a game, knowing movement limits is essential. You'll want to know how wide a passable ravine can be, and what the height limit of a reachable ledge is. When a game runs on variable time step like this one, it's not always simple. Figure 2 shows a problem: the blue curve is the theoretical jump curve, which hits the blue line. This is the theoretical maximum jump height. The red curve however shows the actual path a player traverses when a jump takes six frames. This path never reaches the theoretical jump height. The fewer frames your system produces, the further a player may end up below the blue line. If your end user plays the game on a slow system, fewer frames will be produced.</p>

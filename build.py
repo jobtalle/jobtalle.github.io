@@ -51,8 +51,8 @@ class Post:
 	def __init__(self, site, directory):
 		self.site = site
 		self.directory = directory
-		self.content = os.path.join(Site.DIR_POSTS, directory, self.FILE_CONTENT)
-		self.properties = os.path.join(Site.DIR_POSTS, directory, self.FILE_PROPERTIES)
+		self.content = Site.DIR_POSTS + "/" + directory + "/" + self.FILE_CONTENT
+		self.properties = Site.DIR_POSTS + "/" + directory + "/" + self.FILE_PROPERTIES
 		
 		self.validate_requirements()
 		self.read_properties()
@@ -62,7 +62,7 @@ class Post:
 		content = self.get_post_header(self.properties[self.PROPERTY_TITLE]) + contentFile.read() + self.build_tags()
 		contentFile.close()
 	
-		return content.replace("src=\"", "src=\"" + self.site.DIR_POSTS + os.sep + self.directory + os.sep)
+		return content.replace("src=\"", "src=\"" + self.site.DIR_POSTS + "/" + self.directory + "/")
 		
 	def build(self):
 		self.site.log("Building " + self.get_post_file_name())
@@ -103,27 +103,27 @@ class Post:
 		return "<meta property=\"" + property + "\" content=\"" + content + "\"/>"
 		
 	def get_meta(self):
-		return self.make_meta("og:title", self.properties[self.PROPERTY_TITLE]) + self.make_meta("og:url", self.site.URL + self.get_post_file_name()) + self.make_meta("og:description", self.properties[self.PROPERTY_ABSTRACT]) + self.make_meta("og:image", self.site.DIR_POSTS + os.sep + self.directory + os.sep + self.properties[self.PROPERTY_PREVIEW])
+		return self.make_meta("og:title", self.properties[self.PROPERTY_TITLE]) + self.make_meta("og:url", self.site.URL + self.get_post_file_name()) + self.make_meta("og:description", self.properties[self.PROPERTY_ABSTRACT]) + self.make_meta("og:image", self.site.DIR_POSTS + "/" + self.directory + "/" + self.properties[self.PROPERTY_PREVIEW])
 		
 	def get_javascript(self):
 		result = ""
 		
-		dir = os.path.join(Site.DIR_POSTS, self.directory, self.DIR_JAVASCRIPT)
+		dir = Site.DIR_POSTS + "/" + self.directory + "/" + self.DIR_JAVASCRIPT
 		if os.path.isdir(dir):
 			for file in listdir(dir):
 				if file.endswith(".js"):
-					result = result + "<script src=\"" + os.path.join(dir, file) + "\"></script>"
+					result = result + "<script src=\"" + dir + "/" + file + "\"></script>"
 		
 		return result
 	
 	def get_css(self):
 		result = ""
 		
-		dir = os.path.join(Site.DIR_POSTS, self.directory, self.DIR_CSS)
+		dir = Site.DIR_POSTS + "/" + self.directory + "/" + self.DIR_CSS
 		if os.path.isdir(dir):
 			for file in listdir(dir):
 				if file.endswith(".css"):
-					result = result + "<link rel=\"stylesheet\" type=\"text/css\" href=\"" + os.path.join(dir, file) + "\">"
+					result = result + "<link rel=\"stylesheet\" type=\"text/css\" href=\"" + dir + "/" + file + "\">"
 		
 		return result
 	
@@ -169,7 +169,7 @@ class Post:
 		return format_page_name(self.properties[self.PROPERTY_TITLE])
 		
 	def get_preview_file(self):
-		return os.path.join(self.site.DIR_POSTS, self.directory, self.properties[self.PROPERTY_PREVIEW])
+		return self.site.DIR_POSTS + "/" + self.directory + "/" + self.properties[self.PROPERTY_PREVIEW]
 		
 	def get_tags(self):
 		return self.properties[self.PROPERTY_TAGS]
