@@ -1,0 +1,28 @@
+<h2>Natural patterns</h2>
+<p>Lindenmayer systems were originally conceived by Hungarian biologist Aristid Lindenmayer while studying algae growth. He developed L-systems as a way to describe the growth process. The result was a type of language in which these recursive properties can be expressed. Indeed, L-systems can be used to generate natural patterns, but well known mathematical patterns can also be written as an L-system. I will show examples of both cases in this article.</p>
+<p>The language is very simple. It consists of symbols (the alphabet) and rules. The first state of the sentence is called the <em>axiom</em>. The rules can be applied repeatedly on this axiom to obtain a complex system. A simple example would be a system with the axiom <em>A</em>, and the rule <em>A = BA</em>. After the first iteration (the first time the rule is applied), the sentence will be changed to <em>BA</em>. After the second iteration, the sentence will be <em>BBA</em>, after the third iteration <em>BBBA</em> and so forth.</p>
+<h2>Rendering sentences</h2>
+<p>After a system has been defined and iterated, we have a large sentence with interesting properties. To make these properties visible, a way to render such a sentence is defined. In this article, I render the system using turtle graphics.</p>
+<p>Turtle graphics are rendered by placing a "turtle" on a cartesian plane, and passing instructions to the turtle. The turtle moves according to the instructions it receives. In this case, every symbol from an L-system sentence is sent to the turtle. In the short example in the previous paragraph, my sentence is a bit simple. It only contains letters. It is hard to translate a string of letters into interesting turtle instructions. Therefore, symbols are defined to encode turtle commands.</p>
+<table>
+	<tr>
+		<td>[A...Z]</td>
+		<td>Any letter in the alphabet will move the turtle forwards for a fixed distance</td>
+	</tr>
+	<tr>
+		<td>+</td>
+		<td>Turn the turtle to the right for a fixed amount of degrees</td>
+	</tr>
+	<tr>
+		<td>-</td>
+		<td>Turn the turtle to the left for a fixed amount of degrees</td>
+	</tr>
+	<tr>
+		<td>[</td>
+		<td>Push the current turtle position and direction on to a stack</td>
+	</tr>
+	<tr>
+		<td>]</td>
+		<td>Pop the last pushed turtle position from the stack and move the turtle to this position</td>
+	</tr>
+</table>
