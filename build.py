@@ -2,6 +2,7 @@ import json
 import math
 import sys
 import os.path
+import datetime
 
 from sys import argv
 from os import listdir
@@ -441,7 +442,7 @@ class Site:
 			
 	def get_posts(self):
 		directories = [dir for dir in listdir(self.DIR_POSTS)]
-		directories.sort(reverse=True)
+		directories.sort(key=lambda x: datetime.datetime.strptime(x, '%Y_%m_%d'), reverse=True)
 		
 		return [Post(self, dir) for dir in directories]
 

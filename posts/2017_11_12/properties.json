@@ -1,0 +1,6 @@
+{
+	"title": "Lindenmayer systems",
+	"abstract": "Lindenmayer systems (or L-systems) can be used to produce intricate patterns by repeatedly applying simple rules.",
+	"preview": "img/preview.jpg",
+	"tags": ["Interactive", "Procedural generation", "Source included"]
+}
