@@ -78,7 +78,7 @@ class Post:
 			post_script = ""
 			additional_css = self.get_css()
 		
-		if "<pre" in content or "<code" in content:
+		if "<pre class=\"prettyprint\"" in content or "<code class=\"prettyprint\"" in content:
 			post_script += self.PRETTIFY_SCRIPT
 	
 		result = self.site.template
@@ -236,11 +236,16 @@ class Site:
 		"Contact"
 	]
 
-	def __init__(self):
+	def __init__(self, exclusive=None):
 		self.validate_requirements()
 		
 		self.log_scope = 0
 		self.log("Analyzing sources")
+		
+		self.exclusive = exclusive
+		if self.exclusive is not None:
+			self.log("Only building " + exclusive)
+		
 		self.template = self.read_template()
 		self.posts = self.get_posts()
 		
@@ -255,12 +260,14 @@ class Site:
 		self.log_scope_increment()
 		
 		self.build_posts()
-		self.build_indices()
 		
-		for index in range(1, len(self.MENU_PAGES)):
-			self.build_page(self.MENU_PAGES[index], self.MENU_TITLES[index])
+		if self.exclusive is None:
+			self.build_indices()
 			
-		self.build_tags()
+			for index in range(1, len(self.MENU_PAGES)):
+				self.build_page(self.MENU_PAGES[index], self.MENU_TITLES[index])
+				
+			self.build_tags()
 			
 		self.log_scope_decrement()
 		self.log("Done")
@@ -340,7 +347,8 @@ class Site:
 		self.post_links = []
 	
 		for post in self.posts:
-			self.post_links.append(post.build())
+			if self.exclusive is None or post.get_post_file_name() == self.exclusive:
+				self.post_links.append(post.build())
 		
 	def get_index_count(self):
 		return int(math.ceil(float(self.get_post_count()) / self.INDEX_LINKS_PER_PAGE))
@@ -447,13 +455,21 @@ class Site:
 		return [Post(self, dir) for dir in directories]
 
 def main():
-	if len(argv) > 1 and argv[1] == "clean":
-		Site.clean()
-	else:
+	site = None
+
+	if len(argv) > 1:
+		if argv[1] == "clean":
+			Site.clean()
+			
+			return
+		else:
+			site = Site(argv[1])
+		
+	if site is None:
 		site = Site()
-	
 		site.clean()
-		site.build()
+
+	site.build()
 	
 if __name__ == "__main__":
 	main()

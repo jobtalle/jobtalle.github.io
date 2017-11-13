@@ -121,14 +121,13 @@ h1 {
 	color: var(--color-hover);
 }
 
-#content pre {
-	width: 100%;
-	max-height: 400px;
-	overflow: auto;
-	background-color: var(--color-code);
-	border: none;
-	padding: 4px 0px 4px 8px;
-	margin: 8px auto 8px auto;
+.prettyprint {
+	width: 100% !important;
+	max-height: 400px !important;
+	overflow: auto !important;
+	background-color: var(--color-code) !important;
+	border: none !important;
+	padding: 4px 8px 4px 8px;
 }
 
 #content code {
