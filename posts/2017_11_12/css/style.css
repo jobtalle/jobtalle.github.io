@@ -1,3 +1,21 @@
 .alphabet {
 	max-width: 300px;
 }
+
+#l-controls select {
+	width: 100%;
+}
+
+#l-controls input {
+	width: 100%;
+}
+
+#l-controls button {
+	width: 100%;
+}
+
+#l-renderer {
+	display: block;
+	float: right;
+	background-image: url("../img/l-system-default.jpg");
+}
