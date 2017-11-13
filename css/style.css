@@ -121,13 +121,18 @@ h1 {
 	color: var(--color-hover);
 }
 
-.prettyprint {
+#content .prettyprint {
 	width: 100% !important;
 	max-height: 400px !important;
 	overflow: auto !important;
 	background-color: var(--color-code) !important;
 	border: none !important;
-	padding: 4px 8px 4px 8px;
+	padding: 1px 4px 1px 4px !important;
+}
+
+#content table tr td {
+	background-color: var(--color-code);
+	padding: 5px;
 }
 
 #content code {

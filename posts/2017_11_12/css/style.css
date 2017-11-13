@@ -1,9 +1,3 @@
 .alphabet {
-	margin: 0px auto 0px auto;
 	max-width: 300px;
-}
-
-.alphabet td {
-	background-color: #EAEAEA;
-	padding: 5px;
 }

@@ -78,7 +78,7 @@ class Post:
 			post_script = ""
 			additional_css = self.get_css()
 		
-		if "<pre class=\"prettyprint\"" in content or "<code class=\"prettyprint\"" in content:
+		if "<pre class=\"prettyprint" in content or "<code class=\"prettyprint" in content:
 			post_script += self.PRETTIFY_SCRIPT
 	
 		result = self.site.template
