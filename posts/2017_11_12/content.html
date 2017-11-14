@@ -1,11 +1,11 @@
 <h2>Natural patterns</h2>
 <p>Lindenmayer systems were originally conceived by Hungarian biologist Aristid Lindenmayer while studying algae growth. He developed L-systems as a way to describe the growth process. The result was a type of language in which these recursive properties can be expressed. Indeed, L-systems can be used to generate natural patterns, but well known mathematical patterns can also be written as an L-system. I will show examples of both cases in this article.</p>
-<p>The language is very simple. It consists of symbols (the alphabet) and rules. The first state of the sentence is called the <em>axiom</em>. The rules can be applied repeatedly on this axiom to obtain a complex system. A simple example would be a system with the axiom <code>A</code>, and the rule <code>A = ABA</code>. After the first iteration (the first time the rule is applied), the sentence will be changed to <code>ABA</code>. After the second iteration, the sentence will be <code>ABABABA</code> and so forth. You can see how a self expanding sentence can be analogous to cell division in plants and other biological processes.</p>
+<p>The language is very simple. It consists of symbols (the alphabet) and rules. The first state of the sentence is called the <em>axiom</em>. The rules can be applied repeatedly on this axiom to obtain a complex system. A simple example would be a system with the axiom $A$, and the rule $A \to ABA$. After the first iteration (the first time the rule is applied), the sentence will be changed to $ABA$. After the second iteration, the sentence will be $ABABABA$ and so forth. You can see how a self expanding sentence can be analogous to cell division in plants and other biological processes.</p>
 <figure>
 	<table class="alphabet">
 		<tr>
 			<td><pre>[A...Z]</pre></td>
-			<td>Any letter in the alphabet will move the turtle forwards for a fixed distance</td>
+			<td>Any (non constant) letter in the alphabet will move the turtle forwards for a fixed distance</td>
 		</tr>
 		<tr>
 			<td><pre>+</pre></td>
@@ -17,11 +17,11 @@
 		</tr>
 		<tr>
 			<td><pre>[</pre></td>
-			<td>Push the current turtle position and direction on to a stack</td>
+			<td>Push the current turtle state on to a stack</td>
 		</tr>
 		<tr>
 			<td><pre>]</pre></td>
-			<td>Pop the last turtle position from the stack and move the turtle to this position</td>
+			<td>Pop the last turtle state from the stack and assume this state</td>
 		</tr>
 	</table>
 	<figcaption>Figure 1: Alphabet for drawing a 2D Lindenmayer system</figcaption>
@@ -108,3 +108,47 @@
 <p>The age feature is especially useful for plant modelling. I could for example make a rule which will only be applied to cells between 3 and 4 iterations old, or I could only let young plant parts develop while keeping the old stem of the plant bare. Another extra possibility is defining a thickness graph for rendering; the age will determine the thickness of a rendered cell.</p>
 <p>The distance to the root is analogous to a well known property of plants. The water and nutrients in a plant can only be transported for a limited distance. I can stop developing new branches when not enough nutrients can be transported to that point. Finally, plants that are too high can easily break under the influence of wind. I can use the distance to the root to determine how "strong" a plant is when confronted with weather and prevent plants from developing weak structures.</p>
 <p>I will limit the list to these features for now, but it could be expanded by influences like obstacles, light sources, soil types and so forth. The Biological Modeling and Visualization research group from Calgary has published interesting articles on some of these topics.</p>
+<figure>
+	<table class="alphabet">
+		<tr>
+			<td><pre>[A...Z]</pre></td>
+			<td>Any (non constant) letter in the alphabet will move the turtle forwards for a fixed distance</td>
+		</tr>
+		<tr>
+			<td><pre>+</pre></td>
+			<td>Yaw the turtle to the right for a fixed amount of degrees</td>
+		</tr>
+		<tr>
+			<td><pre>-</pre></td>
+			<td>Yaw the turtle to the left for a fixed amount of degrees</td>
+		</tr>
+		<tr>
+			<td><pre><</pre></td>
+			<td>Roll the turtle to the left for a fixed amount of degrees</td>
+		</tr>
+		<tr>
+			<td><pre>></pre></td>
+			<td>Roll the turtle to the right for a fixed amount of degrees</td>
+		</tr>
+		<tr>
+			<td><pre>^</pre></td>
+			<td>Pitch the turtle up for a fixed amount of degrees</td>
+		</tr>
+		<tr>
+			<td><pre>_</pre></td>
+			<td>Pitch the turtle down for a fixed amount of degrees</td>
+		</tr>
+		<tr>
+			<td><pre>[</pre></td>
+			<td>Push the current turtle state on to a stack</td>
+		</tr>
+		<tr>
+			<td><pre>]</pre></td>
+			<td>Pop the last turtle state from the stack and assume this state</td>
+		</tr>
+	</table>
+	<figcaption>Figure 2: Alphabet for drawing a 3D Lindenmayer system</figcaption>
+</figure>
+<h2>The extended alphabet</h2>
+<p>To facilitate the new features, I need to extend my alphabet. Figure 2 shows the key for this new system. The only new symbols in this table are new rotation symbols required for rotating the turtle in 3D space.</p>
+<p>According to the feature list, I need to be able to query two new properties in my rules. Both age and distance to root must be usable. To do this, I will define every rule depending on these variables as a function of the symbol it replaces. A rule could be $A \to B$. If I want to apply this rule only for $A$ when its age is between 1 and 4, I write this subset of symbols as a function of $A$ like $A(a > 1, a < 4)$ where $a$ stands for age. $a$ can now be seen as a variable representing age, which always exists for every symbol. I will use the variable $r$ for distance to root. This new syntax will allow for more complex statements, like $A(a > 5, r < 48) \to B$ which will replace $A$ by $B$ for every instance of $A$ which is over 5 iterations old and whose distance to the root is shorter than 48 cells.<p>
