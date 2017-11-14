@@ -284,6 +284,10 @@ h1 {
 	background-image: url("../img/ico_linkedin.svg");
 }
 
+#icon-twitter {
+	background-image: url("../img/ico_twitter.svg");
+}
+
 #load-more {
 	margin: 8px auto 8px auto;
 	display: inline-block;
