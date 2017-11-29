@@ -129,13 +129,14 @@
 		</table>
 	</div>
 </div>
-<p>The source code for this javascript example can be found <a href="https://github.com/jobtalle/LindenmayerSystems" target="_blank">in this repository</a>. The provided example systems show some possibilities of Lindenmayer systems, ranging from noisy random-like patterns to rigid geometric patterns. All systems show self-similarity; when the number of iterations becomes high, the small details they produce are no longer noticable. In theory however, one could zoom in indefinitely while increasing precision along the way. This is a well known property of <em>fractals</em>. Zooming in on fractals will often uncover patterns that were also visible at larger scales.</p>
+<p>The source code for this javascript example can be found <a href="https://github.com/jobtalle/LindenmayerSystemsExample" target="_blank">in this repository</a>. The provided example systems show some possibilities of Lindenmayer systems, ranging from noisy random-like patterns to rigid geometric patterns. All systems show self-similarity; when the number of iterations becomes high, the small details they produce are no longer noticable. In theory however, one could zoom in indefinitely while increasing precision along the way. This is a well known property of <em>fractals</em>. Zooming in on fractals will often uncover patterns that were also visible at larger scales.</p>
 <h2>Adding dimensions</h2>
 <p>The example above is fully capable of demonstrating Lindenmayer systems, but I'd like to add a few features to make the algorithm more powerful. I'm personally very interested in using L-systems to generate plants and natural systems. A very interesting source of information I've used for this research is <a href="http://algorithmicbotany.org/" target="_blank">the website of the Biological Modeling and Visualization research group</a> at the university of Calgary. There are many papers available on this topic, which can be found at their website.</p>
 <p>I'd like to keep my system as simple as possible, but I am missing some features I need to make more complex systems. I would like to model at least the following things:</p>
 <ul>
 	<li>Some degree of randomization should be possible, because I assume some form randomness exists in nature</li>
 	<li>I want symbols to be able to keep track of their age, since cells in nature may also behave differently depending on age</li>
+	<li>Production rules should take symbol context into account</li>
 	<li>I want to keep track of the distance to the root cell</li>
 	<li>The turtle should move in three dimensions to allow for more complex shapes</li>
 </ul>
@@ -156,11 +157,11 @@
 			<td>Yaw the turtle to the left for a fixed amount of degrees</td>
 		</tr>
 		<tr>
-			<td><pre>></pre></td>
+			<td><pre>/</pre></td>
 			<td>Roll the turtle to the right for a fixed amount of degrees</td>
 		</tr>
 		<tr>
-			<td><pre><</pre></td>
+			<td><pre>\</pre></td>
 			<td>Roll the turtle to the left for a fixed amount of degrees</td>
 		</tr>
 		<tr>
@@ -184,10 +185,16 @@
 </figure>
 <h2>Parametric grammar</h2>
 <p>To facilitate the new features, I need to extend my alphabet and syntax. Figure 2 shows the key for this new system. The new symbols in this table are rotation symbols required for moving the turtle in 3D space.</p>
-<p>Randomness can easily be modelled by adding multiple production rules for the same symbol. When multiple rules exist for a symbol, a random one is chosen.</p>
+<p>Randomness can easily be modelled by adding multiple ambiguous production rules for the same symbol. When multiple rules exist for a symbol, a random one is chosen.</p>
 <p>To model cell age and distance to root, I <em>could</em> add two variables to each symbol. If I would then like to add more properties, I need to add more variables. This is not very flexible and oddly specific. Luckily, a general solution is available: parametric L-systems. In parametric L-systems, each symbol is succeeded by a list of parameters (if it has any). Production rules may only be valid for symbols with a specific set of parameters or for certain conditions of these parameters, and the symbols resulting from the rule can have parameters too.</p>
-<p>I will demonstrate this new system with an example of a symbol with one parameter, which is its age in iterations. Suppose the axiom is $A(0)$, and one production rule $A(x) \to A(x + 1)$. For every iteration, every symbol $A$ will have its parameter increased by one. Now I want to change every $A$ to a $B$ when it is eight iterations old. The production rule for this would be $A(x) : x == 8 \to B$. If I would define the production rule $A(x, y) \to C$ for the described system, it would never fire; no $A$ with more than one parameter can exist in this sytem. Note that $x$ in these examples is chosen arbitrarily; it is used to do something with the value of the first parameter, but this parameter has no specific name, $x$ is just a variable and can be any symbol.</p>
-<p>I have now added two syntax rules to the language; brackets behind a symbol contain a number of parameters separated by commas, and the operand of a production rule can be succeeded by a $:$ symbol if it should only fire when the condition after this symbol is met.</p><div id="tags"><a href="tag_interactive.html" title="Show posts tagged with 'Interactive'"><div class="post-tag round-button">Interactive</div></a><a href="tag_procedural_generation.html" title="Show posts tagged with 'Procedural generation'"><div class="post-tag round-button">Procedural generation</div></a><a href="tag_source_included.html" title="Show posts tagged with 'Source included'"><div class="post-tag round-button">Source included</div></a></div></div>
+<p>I will demonstrate this new system with an example of a symbol with one parameter, which is its age in iterations. Suppose the axiom is $A(0)$, and one production rule $A(x) \to A(x + 1)$. For every iteration, every symbol $A$ will have its parameter increased by one. Now I want to change every $A$ to a $B$ when it is eight iterations old. The production rule for this would be $A(x) : x == 8 \to B$. If I would define the production rule $A(x, y) \to C$ for the described system, it would never fire; no $A$ with more than one parameter can exist in this sytem. Note that $x$ and $y$ in these examples are chosen arbitrarily; they are used to do something with the values of the first parameters. These parameters have no specific names, $x$ and $y$ are just variables and can be any symbol.</p>
+<p>I have now added two syntax rules to the language; brackets behind a symbol contain a number of parameters separated by commas, and the first operand of a production rule can be succeeded by a $:$ symbol if it should only fire when the condition after this symbol is met.</p>
+<h2>Context sensitive grammar</h2>
+<p>The system is almost complete. One last thing I would like to encode is context. The context of a symbol should be able to influence what rules are applied to it. I could in theory encode context in symbol parameters, but this would result in a very complex system of rules and encodings. Instead, I add one last syntax rule to the production methods. Suppose I have a sentence of several instances of $A(x)$ where $x$ varies between symbols. I want to make a context sensitive production rule which changes $A$ to $B$ only if $A$ is surrounded by other instances of $A$ whose parameters are equal; in other words, there must be an $A$ on the left and an $A$ on the right with the same parameter values. The production rule looks like this:</p>
+<p>$$A(x) < A(y) > A(z) : x == z \to B$$</p>
+<p>So the final addition to the grammar are the $<$ and $>$ symbols. If the left operand of a production rule is preceeded by $<$, it requires the symbol before $<$ as context. If it is succeeded by $>$, it requires the symbol after $>$ as context. Production rules can also have no required context or only left or only right context.</p>
+<h2>A 3D context sensitive parametric Lindenmayer system</h2>
+<p>Everything is now in place for a 3D context sensitive parametric Lindenmayer system renderer.</p><div id="tags"><a href="tag_interactive.html" title="Show posts tagged with 'Interactive'"><div class="post-tag round-button">Interactive</div></a><a href="tag_procedural_generation.html" title="Show posts tagged with 'Procedural generation'"><div class="post-tag round-button">Procedural generation</div></a><a href="tag_source_included.html" title="Show posts tagged with 'Source included'"><div class="post-tag round-button">Source included</div></a></div></div>
 				<div id="content-footer"></div>
 				<div id="footer">&copy Job Talle </div>
 				<div id="icons">
