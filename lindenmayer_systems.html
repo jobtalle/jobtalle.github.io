@@ -8,7 +8,7 @@
 			gtag('js', new Date());
 			gtag('config', 'UA-109031298-1');
 		</script>
-		<script src="posts/2017_11_12/js/lindenmayer.js"></script><script src="posts/2017_11_12/js/presets.js"></script>
+		<script src="posts/2017_12_16/js/athree.js"></script><script src="posts/2017_12_16/js/controller.js"></script><script src="posts/2017_12_16/js/geometry.js"></script><script src="posts/2017_12_16/js/lindenmayer.js"></script><script src="posts/2017_12_16/js/lindenmayer2d.js"></script><script src="posts/2017_12_16/js/message.js"></script><script src="posts/2017_12_16/js/preset.js"></script><script src="posts/2017_12_16/js/presets2d.js"></script><script src="posts/2017_12_16/js/renderer.js"></script>
 		<title>Job Talle | Lindenmayer systems</title>
 		<meta charset="UTF-8">
 		<meta name="description" content="Lindenmayer systems (or L-systems) can be used to produce intricate patterns by repeatedly applying simple rules. Rendering these systems results in interesting fractals that can be useful in procedural generation."/>
@@ -16,11 +16,11 @@
 		<meta name="author" content="Job Talle"/>
 		<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 		<meta property="og:locale" content="en_US"/>
-		<meta property="og:title" content="Lindenmayer systems"/><meta property="og:url" content="http://jobtalle.com/lindenmayer_systems.html"/><meta property="og:description" content="Lindenmayer systems (or L-systems) can be used to produce intricate patterns by repeatedly applying simple rules. Rendering these systems results in interesting fractals that can be useful in procedural generation."/><meta property="og:image" content="http://jobtalle.com/posts/2017_11_12/img/preview.jpg"/>
+		<meta property="og:title" content="Lindenmayer systems"/><meta property="og:url" content="http://jobtalle.com/lindenmayer_systems.html"/><meta property="og:description" content="Lindenmayer systems (or L-systems) can be used to produce intricate patterns by repeatedly applying simple rules. Rendering these systems results in interesting fractals that can be useful in procedural generation."/><meta property="og:image" content="http://jobtalle.com/posts/2017_12_16/img/preview.jpg"/>
 		<link href="https://fonts.googleapis.com/css?family=Raleway" rel="stylesheet"/>
 		<link rel="shortcut icon" type="image/gif" href="img/favicon.gif"/>
 		<link rel="stylesheet" type="text/css" href="css/style.css"/>
-		<link rel="stylesheet" type="text/css" href="posts/2017_11_12/css/style.css"><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.9.0-alpha1/katex.min.css" integrity="sha384-8QOKbPtTFvh/lMY0qPVbXj9hDh+v8US0pD//FcoYFst2lCIf0BmT58+Heqj0IGyx" crossorigin="anonymous">
+		<link rel="stylesheet" type="text/css" href="posts/2017_12_16/css/style_2d.css"><link rel="stylesheet" type="text/css" href="posts/2017_12_16/css/style_3d.css"><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.9.0-alpha1/katex.min.css" integrity="sha384-8QOKbPtTFvh/lMY0qPVbXj9hDh+v8US0pD//FcoYFst2lCIf0BmT58+Heqj0IGyx" crossorigin="anonymous">
 	</head>
 	<body>
 		<div id="container">
@@ -30,7 +30,7 @@
 					<h1>Job Talle</h1>
 					<h2>On game development, AI & Algorithms</h2>
 				</div>
-				<div id="content"><h1>Lindenmayer systems</h1><span class="date">12 Nov 2017</span><p><h2>Natural patterns</h2>
+				<div id="content"><h1>Lindenmayer systems</h1><span class="date">16 Dec 2017</span><p><h2>Natural patterns</h2>
 <p>Lindenmayer systems were originally conceived by Hungarian biologist Aristid Lindenmayer while studying algae growth. He developed L-systems as a way to describe the growth process. The result was a type of language in which these recursive properties can be expressed. Indeed, L-systems can be used to generate natural patterns, but well known mathematical patterns can also be written as an L-system. I will show examples of both cases in this article.</p>
 <p>The language is very simple. It consists of symbols (the alphabet) and production rules. The first state of the sentence is called the <em>axiom</em>. The production rules can be applied repeatedly on this axiom to obtain a complex system. A simple example would be a system with the axiom $A$, and the rule $A \to ABA$. After the first iteration (the first time the rule is applied), the sentence will be changed to $ABA$. After the second iteration, the sentence will be $ABABABA$ and so forth. You can see how a self expanding sentence can be analogous to cell division in plants and other biological processes.</p>
 <figure>
@@ -69,7 +69,7 @@
 			<tr>
 				<td>Preset:</td>
 				<td>
-					<select id="l-preset" onchange="preset()" value="">
+					<select id="l-preset" onchange="preset2d()" value="">
 						<option value="l-preset-plant">Plant</option>
 						<option value="l-preset-plant-2">Plant 2</option>
 						<option value="l-preset-koch-snowflake">Koch snowflake</option>
@@ -77,7 +77,7 @@
 						<option value="l-preset-hilbert-curve">Hilbert curve</option>
 						<option value="l-gosper-curve">Gosper curve</option>
 						<option value="l-preset-mosaic">Mosaic</option>
-						<option value="l-preset-squares-fractal">Squares fractal</option>
+						<option value="l-preset-squares-fractal">Dragon curve</option>
 					</select>
 				</td>
 				<td/>
@@ -131,7 +131,7 @@
 </div>
 <p>The source code for this javascript example can be found <a href="https://github.com/jobtalle/LindenmayerSystemsExample" target="_blank">in this repository</a>. The provided example systems show some possibilities of Lindenmayer systems, ranging from noisy random-like patterns to rigid geometric patterns. All systems show self-similarity; when the number of iterations becomes high, the small details they produce are no longer noticable. In theory however, one could zoom in indefinitely while increasing precision along the way. This is a well known property of <em>fractals</em>. Zooming in on fractals will often uncover patterns that were also visible at larger scales.</p>
 <h2>Adding dimensions</h2>
-<p>The example above is fully capable of demonstrating Lindenmayer systems, but I'd like to add a few features to make the algorithm more powerful. I'm personally very interested in using L-systems to generate plants and natural systems. A very interesting source of information I've used for this research is <a href="http://algorithmicbotany.org/" target="_blank">the website of the Biological Modeling and Visualization research group</a> at the university of Calgary. There are many papers available on this topic, which can be found at their website.</p>
+<p>The example above is fully capable of demonstrating Lindenmayer systems, but I'd like to add a few features to make the algorithm more powerful. I'm personally very interested in using L-systems to generate plants and natural systems. A very interesting source of information on this topic is <a href="http://algorithmicbotany.org/" target="_blank">the website of the Biological Modeling and Visualization research group</a> at the university of Calgary. There are many papers available on this topic, which can be found at their website.</p>
 <p>I'd like to keep my system as simple as possible, but I am missing some features I need to make more complex systems. I would like to model at least the following things:</p>
 <ul>
 	<li>Some degree of randomization should be possible, because I assume some form randomness exists in nature</li>
@@ -140,8 +140,7 @@
 	<li>I want to keep track of the distance to the root cell</li>
 	<li>The turtle should move in three dimensions to allow for more complex shapes</li>
 </ul>
-<p>The age feature is especially useful for plant modelling. I could for example make a rule which will only be applied to cells between 3 and 4 iterations old, or I could only let young plant parts develop while keeping the old stem of the plant bare. Another extra possibility is defining a thickness graph for rendering; the age will determine the thickness of a rendered cell.</p>
-<p>The distance to the root helps modelling a well known property of plants. The water and nutrients in a plant can only be transported for a limited distance. I can stop developing new branches when not enough nutrients can be transported to that point. Finally, plants that are too high can easily break under the influence of wind. I can use the distance to the root to determine how "strong" a plant is when confronted with weather and prevent plants from developing weak structures.</p>
+<p>Moving in three dimensions is not hard. Instead of moving on a cartesian plane like I did in the example above, the turtle will now be a position with a quaternion. Every step, I will add a unit vector rotated by this quaternion to the turtle position, and the quaternion will be rotated when rotation symbols are encountered. Modelling the other points as simple as possible is a bit more tricky.</p>
 <figure>
 	<table class="alphabet">
 		<tr>
@@ -188,13 +187,135 @@
 <p>Randomness can easily be modelled by adding multiple ambiguous production rules for the same symbol. When multiple rules exist for a symbol, a random one is chosen.</p>
 <p>To model cell age and distance to root, I <em>could</em> add two variables to each symbol. If I would then like to add more properties, I need to add more variables. This is not very flexible and oddly specific. Luckily, a general solution is available: parametric L-systems. In parametric L-systems, each symbol is succeeded by a list of parameters (if it has any). Production rules may only be valid for symbols with a specific set of parameters or for certain conditions of these parameters, and the symbols resulting from the rule can have parameters too.</p>
 <p>I will demonstrate this new system with an example of a symbol with one parameter, which is its age in iterations. Suppose the axiom is $A(0)$, and one production rule $A(x) \to A(x + 1)$. For every iteration, every symbol $A$ will have its parameter increased by one. Now I want to change every $A$ to a $B$ when it is eight iterations old. The production rule for this would be $A(x) : x == 8 \to B$. If I would define the production rule $A(x, y) \to C$ for the described system, it would never fire; no $A$ with more than one parameter can exist in this sytem. Note that $x$ and $y$ in these examples are chosen arbitrarily; they are used to do something with the values of the first parameters. These parameters have no specific names, $x$ and $y$ are just variables and can be any symbol.</p>
-<p>I have now added two syntax rules to the language; brackets behind a symbol contain a number of parameters separated by commas, and the first operand of a production rule can be succeeded by a $:$ symbol if it should only fire when the condition after this symbol is met.</p>
+<p>I have now added two syntax rules to the language; brackets behind a symbol contain a number of parameters separated by commas, and the first operand of a production rule can be succeeded by a $:$ symbol if it should only fire when the condition after this symbol is met. Parametric grammar allows for many more features than just the ones I initially required.</p>
 <h2>Context sensitive grammar</h2>
-<p>The system is almost complete. One last thing I would like to encode is context. The context of a symbol should be able to influence what rules are applied to it. I could in theory encode context in symbol parameters, but this would result in a very complex system of rules and encodings. Instead, I add one last syntax rule to the production methods. Suppose I have a sentence of several instances of $A(x)$ where $x$ varies between symbols. I want to make a context sensitive production rule which changes $A$ to $B$ only if $A$ is surrounded by other instances of $A$ whose parameters are equal; in other words, there must be an $A$ on the left and an $A$ on the right with the same parameter values. The production rule looks like this:</p>
+<p>The system is almost complete. One last thing I would like to encode is context. The context of a symbol should be able to influence what rules are applied to it. I could in theory encode context in symbol parameters, but this would result in a very complex system of rules and parameter lists. Instead, I add one last syntax rule to the production methods.</p>
+<figure title="Context sensitive Lindenmayer system">
+	<img src="posts/2017_12_16/img/context-sensitive-lsystem.gif">
+	<figcaption>Figure 1: A context sensitive Lindenmayer system in action</figcaption>
+</figure>
+<p>Suppose I have an axiom consisting of a number of $A$'s and one $B$ at the beginning, and I want the $B$ to move one step to the right on each iteration, without changing the sentence length. This can easily be done with a context sensitive rule. The first rule I introduce is $B < A = B$. This should be read as follows: $A = B$ if $A$ is <em>preceded</em> by $B$. Every iteration this rule is applied, every $A$ with a $B$ to the left will change to a $B$. Now I only want the $B$ to move, so after every iteration the $B$ should become an $A$ again to prevent every $A$ from becoming a $B$. The simple rule $B = A$ does this. Figure 1 shows this system evolving for eleven iterations, where the initial axiom was $BAAAAAAAAA$.</p>
+<p>This context sensitive grammar is compatible with the parametric grammar described earlier. Suppose I have a sentence of several instances of $A(x)$ where the value of $x$ varies between symbols. I want to make a context sensitive production rule which changes $A$ to $B$ only if $A$ is surrounded by other instances of $A$ whose parameters are equal; in other words, there must be an $A$ on the left and an $A$ on the right with the same parameter values. The production rule looks like this:</p>
 <p>$$A(x) < A(y) > A(z) : x == z \to B$$</p>
-<p>So the final addition to the grammar are the $<$ and $>$ symbols. If the left operand of a production rule is preceeded by $<$, it requires the symbol before $<$ as context. If it is succeeded by $>$, it requires the symbol after $>$ as context. Production rules can also have no required context or only left or only right context.</p>
+<p>So the final addition to the grammar are the $<$ and $>$ symbols. If the left operand of a production rule is preceded by $<$, it requires the symbol before $<$ as context. If it is succeeded by $>$, it requires the symbol after $>$ as context. Production rules can also have no required context or only left or only right context.</p>
 <h2>A 3D context sensitive parametric Lindenmayer system</h2>
-<p>Everything is now in place for a 3D context sensitive parametric Lindenmayer system renderer.</p><div id="tags"><a href="tag_interactive.html" title="Show posts tagged with 'Interactive'"><div class="post-tag round-button">Interactive</div></a><a href="tag_procedural_generation.html" title="Show posts tagged with 'Procedural generation'"><div class="post-tag round-button">Procedural generation</div></a><a href="tag_source_included.html" title="Show posts tagged with 'Source included'"><div class="post-tag round-button">Source included</div></a></div></div>
+<p>Everything is now in place for a 3D context sensitive parametric Lindenmayer system renderer, which I have implemented below. All features described in this article are present. Most of the fields from the 2D renderer included earlier in this article are copied, but this system also includes a button to evolve for one step at a time, and the resulting sentence is printed. The parser for context sensitive parametric lindenmayer systems can be found <a href="https://github.com/jobtalle/LSystem" target="_blank">in this repository</a>.</p>
+<p>Several rendering modes are included. The generated 3D image can be rotated by dragging the mouse (or finger on a touch screen), and the mouse wheel can zoom in or out on the image. The source code for this renderer can be found <a href="https://github.com/jobtalle/Lindenmayer3D" target="_blank">at GitHub</a>.</p>
+<div class="full-width">
+	<div id="renderer"></div>
+	<div id="message-bar">
+		<span id="message-text"></span>
+	</div>
+	<div id="controls">
+		<div id="controls-left">
+			<table>
+				<tr>
+					<td>Preset:</td>
+					<td>
+						<select id="l3d-preset" onchange="preset(); controller.go();" value="">
+							<option value="tree">Tree</option>
+							<option value="hilbert-curve">Hilbert curve</option>
+							<option value="plant">Plant</option>
+							<option value="fern">Fern</option>
+							<option value="spring">Spring</option>
+							<option value="spiral">Square spiral</option>
+						</select>
+					</td>
+				</tr>
+				<tr>
+					<td>Axiom:</td>
+					<td><input id="l3d-axiom" type="text"></td>
+				</tr>
+				<tr>
+					<td>Angle:</td>
+					<td><input id="l3d-angle" type="text" onchange="controller.changeSystem()"/></td>
+				</tr>
+				<tr>
+					<td>Constants:</td>
+					<td><input id="l3d-constants" type="text" onchange="controller.changeSystem()"/></td>
+				</tr>
+				<tr>
+					<td>Rule 1:</td>
+					<td><input id="l3d-rule1" type="text" onchange="controller.changeSystem()"/></td>
+				</tr>
+				<tr>
+					<td>Rule 2:</td>
+					<td><input id="l3d-rule2" type="text" onchange="controller.changeSystem()"/></td>
+				</tr>
+				<tr>
+					<td>Rule 3:</td>
+					<td><input id="l3d-rule3" type="text" onchange="controller.changeSystem()"/></td>
+				</tr>
+				<tr>
+					<td>Rule 4:</td>
+					<td><input id="l3d-rule4" type="text" onchange="controller.changeSystem()"/></td>
+				</tr>
+				<tr>
+					<td>Rule 5:</td>
+					<td><input id="l3d-rule5" type="text" onchange="controller.changeSystem()"/></td>
+				</tr>
+				<tr>
+					<td>Rule 6:</td>
+					<td><input id="l3d-rule6" type="text" onchange="controller.changeSystem()"/></td>
+				</tr>
+				<tr id="add-rule-button">
+					<td></td>
+					<td>
+						<button onclick="controller.addRuleField()">Add rule</button>
+					</td>
+				</tr>
+			</table>
+		</div>
+		<div id="controls-right">
+			<table>
+				<tr>
+					<td>
+						<select id="l3d-render-style" onchange="controller.changeSystem(); controller.go();" value="">
+							<option value="lines">Lines</option>
+							<option value="wireframe">Wireframe</option>
+							<option value="tubes">Tubes</option>
+							<option value="plant">Plant</option>
+							<option value="cubes">Cubes</option>
+						</select>
+					</td>
+				</tr>
+				<tr>
+					<table>
+						<tr>
+							<td>Iterations:</td>
+							<td>
+								<input id="l3d-iterations" type="text" onchange="controller.changeSystem()"/>
+							</td>
+							<td>
+								<button onclick="controller.go()">Go</button>
+							</td>
+						</tr>
+					</table>
+				</tr>
+				<tr>
+					<td>
+						<table>
+							<tr>
+								<td>
+									<button onclick="controller.step()">Step</button>
+								</td>
+								<td>
+									<button onclick="controller.clearResult()">Clear</button>
+								</td>
+							</tr>
+						</table>
+					</td>
+					<textarea id="l3d-result" rows="8" readonly></textarea>
+				</tr>
+			</table>
+		</div>
+	</div>
+</div>
+<script>
+	controller = new Controller(document.getElementById('renderer'));
+	preset();
+	controller.go();
+</script><div id="tags"><a href="tag_interactive.html" title="Show posts tagged with 'Interactive'"><div class="post-tag round-button">Interactive</div></a><a href="tag_procedural_generation.html" title="Show posts tagged with 'Procedural generation'"><div class="post-tag round-button">Procedural generation</div></a><a href="tag_source_included.html" title="Show posts tagged with 'Source included'"><div class="post-tag round-button">Source included</div></a></div></div>
 				<div id="content-footer"></div>
 				<div id="footer">&copy Job Talle </div>
 				<div id="icons">

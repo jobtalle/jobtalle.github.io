@@ -1,0 +1,63 @@
+#renderer {
+	width: 100%;
+}
+
+#renderer canvas {
+	border: none;
+}
+
+#message-bar {
+	position: relative;
+	display: block;
+}
+
+#message-text {
+	position: relative;
+}
+
+#controls {
+	padding-top: 5px;
+}
+
+#controls-left {
+	min-width: 50%;
+	float: left;
+	max-width: 400px;
+}
+
+#controls-right {
+	min-width: 50%;
+	float: left;
+	max-width: 400px;
+}
+
+#controls input {
+	width: 100%;
+	box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	-webkit-box-sizing: border-box; 
+}
+
+#controls select {
+	width: 100%;
+}
+
+#controls button {
+	width: 100%;
+}
+
+#controls table {
+	width: 100%;
+}
+
+#controls table, th, td {
+	position: relative;
+}
+
+#l3d-result {
+	resize: none;
+	width: 100%;
+	box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	-webkit-box-sizing: border-box; 
+}

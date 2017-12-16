@@ -1,4 +1,4 @@
-function preset() {
+function preset2d() {
 	var value = document.getElementById("l-preset").value;
 	
 	switch(value) {

@@ -63,7 +63,7 @@ class Post:
 		content = self.get_post_header(self.properties[self.PROPERTY_TITLE]) + contentFile.read() + self.build_tags()
 		contentFile.close()
 	
-		return content.replace("src=\"", "src=\"" + self.site.DIR_POSTS + "/" + self.directory + "/")
+		return content.replace("img src=\"", "img src=\"" + self.site.DIR_POSTS + "/" + self.directory + "/")
 		
 	def build(self):
 		self.site.log("Building " + self.get_post_file_name())

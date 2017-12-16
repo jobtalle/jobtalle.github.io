@@ -121,7 +121,7 @@ State.prototype = {
 	}
 }
 
-function Lindenmayer(axiom) {
+function Lindenmayer2D(axiom) {
 	this.getAxiom();
 	this.getConstants();
 	this.getAngle();
@@ -129,7 +129,7 @@ function Lindenmayer(axiom) {
 	this.getRules();
 }
 
-Lindenmayer.prototype = {
+Lindenmayer2D.prototype = {
 	ITERATIONS_MIN: 0,
 	ITERATIONS_MAX: 9,
 	RULE_COUNT: 6,
@@ -231,7 +231,7 @@ Lindenmayer.prototype = {
 }
 
 function render() {
-	var lindenmayer = new Lindenmayer();
+	var lindenmayer = new Lindenmayer2D();
 	
 	lindenmayer.applyRules();
 	lindenmayer.render();
@@ -243,7 +243,7 @@ function setParameters(axiom, angle, constants, iterations, rules) {
 	document.getElementById("l-constants").value = constants;
 	document.getElementById("l-iterations").value = iterations;
 	
-	for(var i = 1; i <= Lindenmayer.prototype.RULE_COUNT; ++i) {
+	for(var i = 1; i <= Lindenmayer2D.prototype.RULE_COUNT; ++i) {
 		var ruleElement = document.getElementById("l-rule-" + i);
 		
 		if(i <= rules.length)
