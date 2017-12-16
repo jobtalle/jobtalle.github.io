@@ -214,8 +214,9 @@ h1 {
 } 
 
 .post-tag {
-	margin: 8px 4px 8px 4px;
+	margin: 4px 2px 4px 2px;
 	float: right;
+	font-size: 14px;
 }
 
 .post-tag::before {
@@ -227,10 +228,14 @@ h1 {
 	overflow: auto;
 }
 
-.post-link img {
+.post-link-preview {
 	float: right;
-	top: 0px;
-	margin: 8px;
+	display: inline-block;
+	max-width: 100%;
+	padding: 8px 0px 0px 8px;
+}
+
+.post-link-preview img {
 	max-width: 100%;
 }
 

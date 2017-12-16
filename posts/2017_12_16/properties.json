@@ -1,6 +1,6 @@
 {
 	"title": "Lindenmayer systems",
-	"abstract": "Lindenmayer systems (or L-systems) can be used to produce intricate patterns by repeatedly applying simple rules. Rendering these systems results in interesting fractals that can be useful in procedural generation.",
+	"abstract": "Lindenmayer systems (or L-systems) can be used to produce intricate patterns by repeatedly applying production rules. Rendering these systems results in interesting fractals that can be useful in procedural generation.",
 	"preview": "img/preview.jpg",
 	"tags": ["Interactive", "Procedural generation", "Source included"]
 }

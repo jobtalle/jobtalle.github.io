@@ -63,7 +63,7 @@ class Post:
 		content = self.get_post_header(self.properties[self.PROPERTY_TITLE]) + contentFile.read() + self.build_tags()
 		contentFile.close()
 	
-		return content.replace("img src=\"", "img src=\"" + self.site.DIR_POSTS + "/" + self.directory + "/")
+		return content.replace("src=\"", "src=\"" + self.site.DIR_POSTS + "/" + self.directory + "/")
 		
 	def build(self):
 		self.site.log("Building " + self.get_post_file_name())
@@ -85,7 +85,6 @@ class Post:
 		result = result.replace(self.site.KEY_TITLE, self.site.TITLE + self.site.TITLE_DIVISOR + self.properties[self.PROPERTY_TITLE])
 		result = result.replace(self.site.KEY_DESCRIPTION, self.properties[self.PROPERTY_ABSTRACT])
 		result = result.replace(self.site.KEY_ADDITIONAL_CSS, additional_css)
-		result = result.replace(self.site.KEY_ADDITIONAL_JAVASCRIPT, self.get_javascript())
 		result = result.replace(self.site.KEY_CONTENT_FOOTER, "")
 		result = result.replace(self.site.KEY_MENU_BUTTONS, self.site.build_menu())
 		result = result.replace(self.site.KEY_CONTENT, content)
@@ -105,17 +104,6 @@ class Post:
 		
 	def get_meta(self):
 		return self.make_meta("og:title", self.properties[self.PROPERTY_TITLE]) + self.make_meta("og:url", self.site.URL + self.get_post_file_name()) + self.make_meta("og:description", self.properties[self.PROPERTY_ABSTRACT]) + self.make_meta("og:image", self.site.URL + self.site.DIR_POSTS + "/" + self.directory + "/" + self.properties[self.PROPERTY_PREVIEW])
-		
-	def get_javascript(self):
-		result = ""
-		
-		dir = Site.DIR_POSTS + "/" + self.directory + "/" + self.DIR_JAVASCRIPT
-		if os.path.isdir(dir):
-			for file in listdir(dir):
-				if file.endswith(".js"):
-					result = result + "<script src=\"" + dir + "/" + file + "\"></script>"
-		
-		return result
 	
 	def get_css(self):
 		result = ""
@@ -158,10 +146,10 @@ class Post:
 			link_open = "<a href=\"" + url + "\">"
 			link_close = "</a>"
 	
-		return "<h1>" + link_open + title + link_close + "</h1><span class=\"date\">" + self.get_date() + "</span><p>"
+		return "<h1>" + link_open + title + link_close + "</h1><span class=\"date\">" + self.get_date() + "</span>"
 		
 	def get_preview(self):
-		return "<a href=\"" + self.get_post_file_name() + "\"><img src=\"" + self.get_preview_file() + "\" title=\"" + self.properties[self.PROPERTY_TITLE] + "\"></a>"
+		return "<div class=\"post-link-preview\"><a href=\"" + self.get_post_file_name() + "\"><img src=\"" + self.get_preview_file() + "\" title=\"" + self.properties[self.PROPERTY_TITLE] + "\"></a></div>"
 		
 	def get_abstract(self):
 		return "<p>" + self.properties[self.PROPERTY_ABSTRACT] + "</p>"
