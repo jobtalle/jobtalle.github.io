@@ -28,6 +28,7 @@ h1 {
 
 #menu-buttons {
 	z-index: 2;
+	-webkit-backface-visibility: hidden;
 	position: fixed;
 	top: 0px;
 	width: var(--max-width);

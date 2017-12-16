@@ -158,9 +158,6 @@ Geometry.prototype = {
 	MATERIAL_LINE: new THREE.LineBasicMaterial({
 		color: new THREE.Color("rgb(33, 33, 33)")
 	}),
-	MATERIAL_WIREFRAME: new THREE.LineBasicMaterial({
-		color: new THREE.Color("rgb(33, 33, 33)")
-	}),
 	
 	get() {
 		return this.geometry;
@@ -315,32 +312,6 @@ Geometry.prototype = {
 		return [new THREE.LineSegments(geometry, this.MATERIAL_LINE)];
 	},
 	
-	buildGeometryWireframe(branches) {
-		var geometry = new THREE.Geometry();
-		
-		for(var i = 0; i < branches.length; ++i) {
-			var branch = branches[i];
-			
-			if(branch.length <= 1)
-				continue;
-			
-			var tube = new THREE.TubeGeometry(
-				new THREE.CatmullRomCurve3(branch),
-					(branch.length - 1) * 4,
-					this.TUBE_RADIUS,
-					this.TUBE_PRECISION,
-					false);
-					
-			geometry.merge(tube);
-			tube.dispose();
-		}
-		
-		var wireframeGeometry = new THREE.WireframeGeometry(geometry);
-		geometry.dispose();
-		
-		return [new THREE.LineSegments(wireframeGeometry, this.MATERIAL_WIREFRAME)];
-	},
-	
 	buildGeometryPlant(branches) {
 		var geometryBranches = new THREE.Geometry();
 		var geometryLeaves = new THREE.Geometry();
@@ -426,9 +397,6 @@ Geometry.prototype = {
 				break;
 			case "tubes":
 				content = this.buildGeometryTubes(this.getBranches(true));
-				break;
-			case "wireframe":
-				content = this.buildGeometryWireframe(this.getBranches(true));
 				break;
 			case "plant":
 				content = this.buildGeometryPlant(this.getBranches(true));
