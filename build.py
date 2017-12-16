@@ -103,7 +103,7 @@ class Post:
 		return "<meta property=\"" + property + "\" content=\"" + content + "\"/>"
 		
 	def get_meta(self):
-		return self.make_meta("og:title", self.properties[self.PROPERTY_TITLE]) + self.make_meta("og:url", self.site.URL + self.get_post_file_name()) + self.make_meta("og:description", self.properties[self.PROPERTY_ABSTRACT]) + self.make_meta("og:image", self.site.URL + self.site.DIR_POSTS + "/" + self.directory + "/" + self.properties[self.PROPERTY_PREVIEW])
+		return self.make_meta("og:title", self.properties[self.PROPERTY_TITLE]) + self.make_meta("og:url", self.site.URL + self.get_post_file_name()) + self.make_meta("og:description", self.properties[self.PROPERTY_ABSTRACT]) + self.make_meta("og:image", self.site.URL + self.site.DIR_POSTS + "/" + self.directory + "/" + self.properties[self.PROPERTY_PREVIEW]) + self.make_meta("twitter:image", self.site.URL + self.site.DIR_POSTS + "/" + self.directory + "/" + self.properties[self.PROPERTY_PREVIEW])
 	
 	def get_css(self):
 		result = ""
