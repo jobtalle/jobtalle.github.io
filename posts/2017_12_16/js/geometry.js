@@ -156,10 +156,10 @@ Geometry.prototype = {
 			shininess: 12
 		}),
 	MATERIAL_LINE: new THREE.LineBasicMaterial({
-		color: new THREE.Color("rgb(255, 255, 255)")
+		color: new THREE.Color("rgb(33, 33, 33)")
 	}),
 	MATERIAL_WIREFRAME: new THREE.LineBasicMaterial({
-		color: new THREE.Color("rgb(255, 255, 255)")
+		color: new THREE.Color("rgb(33, 33, 33)")
 	}),
 	
 	get() {

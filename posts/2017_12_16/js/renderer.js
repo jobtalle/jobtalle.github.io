@@ -50,7 +50,7 @@ Renderer.prototype = {
 			antialias: true
 		});
 		this.threeScene = new THREE.Scene();
-		this.threeScene.background = new THREE.Color(0x444444);
+		this.threeScene.background = new THREE.Color(0xffffff);
 		this.renderer.setSize(this.width, this.height);
 		
 		element.appendChild(this.renderer.domElement);
