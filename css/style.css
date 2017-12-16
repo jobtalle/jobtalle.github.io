@@ -223,14 +223,9 @@ h1 {
 	content: "#";
 }
 
-.post-link {
-	position: relative;
-	overflow: auto;
-}
-
 .post-link-preview {
 	float: right;
-	display: inline-block;
+	display: block;
 	max-width: 100%;
 	padding: 8px 0px 0px 8px;
 }
