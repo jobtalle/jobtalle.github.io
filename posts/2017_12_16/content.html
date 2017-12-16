@@ -1,12 +1,12 @@
-<script src="js/three.js"></script>
-<script src="js/controller.js"></script>
-<script src="js/geometry.js"></script>
-<script src="js/lindenmayer.js"></script>
-<script src="js/lindenmayer2d.js"></script>
-<script src="js/message.js"></script>
-<script src="js/presets.js"></script>
-<script src="js/presets2d.js"></script>
-<script src="js/renderer.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/88/three.min.js"></script>
+<script local src="js/controller.js"></script>
+<script local src="js/geometry.js"></script>
+<script local src="js/lindenmayer.js"></script>
+<script local src="js/lindenmayer2d.js"></script>
+<script local src="js/message.js"></script>
+<script local src="js/presets.js"></script>
+<script local src="js/presets2d.js"></script>
+<script local src="js/renderer.js"></script>
 <h2>Natural patterns</h2>
 <p>Lindenmayer systems were originally conceived by Hungarian biologist Aristid Lindenmayer while studying algae growth. He developed L-systems as a way to describe the growth process of algae and simple plants. The result was a type of language in which the recursive and self similar properties of organism growth can be expressed. Indeed, L-systems can be used to generate natural patterns, but well known mathematical patterns can also be written as an L-system. I will show examples of both cases in this article.</p>
 <p>The language is very simple. It consists of symbols (the alphabet) and production rules. The first state of the sentence is called the <em>axiom</em>. The production rules can be applied repeatedly on this axiom to evolve or grow the system. A simple example would be a system with the axiom $A$, and the rule $A \to ABA$. After the first iteration (the first time the rule is applied), the sentence will be changed to $ABA$. After the second iteration, the sentence will be $ABABABA$ and so forth. You can see how a self expanding sentence can be analogous to cell division in plants and other biological processes.</p>
@@ -168,7 +168,7 @@
 <h2>Context sensitive grammar</h2>
 <p>The system is almost complete. One last thing I would like to encode is context. The context of a symbol should be able to influence what rules are applied to it. I could in theory encode context in symbol parameters, but this would result in a very complex system of rules and parameter lists. Instead, I add one last syntax rule to the production methods.</p>
 <figure title="Context sensitive Lindenmayer system">
-	<img src="img/context-sensitive-lsystem.gif">
+	<img local src="img/context-sensitive-lsystem.gif">
 	<figcaption>Figure 1: A context sensitive Lindenmayer system in action</figcaption>
 </figure>
 <p>Suppose I have an axiom consisting of a number of $A$'s and one $B$ at the beginning, and I want the $B$ to move one step to the right on each iteration, without changing the sentence length. This can be done with a context sensitive rule. The first rule I introduce is $B < A \to B$. This should be read as follows: $A \to B$ if $A$ is <em>preceded</em> by $B$. Every iteration this rule is applied, every $A$ with a $B$ to the left will change to a $B$. Now I only want the $B$ to move, so after every iteration the $B$ should become an $A$ again to prevent every $A$ from becoming a $B$ over time. The simple rule $B \to A$ does this. Figure 1 shows this system evolving for eleven iterations, where the initial axiom was $BAAAAAAAAA$.</p>
