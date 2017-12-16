@@ -177,7 +177,7 @@
 <p>So the final addition to the grammar are the $<$ and $>$ symbols. If the left operand of a production rule is preceded by $<$, it requires the symbol before $<$ as context. If it is succeeded by $>$, it requires the symbol after $>$ as context. Production rules can also have no required context or only left or only right context.</p>
 <h2>A 3D context sensitive parametric Lindenmayer system</h2>
 <p>Everything is now in place for a 3D context sensitive parametric Lindenmayer system renderer, which I have implemented below. All features described in this article are present. Most of the fields from the 2D renderer included earlier in this article are copied, but this system also includes a button to evolve for one step at a time, and the resulting sentence is printed. The parser for context sensitive parametric lindenmayer systems can be found <a href="https://github.com/jobtalle/LSystem" target="_blank">in this repository</a>.</p>
-<p>Several rendering modes are included. The generated 3D image can be rotated by dragging the mouse (or finger on a touch screen), and the mouse wheel can zoom in or out on the image. The source code for this renderer can be found <a href="https://github.com/jobtalle/Lindenmayer3D" target="_blank">on GitHub</a>.</p>
+<p>Several rendering modes are included. The generated 3D image can be rotated by dragging the mouse (or finger on a touch screen), and the mouse wheel can zoom in or out on the image. The source code for this renderer can be found <a href="https://github.com/jobtalle/Lindenmayer3D" target="_blank">on GitHub</a>. Press the <em>Go</em> button to generate the current system.</p>
 <div class="full-width">
 	<div id="renderer"></div>
 	<div id="message-bar">
@@ -293,5 +293,5 @@
 	controller.go();
 </script>
 <h2>Conclusion</h2>
-<p>Lindenmayer systems can produce very interesting life like patterns, which can be useful in many applications. Besides modelling plant growth as it occurs in nature, it can also be used to generate natural looking content like trees and plants.  I also suspect lindenmayer systems can be evolved using genetic algorithms by slightly mutating the production rules. This would be a very interesting way to evolve natural looking plants, and I'd like to experiment with this if I find the time.</p>
+<p>Lindenmayer systems can produce very interesting and life like patterns, which can be useful in many applications. Besides modelling fractals, it can also be used to generate natural looking content like trees and plants. Another application would be procedural environment generation, where context sensitive rules would play an important role. I also suspect lindenmayer systems can be evolved using genetic algorithms by slightly mutating the production rules. This would be a very interesting way to evolve plants, and I'd like to experiment with this if I find the time.</p>
 <p>L-systems appear to be able to model nature at least to some degree. I'm curious to what extent they are really able to model natural growth processes with the simple rules I've been able to find.</p>
