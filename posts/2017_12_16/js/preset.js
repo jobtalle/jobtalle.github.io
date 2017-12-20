@@ -38,6 +38,17 @@ function preset() {
 				"4",
 				"plant");
 			break;
+		case "vines":
+			setPreset(
+				"--A",
+				"18",
+				"",
+				[
+					"A = /A[++A]-\\A[--A]+//A"
+				],
+				"4",
+				"plant");
+			break;
 		case "tree":
 			setPreset(
 				"BBBBBA",
