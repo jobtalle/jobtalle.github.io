@@ -33,7 +33,21 @@ Controller.prototype = {
 		element.addEventListener("mouseup", this.mouseUp.bind(this));
 		element.addEventListener("touchend", this.mouseUp.bind(this));
 		element.addEventListener("mouseleave", this.mouseUp.bind(this));
+		element.addEventListener("mousewheel", this.mouseScroll.bind(this));
 	},
+	
+	mouseScroll(event) {
+		console.log(document.documentElement.clientWidth);
+		if(document.documentElement.clientWidth <= 480)
+			return;
+		
+		event.preventDefault();		
+	
+		if(event.deltaY < 0)		
+			this.renderer.zoomIn();		
+		else		
+			this.renderer.zoomOut();		
+  	},
 	
 	touchDown(event) {
 		this.dragStart(event.touches[0].clientX - this.rendererRect.left, event.touches[0].clientY - this.rendererRect.top);
