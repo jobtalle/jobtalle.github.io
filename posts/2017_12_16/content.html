@@ -201,6 +201,17 @@
 					</td>
 				</tr>
 				<tr>
+					<td>Render style:</td>
+					<td>
+						<select id="l3d-render-style" onchange="controller.changeSystem(); controller.go();" value="">
+							<option value="lines">Lines</option>
+							<option value="tubes">Tubes</option>
+							<option value="plant">Plant</option>
+							<option value="cubes">Cubes</option>
+						</select>
+					</td>
+				</tr>
+				<tr>
 					<td>Axiom:</td>
 					<td><input id="l3d-axiom" type="text"></td>
 				</tr>
@@ -247,16 +258,6 @@
 		<div id="controls-right">
 			<table>
 				<tr>
-					<td>
-						<select id="l3d-render-style" onchange="controller.changeSystem(); controller.go();" value="">
-							<option value="lines">Lines</option>
-							<option value="tubes">Tubes</option>
-							<option value="plant">Plant</option>
-							<option value="cubes">Cubes</option>
-						</select>
-					</td>
-				</tr>
-				<tr>
 					<table>
 						<tr>
 							<td>Iterations:</td>
@@ -282,17 +283,17 @@
 							</tr>
 						</table>
 					</td>
-					<textarea id="l3d-result" rows="8" readonly></textarea>
+					<textarea id="l3d-result" rows="14" readonly></textarea>
 				</tr>
 			</table>
 		</div>
 	</div>
 </div>
+<h2>Conclusion</h2>
+<p>Lindenmayer systems can produce very interesting and life like patterns, which can be useful in many applications. Besides modelling fractals, it can also be used to generate natural looking content like trees and plants. Another application would be procedural environment generation, where context sensitive rules would play an important role. I also suspect lindenmayer systems can be evolved using genetic algorithms by slightly mutating the production rules. This would be a very interesting way to evolve plants, and I'd like to experiment with this if I find the time.</p>
+<p>L-systems appear to be able to model nature at least to some degree. I'm curious to what extent they are really able to model natural growth processes with the simple rules I've been able to find.</p>
 <script>
 	controller = new Controller(document.getElementById('renderer'));
 	preset();
 	controller.go();
 </script>
-<h2>Conclusion</h2>
-<p>Lindenmayer systems can produce very interesting and life like patterns, which can be useful in many applications. Besides modelling fractals, it can also be used to generate natural looking content like trees and plants. Another application would be procedural environment generation, where context sensitive rules would play an important role. I also suspect lindenmayer systems can be evolved using genetic algorithms by slightly mutating the production rules. This would be a very interesting way to evolve plants, and I'd like to experiment with this if I find the time.</p>
-<p>L-systems appear to be able to model nature at least to some degree. I'm curious to what extent they are really able to model natural growth processes with the simple rules I've been able to find.</p>

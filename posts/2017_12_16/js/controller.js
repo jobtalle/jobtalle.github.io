@@ -21,7 +21,6 @@ Controller.prototype = {
 		
 		var lastRule = document.getElementById("l3d-rule" + (index - 1));
 		lastRule.parentNode.parentNode.parentNode.insertBefore(this.buildRuleField(index), document.getElementById("add-rule-button"));
-		document.getElementById("result-column").rowSpan = document.getElementById("result-column").rowSpan + 1;
 	},
 	
 	addListeners(element) {
@@ -34,16 +33,6 @@ Controller.prototype = {
 		element.addEventListener("mouseup", this.mouseUp.bind(this));
 		element.addEventListener("touchend", this.mouseUp.bind(this));
 		element.addEventListener("mouseleave", this.mouseUp.bind(this));
-		element.addEventListener("wheel", this.mouseScroll.bind(this));
-	},
-	
-	mouseScroll(event) {
-		event.preventDefault();
-		
-		if(event.deltaY < 0)
-			this.renderer.zoomIn();
-		else
-			this.renderer.zoomOut();
 	},
 	
 	touchDown(event) {
