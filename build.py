@@ -26,8 +26,13 @@ class Post:
 	DIR_CSS = "css"
 	
 	CLASS_POST_LINK = "post-link"
+	CLASS_POST_REFERENCE = "post-reference"
+	CLASS_POST_REFERENCE_LEFT = "post-reference-left"
+	CLASS_POST_REFERENCE_RIGHT = "post-reference-right"
 	
 	ID_TAGS = "tags"
+	ID_REFERENCES = "references"
+	
 	CLASS_TAG = "post-tag"
 	
 	KATEX_CSS = "<link rel=\"stylesheet\" href=\"https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.9.0-alpha1/katex.min.css\" integrity=\"sha384-8QOKbPtTFvh/lMY0qPVbXj9hDh+v8US0pD//FcoYFst2lCIf0BmT58+Heqj0IGyx\" crossorigin=\"anonymous\">"
@@ -58,18 +63,18 @@ class Post:
 		self.validate_requirements()
 		self.read_properties()
 		
-	def get_content(self):
+	def get_content(self, previous, next):
 		contentFile = open(self.content)
-		content = self.get_post_header(self.properties[self.PROPERTY_TITLE]) + contentFile.read() + self.build_tags()
+		content = self.get_post_header(self.properties[self.PROPERTY_TITLE]) + contentFile.read() + self.build_neighbors(previous, next) + self.build_tags()
 		contentFile.close()
 	
 		return content.replace("local src=\"", "src=\"" + self.site.DIR_POSTS + "/" + self.directory + "/")
 		
-	def build(self):
+	def build(self, previous, next):
 		self.site.log("Building " + self.get_post_file_name())
 		self.site.log_scope_increment()
-	
-		content = self.get_content()
+		
+		content = self.get_content(previous, next)
 		
 		if "$" in content:
 			post_script = self.KATEX_POST_SCRIPT
@@ -103,7 +108,14 @@ class Post:
 		return "<meta property=\"" + property + "\" content=\"" + content + "\"/>"
 		
 	def get_meta(self):
-		return self.make_meta("og:title", self.properties[self.PROPERTY_TITLE]) + self.make_meta("og:url", self.site.URL + self.get_post_file_name()) + self.make_meta("og:description", self.properties[self.PROPERTY_ABSTRACT]) + self.make_meta("og:image", self.site.URL + self.site.DIR_POSTS + "/" + self.directory + "/" + self.properties[self.PROPERTY_PREVIEW]) + self.make_meta("twitter:image", self.site.URL + self.site.DIR_POSTS + "/" + self.directory + "/" + self.properties[self.PROPERTY_PREVIEW]) + self.make_meta("twitter:description", self.properties[self.PROPERTY_ABSTRACT]) + self.make_meta("twitter:site", "jobtalle.com") + self.make_meta("twitter:card", "summary") + self.make_meta("twitter:title", self.properties[self.PROPERTY_TITLE])
+		return \
+			self.make_meta("og:title", self.properties[self.PROPERTY_TITLE]) +\
+			self.make_meta("og:url", self.site.URL + self.get_post_file_name()) +\
+			self.make_meta("og:description", self.properties[self.PROPERTY_ABSTRACT]) +\
+			self.make_meta("og:image", self.site.URL + self.site.DIR_POSTS + "/" + self.directory + "/" + self.properties[self.PROPERTY_PREVIEW]) +\
+			self.make_meta("twitter:image", self.site.URL + self.site.DIR_POSTS + "/" + self.directory + "/" + self.properties[self.PROPERTY_PREVIEW]) +\
+			self.make_meta("twitter:description", self.properties[self.PROPERTY_ABSTRACT]) + self.make_meta("twitter:site", "jobtalle.com") +\
+			self.make_meta("twitter:card", "summary") + self.make_meta("twitter:title", self.properties[self.PROPERTY_TITLE])
 	
 	def get_css(self):
 		result = ""
@@ -175,6 +187,20 @@ class Post:
 			result = result + self.build_tag(tag)
 			
 		return result + "</div>"
+		
+	def build_neighbor(self, neighbor, type):
+		if neighbor is None:
+			return ""
+		
+		if type == self.CLASS_POST_REFERENCE_LEFT:
+			title_prefix = "Previously: "
+		else:
+			title_prefix = "Up next: "
+			
+		return "<a href=\"" + neighbor.get_post_file_name() + "\" title=\"" + title_prefix + neighbor.properties[self.PROPERTY_TITLE] + "\"><div class=\"" + self.CLASS_POST_REFERENCE + " " + type + "\">" + neighbor.properties[self.PROPERTY_TITLE] + "</div></a>"
+		
+	def build_neighbors(self, previous, next):
+		return "<div id=\"" + self.ID_REFERENCES + "\">" + self.build_neighbor(previous, self.CLASS_POST_REFERENCE_LEFT) + self.build_neighbor(next, self.CLASS_POST_REFERENCE_RIGHT) + "</div>"
 		
 	def build_post_link(self):
 		return "<div class=\"" + self.CLASS_POST_LINK + "\">" + self.get_preview() + self.get_post_header(self.properties[self.PROPERTY_TITLE], self.get_post_file_name()) + self.get_abstract() + self.build_tags() + "</div>"
@@ -334,9 +360,20 @@ class Site:
 	def build_posts(self):
 		self.post_links = []
 	
-		for post in self.posts:
+		for index in range(0, len(self.posts)):
+			if index == 0:
+				next = None
+			else:
+				next = self.posts[index - 1]
+				
+			if index == len(self.posts) - 1:
+				previous = None
+			else:
+				previous = self.posts[index + 1]
+				
+			post = self.posts[index]
 			if self.exclusive is None or post.get_post_file_name() == self.exclusive:
-				self.post_links.append(post.build())
+				self.post_links.append(post.build(previous, next))
 		
 	def get_index_count(self):
 		return int(math.ceil(float(self.get_post_count()) / self.INDEX_LINKS_PER_PAGE))

@@ -7,6 +7,7 @@
 	--color-light: #7A7A7A;
 	--color-code: #F0F0F0;
 	--max-width: 960px;
+	--bold-weight: 900;
 }
 
 body {
@@ -114,7 +115,7 @@ h1 {
 
 #content p a {
 	color: var(--color-elements);
-	font-weight: 900;
+	font-weight: var(--bold-weight);
 	text-decoration: inherit;
 }
 
@@ -211,7 +212,7 @@ h1 {
 #tags {
 	width: 100%;
 	display: inline-block;
-} 
+}
 
 .post-tag {
 	margin: 4px 2px 4px 2px;
@@ -243,6 +244,41 @@ h1 {
 #content-footer {
 	text-align: center;
 	width: 100%;
+}
+
+#references {
+	width: 100%;
+	display: inline-block;
+}
+
+.post-reference {
+	display: block;
+	color: var(--color-elements);
+	font-weight: var(--bold-weight);
+	margin: 12px 0px 12px 0px;
+}
+
+.post-reference:hover {
+	color: var(--color-hover);
+}
+
+.post-reference-left::before {
+	content: "\1f880";
+	margin-right: 5px;
+}
+
+.post-reference-left {
+	float: left;
+}
+
+.post-reference-right::after {
+	content: " \1f882";
+	margin-left: 5px;
+}
+
+.post-reference-right {
+	text-align: right;
+	float: right;
 }
 
 #footer {
