@@ -7,9 +7,7 @@
 <p>Coherent random noise is random noise which is not totally unpredictable; in other words, adjecent values in coherent random noise have some relation to each other, but the noise as a whole is random. An example of pure random noise is white noise, which is produced by a TV if no cable is plugged in. The noise is totally random, no patterns can be recognized. A cloudy sky is an example of coherent random noise. The patterns and shapes of individual clouds cannot be predicted, but the clouds themselves form recognizable features.</p>
 <figure title="Grayscale cubic noise">
 	<img local src="img/cubic_noise.jpg">
-	<figcaption>
-		Figure 1: Grayscale cubic noise with some octaves
-	</figcaption>
+	<figcaption>Figure 1: Grayscale cubic noise with some octaves</figcaption>
 </figure>
 <p>Random noise is often used to produce pseudorandom effects in software. A notable example is terrain in games. 2D coherent random noise is produced, and the values are interpreted as a heightmap. An interactive demonstration of this technique can be found further down this page.</p>
 <h2>Cubic noise</h2>
@@ -17,9 +15,7 @@
 <p>The algorithm for cubic noise can be found in <a href="https://www.github.com/jobtalle/CubicNoise" target="_blank">this repository</a>. Implementations for several programming languages are included. The algorithm is very simple, so it can easily be ported to other languages. I have published the repository under the unlicense, so there's no licensing to worry about.</p>
 <figure title="Different stages of cubic noise with four octaves">
 	<img local src="img/octaves.jpg">
-	<figcaption>
-		Figure 2: Four stages of noise generation with octaves
-	</figcaption>
+	<figcaption>Figure 2: Four stages of noise generation with octaves</figcaption>
 </figure>
 <h2>Octaves & falloff</h2>
 <p>The example in figure 1 shows some small scale detail, instead of just large smooth gradients. This is achieved by adding several <em>octaves</em> to the noise. The first octave has the largest influence and the largest scale (which means it has been zoomed in a lot). Every next octave has smaller influence and a finer scale than its predecessor. This process is shown in figure 2.</p>
