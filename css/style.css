@@ -258,7 +258,7 @@ h1 {
 }
 
 .post-reference-left::before {
-	content: "\1f880";
+	content: "<";
 	margin-right: 5px;
 }
 
@@ -267,7 +267,7 @@ h1 {
 }
 
 .post-reference-right::after {
-	content: " \1f882";
+	content: ">";
 	margin-left: 5px;
 }
 
