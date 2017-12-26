@@ -94,8 +94,6 @@ class Post:
 		result = result.replace(self.site.KEY_CONTENT, content)
 		result = result.replace(self.site.KEY_POST_SCRIPT, post_script)
 		result = result.replace(self.site.KEY_META, self.get_meta())
-		result = result.replace("\n", "");
-		result = result.replace("\t", "");
 		
 		file = open(self.get_post_file_name(), "w")
 		file.write(result)
@@ -345,8 +343,6 @@ class Site:
 		result = result.replace(self.KEY_CONTENT, source)
 		result = result.replace(self.KEY_POST_SCRIPT, "")
 		result = result.replace(self.KEY_META, "")
-		result = result.replace("\n", "");
-		result = result.replace("\t", "");
 			
 		file = open(page, "w")
 		file.write(result)
@@ -423,9 +419,6 @@ class Site:
 			result = result.replace(self.KEY_META, "")
 		else:
 			result = content
-			
-		result = result.replace("\n", "");
-		result = result.replace("\t", "");
 			
 		file = open(self.get_index_file_name(index), "w")
 		file.write(result)
