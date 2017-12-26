@@ -2,12 +2,7 @@
 <html>
 	<head>
 		<script async src="https://www.googletagmanager.com/gtag/js?id=UA-109031298-1"></script>
-		<script>
-			window.dataLayer = window.dataLayer || [];
-			function gtag(){dataLayer.push(arguments);}
-			gtag('js', new Date());
-			gtag('config', 'UA-109031298-1');
-		</script>
+		<script src="js/google.js"></script>
 		<title>$title$</title>
 		<meta charset="UTF-8">
 		<meta name="description" content="$description$"/>
@@ -40,14 +35,6 @@
 			</div>
 		</div>
 		$post-script$
-		<script>
-			var result = 2017;
-			var currentYear = new Date().getFullYear();
-			
-			if(currentYear > result)
-				result += " - " + currentYear;
-			
-			document.getElementById("footer").innerHTML += result;
-		</script>
+		<script src="js/setyear.js"></script>
 	</body>
 </html>

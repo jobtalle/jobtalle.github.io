@@ -12,6 +12,10 @@ def format_page_name(name):
 
 def get_tag_url(tag):
 	return format_page_name("tag " + tag)
+	
+def compress(string):
+	return string.replace("\t", "").replace(">\n", ">");
+	
 
 class Post:
 	FILE_CONTENT = "content.html"
@@ -96,7 +100,7 @@ class Post:
 		result = result.replace(self.site.KEY_META, self.get_meta())
 		
 		file = open(self.get_post_file_name(), "w")
-		file.write(result)
+		file.write(compress(result))
 		file.close()
 		
 		self.site.log_scope_decrement()
@@ -310,7 +314,7 @@ class Site:
 			result = result.replace(self.KEY_META, "")
 				
 			file = open(page, "w")
-			file.write(result)
+			file.write(compress(result))
 			file.close()
 		
 	def build_menu(self, current = None):
@@ -345,7 +349,7 @@ class Site:
 		result = result.replace(self.KEY_META, "")
 			
 		file = open(page, "w")
-		file.write(result)
+		file.write(compress(result))
 		file.close()
 	
 	def build_posts(self):
@@ -421,7 +425,7 @@ class Site:
 			result = content
 			
 		file = open(self.get_index_file_name(index), "w")
-		file.write(result)
+		file.write(compress(result))
 		file.close()
 	
 	def log(self, message):

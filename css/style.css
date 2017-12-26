@@ -298,6 +298,7 @@ h1 {
 	background-size: 64px 32px;
 	width: 32px;
 	height: 32px;
+	margin: 0px 1px 0px 1px;
 }
 
 .icon:hover {
