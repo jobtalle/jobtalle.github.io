@@ -90,7 +90,6 @@ class Post:
 		result = result.replace(self.site.KEY_TITLE, self.site.TITLE + self.site.TITLE_DIVISOR + self.properties[self.PROPERTY_TITLE])
 		result = result.replace(self.site.KEY_DESCRIPTION, self.properties[self.PROPERTY_ABSTRACT])
 		result = result.replace(self.site.KEY_ADDITIONAL_CSS, additional_css)
-		result = result.replace(self.site.KEY_CONTENT_FOOTER, "")
 		result = result.replace(self.site.KEY_MENU_BUTTONS, self.site.build_menu())
 		result = result.replace(self.site.KEY_CONTENT, content)
 		result = result.replace(self.site.KEY_POST_SCRIPT, post_script)
@@ -225,17 +224,13 @@ class Site:
 
 	KEY_TITLE = "$title$"
 	KEY_ADDITIONAL_CSS = "$additional-css$"
-	KEY_ADDITIONAL_JAVASCRIPT = "$additional-javascript$"
 	KEY_MENU_BUTTONS = "$menu-buttons$"
 	KEY_CONTENT = "$content$"
-	KEY_CONTENT_FOOTER = "$content-footer$"
 	KEY_POST_SCRIPT = "$post-script$"
 	KEY_DESCRIPTION = "$description$"
 	KEY_META = "$additional-meta$"
 
 	INDEX_LINKS_PER_PAGE = 6
-	
-	ID_LOAD_MORE = "load-more"
 	
 	SCRIPT_LOAD_MORE = "<script src=\"js/loadmore.js\"></script>"
 	
@@ -309,10 +304,8 @@ class Site:
 			result = result.replace(self.KEY_TITLE, self.TITLE + self.TITLE_DIVISOR + tag)
 			result = result.replace(self.KEY_DESCRIPTION, self.DESCRIPTION)
 			result = result.replace(self.KEY_ADDITIONAL_CSS, "")
-			result = result.replace(self.KEY_ADDITIONAL_JAVASCRIPT, "")
 			result = result.replace(self.KEY_MENU_BUTTONS, self.build_menu())
 			result = result.replace(self.KEY_CONTENT, posts)
-			result = result.replace(self.KEY_CONTENT_FOOTER, "")
 			result = result.replace(self.KEY_POST_SCRIPT, "")
 			result = result.replace(self.KEY_META, "")
 				
@@ -346,10 +339,8 @@ class Site:
 		result = result.replace(self.KEY_TITLE, self.TITLE + self.TITLE_DIVISOR + title)
 		result = result.replace(self.KEY_DESCRIPTION, self.DESCRIPTION)
 		result = result.replace(self.KEY_ADDITIONAL_CSS, "")
-		result = result.replace(self.KEY_ADDITIONAL_JAVASCRIPT, "")
 		result = result.replace(self.KEY_MENU_BUTTONS, self.build_menu(page))
 		result = result.replace(self.KEY_CONTENT, source)
-		result = result.replace(self.KEY_CONTENT_FOOTER, "")
 		result = result.replace(self.KEY_POST_SCRIPT, "")
 		result = result.replace(self.KEY_META, "")
 			
@@ -415,20 +406,17 @@ class Site:
 			content = content + self.post_links[i]
 			
 		if index == 0:
+			if self.get_index_count() > 1:
+				content += self.get_load_more()
+		
 			result = self.template
 			result = result.replace(self.KEY_TITLE, self.TITLE)
 			result = result.replace(self.KEY_DESCRIPTION, self.DESCRIPTION)
 			result = result.replace(self.KEY_ADDITIONAL_CSS, "")
-			result = result.replace(self.KEY_ADDITIONAL_JAVASCRIPT, self.SCRIPT_LOAD_MORE)
 			result = result.replace(self.KEY_MENU_BUTTONS, self.build_menu("index.html"))
 			result = result.replace(self.KEY_CONTENT, content)
-			result = result.replace(self.KEY_POST_SCRIPT, "")
+			result = result.replace(self.KEY_POST_SCRIPT, self.SCRIPT_LOAD_MORE)
 			result = result.replace(self.KEY_META, "")
-			
-			if self.get_index_count() == 1:
-				result = result.replace(self.KEY_CONTENT_FOOTER, "")
-			else:
-				result = result.replace(self.KEY_CONTENT_FOOTER, self.get_load_more())
 		else:
 			result = content
 			

@@ -241,11 +241,6 @@ h1 {
 	color: var(--color-light);
 }
 
-#content-footer {
-	text-align: center;
-	width: 100%;
-}
-
 #references {
 	width: 100%;
 	display: inline-block;
@@ -327,6 +322,10 @@ h1 {
 
 #load-more {
 	margin: 8px auto 8px auto;
+	text-align: center;
+}
+
+#load-more .round-button {
 	display: inline-block;
 }
 
