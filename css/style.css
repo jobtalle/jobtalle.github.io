@@ -255,7 +255,7 @@ h1 {
 	display: block;
 	color: var(--color-elements);
 	font-weight: var(--bold-weight);
-	margin: 12px 0px 12px 0px;
+	margin-bottom: 12px;
 }
 
 .post-reference:hover {
