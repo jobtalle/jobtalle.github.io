@@ -20,6 +20,9 @@ def compress(string):
 class Post:
 	FILE_CONTENT = "content.html"
 	FILE_PROPERTIES = "properties.json"
+	FILE_KATEX_CSS = "katex_css.html"
+	FILE_KATEX_SCRIPT = "katex_script.html"
+	FILE_PRETTIFY = "prettify.html"
 	
 	PROPERTY_TITLE = "title"
 	PROPERTY_ABSTRACT = "abstract"
@@ -38,10 +41,6 @@ class Post:
 	ID_REFERENCES = "references"
 	
 	CLASS_TAG = "post-tag"
-	
-	KATEX_CSS = "<link rel=\"stylesheet\" href=\"https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.9.0-alpha1/katex.min.css\" integrity=\"sha384-8QOKbPtTFvh/lMY0qPVbXj9hDh+v8US0pD//FcoYFst2lCIf0BmT58+Heqj0IGyx\" crossorigin=\"anonymous\">"
-	KATEX_POST_SCRIPT = "<script src=\"https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.9.0-alpha1/katex.min.js\" integrity=\"sha384-GR8SEkOO1rBN/jnOcQDFcFmwXAevSLx7/Io9Ps1rkxWp983ZIuUGfxivlF/5f5eJ\" crossorigin=\"anonymous\"></script><script src=\"https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.9.0-alpha1/contrib/auto-render.min.js\" integrity=\"sha384-cXpztMJlr2xFXyDSIfRWYSMVCXZ9HeGXvzyKTYrn03rsMAlOtIQVzjty5ULbaP8L\" crossorigin=\"anonymous\"></script><script>renderMathInElement(document.getElementById(\"content\"),{delimiters:[{left:\"$$\",right:\"$$\",display:true},{left:\"$\",right:\"$\",display:false}]})</script>"
-	PRETTIFY_SCRIPT = "<script src=\"https://cdn.rawgit.com/google/code-prettify/master/loader/run_prettify.js\"></script>"
 	
 	MONTH_ABBREVIATIONS = [
 		"Jan",
@@ -67,6 +66,30 @@ class Post:
 		self.validate_requirements()
 		self.read_properties()
 		
+	@staticmethod
+	def get_katex_css():
+		file = open(Site.DIR_TEMPLATES + "/" + Post.FILE_KATEX_CSS)
+		content = file.read()
+		file.close()
+		
+		return content
+		
+	@staticmethod
+	def get_katex_script():
+		file = open(Site.DIR_TEMPLATES + "/" + Post.FILE_KATEX_SCRIPT)
+		content = file.read()
+		file.close()
+		
+		return content
+	
+	@staticmethod
+	def get_prettify():
+		file = open(Site.DIR_TEMPLATES + "/" + Post.FILE_PRETTIFY)
+		content = file.read()
+		file.close()
+		
+		return content
+		
 	def get_content(self, previous, next):
 		contentFile = open(self.content)
 		content = self.get_post_header(self.properties[self.PROPERTY_TITLE]) + contentFile.read() + self.build_neighbors(previous, next) + self.build_tags()
@@ -81,14 +104,14 @@ class Post:
 		content = self.get_content(previous, next)
 		
 		if "$" in content:
-			post_script = self.KATEX_POST_SCRIPT
-			additional_css = self.get_css() + self.KATEX_CSS
+			post_script = self.get_katex_script()
+			additional_css = self.get_css() + self.get_katex_css()
 		else:
 			post_script = ""
 			additional_css = self.get_css()
 		
 		if "<pre class=\"prettyprint" in content or "<code class=\"prettyprint" in content:
-			post_script += self.PRETTIFY_SCRIPT
+			post_script += self.get_prettify()
 	
 		result = self.site.template
 		result = result.replace(self.site.KEY_TITLE, self.site.TITLE + self.site.TITLE_DIVISOR + self.properties[self.PROPERTY_TITLE])
