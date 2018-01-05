@@ -60,7 +60,7 @@ function preset() {
 					"B = B",
 					"C ="
 				],
-				"5",
+				"4",
 				"plant");
 			break;
 		case "spring":
