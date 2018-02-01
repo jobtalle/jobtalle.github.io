@@ -1,0 +1,13 @@
+#controls {
+	float: right;
+	text-align: right;
+}
+
+.input-slider {
+	min-width: 75px;
+	width: 100%;
+}
+
+.input-value {
+	width: 32px;
+}
