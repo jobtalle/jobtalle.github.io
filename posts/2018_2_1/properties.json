@@ -1,6 +1,6 @@
 {
 	"title": "Swarm behaviour",
-	"abstract": "Swarm behaviour can be simulated using a few simple rules. Implementing these rules enables us to simulate flocking birds, schooling fish and moving crowds. In this article, I walk through the process of implementing such a simulation.",
+	"abstract": "Swarm behaviour can be simulated using a few simple rules. Implementing these rules enables us to simulate flocking birds, schooling fish and swarming crowds. In this article, I walk through the process of implementing this algorithm.",
 	"preview": "img/preview.jpg",
 	"tags": ["Interactive", "Source code"]
 }
