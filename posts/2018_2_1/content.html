@@ -29,7 +29,7 @@
 	<li>The ring around the repulsion zone is the <em>alignment zone</em>. If agents are in each others alignment zone, they will both steer to match each others direction; they want to stay together, and moving into the same direction will accomplish that. Once agents are aligned, little steering is required.</li>
 	<li>The outer ring is called the <em>attraction zone</em>. If an agent detects another agent in the attraction zone, it will steer towards that agent in order to follow it. I have limited this zone by a certain angle to simulate the field of view of eyes. An agent won't usually steer towards agents behind it, because it doesn't have eyes in its back.</li>
 </ul>
-<p>When agents apply the three simple rules above, seemingly complex behaviour emerges. The implementation can be tested below, and its javascript source can be found <a href="https://github.com/jobtalle/Swarm" target="_blank">here</a>. The effect of all parameters is explained below. Increase the number of agents to start the simulation.</p>
+<p>When agents apply the three simple rules above, seemingly complex behaviour emerges. The implementation can be tested below, and its javascript source can be found <a href="https://github.com/jobtalle/Swarm" target="_blank">here</a>. The effect of all parameters is explained below.</p>
 <div class="full-width">
 	<canvas id="renderer" width=480 height=512></canvas>
 	<div id="controls">
