@@ -1,5 +1,5 @@
 {
-	"title": "2D Platformer physics",
+	"title": "2D platformer physics",
 	"abstract": "In this tutorial I walk through the process of writing a simple grid based platformer in javascript. The result is a universal platform physics engine suitable for any platformer. This implementation uses edge collisions instead of cell collisions, which allows for more compact level design.",
 	"preview": "img/preview.jpg",
 	"tags": ["Interactive", "Tutorial", "Source code"]
