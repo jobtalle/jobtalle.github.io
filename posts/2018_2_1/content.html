@@ -37,7 +37,7 @@
 			<tr>
 				<td>Agents:</td>
 				<td>
-					<input class="input-slider" type="range" min="0" max="250" value="0" id="input-agent-count" onchange="sim.configure();">
+					<input class="input-slider" type="range" min="0" max="250" value="20" id="input-agent-count" onchange="sim.configure();">
 				</td>
 				<td>
 					<input class="input-value" type="text" readonly id="value-agent-count">
@@ -126,7 +126,7 @@
 			</tr>
 		</table>
 		<button onclick="sim.scatter();">Scatter</button>
-		<script>sim = new SwarmSim(document.getElementById("renderer"));</script>
+		<script>sim = new SwarmSim(document.getElementById("renderer")); sim.start();</script>
 	</div>
 </div>
 <p>The application above has a number of parameters which influence agent behaviour.</p>

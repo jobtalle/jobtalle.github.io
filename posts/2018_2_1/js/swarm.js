@@ -4,7 +4,6 @@ function SwarmSim(canvas) {
 	this.height = canvas.height;
 	this.view = new View(this.width, this.height);
 	this.agents = [];
-	this.started = false;
 	
 	this.configure();
 }
@@ -15,11 +14,6 @@ SwarmSim.prototype = {
 	configure() {
 		this.configuration = new Configuration(this.updateConfiguration.bind(this));
         this.updateConfiguration();
-		
-		if(!this.started) {
-			this.started = true;
-			this.start();
-		}
 	},
     
     updateConfiguration() {
