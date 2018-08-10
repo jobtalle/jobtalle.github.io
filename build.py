@@ -233,7 +233,7 @@ class Post:
 	
 	
 class Site:
-	URL = "http://jobtalle.com/"
+	URL = "https://jobtalle.com/"
 	
 	LOCALE = "en_US"
 	
