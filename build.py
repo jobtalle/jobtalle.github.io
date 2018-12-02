@@ -186,10 +186,24 @@ class Post:
 			link_open = "<a href=\"" + url + "\">"
 			link_close = "</a>"
 
-		return "<h1>" + link_open + title + link_close + "</h1><span class=\"date\">" + self.get_date() + "</span>"
+		return \
+			"<h1>" +\
+			link_open +\
+			title +\
+			link_close +\
+			"</h1><span class=\"date\">" +\
+			self.get_date() +\
+			"</span>"
 
 	def get_preview(self):
-		return "<div class=\"post-link-preview\"><a href=\"" + self.get_post_file_name() + "\"><img src=\"" + self.get_preview_file() + "\" title=\"" + self.properties[self.PROPERTY_TITLE] + "\"></a></div>"
+		return \
+			"<div class=\"post-link-preview\"><a href=\"" +\
+			self.get_post_file_name() +\
+			"\"><img src=\"" +\
+			self.get_preview_file() +\
+			"\" title=\"" +\
+			self.properties[self.PROPERTY_TITLE] +\
+			"\"></a></div>"
 
 	def get_abstract(self):
 		return "<p>" + self.properties[self.PROPERTY_ABSTRACT] + "</p>"
@@ -204,7 +218,15 @@ class Post:
 		return self.properties[self.PROPERTY_TAGS]
 
 	def build_tag(self, tag):
-		return "<a href=\"" + get_tag_url(tag) + "\" title=\"Show posts tagged with '" + tag + "'\"><div class=\"" + self.CLASS_TAG + " round-button\">" + tag + "</div></a>"
+		return \
+			"<a href=\"" + get_tag_url(tag) +\
+			"\" title=\"Show posts tagged with '" +\
+			tag +\
+			"'\"><div class=\"" +\
+			self.CLASS_TAG +\
+			" round-button\">" +\
+			tag +\
+			"</div></a>"
 
 	def build_tags(self):
 		if BUILD_TAGS is False:
@@ -228,13 +250,39 @@ class Post:
 		else:
 			title_prefix = "Up next: "
 
-		return "<a href=\"" + neighbor.get_post_file_name() + "\" title=\"" + title_prefix + neighbor.properties[self.PROPERTY_TITLE] + "\"><div class=\"" + self.CLASS_POST_REFERENCE + " " + type + "\">" + neighbor.properties[self.PROPERTY_TITLE] + "</div></a>"
+		return \
+			"<a href=\"" +\
+			neighbor.get_post_file_name() +\
+			"\" title=\"" +\
+			title_prefix +\
+			neighbor.properties[self.PROPERTY_TITLE] +\
+			"\"><div class=\"" +\
+			self.CLASS_POST_REFERENCE +\
+			" " +\
+			type +\
+			"\">" +\
+			neighbor.properties[self.PROPERTY_TITLE] +\
+			"</div></a>"
 
 	def build_neighbors(self, previous, next):
-		return "<div id=\"" + self.ID_REFERENCES + "\">" + self.build_neighbor(previous, self.CLASS_POST_REFERENCE_LEFT) + self.build_neighbor(next, self.CLASS_POST_REFERENCE_RIGHT) + "</div>"
+		return \
+			"<div id=\"" +\
+			self.ID_REFERENCES +\
+			"\">" +\
+			self.build_neighbor(previous, self.CLASS_POST_REFERENCE_LEFT) +\
+			self.build_neighbor(next, self.CLASS_POST_REFERENCE_RIGHT) +\
+			"</div>"
 
 	def build_post_link(self):
-		return "<div class=\"" + self.CLASS_POST_LINK + "\">" + self.get_preview() + self.get_post_header(self.properties[self.PROPERTY_TITLE], self.get_post_file_name()) + self.get_abstract() + self.build_tags() + "</div>"
+		return \
+			"<div class=\"" +\
+			self.CLASS_POST_LINK +\
+			"\">" +\
+			self.get_preview() +\
+			self.get_post_header(self.properties[self.PROPERTY_TITLE], self.get_post_file_name()) +\
+			self.get_abstract() +\
+			self.build_tags() +\
+			"</div>"
 
 
 class Site:
