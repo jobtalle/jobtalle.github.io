@@ -22,7 +22,7 @@ const Plant = function() {
 
 Plant.prototype = Object.create(Agent.prototype);
 
-Plant.EAT_SPEED = 5;
+Plant.EAT_SPEED = 6;
 Plant.MASS_MIN = 5;
 Plant.COPY_THRESHOLD = 160;
 Plant.COPY_THRESHOLD_MAX = 180;

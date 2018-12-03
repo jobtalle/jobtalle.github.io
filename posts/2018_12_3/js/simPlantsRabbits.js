@@ -8,9 +8,9 @@ const plantsRabbitsGridCanvas = document.createElement("canvas");
 const plantsRabbitsGraphCanvas = document.createElement("canvas");
 
 plantsRabbitsGridCanvas.width = plantsRabbitsGridDiv.clientWidth;
-plantsRabbitsGridCanvas.height = plantsRabbitsGridDiv.clientHeight;
+plantsRabbitsGridCanvas.height = plantsRabbitsGridCanvas.width * 0.6;
 plantsRabbitsGraphCanvas.width = plantsRabbitsGraphDiv.clientWidth;
-plantsRabbitsGraphCanvas.height = plantsRabbitsGraphDiv.clientHeight;
+plantsRabbitsGraphCanvas.height = plantsRabbitsGraphCanvas.width * 0.2;
 
 plantsRabbitsGridDiv.appendChild(plantsRabbitsGridCanvas);
 plantsRabbitsGraphDiv.appendChild(plantsRabbitsGraphCanvas);
@@ -28,4 +28,4 @@ new Instance(
     plantsRabbitsControls.getElementsByClassName("play")[0],
     plantsRabbitsControls.getElementsByClassName("step")[0],
     plantsRabbitsControls.getElementsByClassName("reset")[0],
-	400);
+	550);
