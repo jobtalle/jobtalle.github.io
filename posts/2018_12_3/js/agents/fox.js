@@ -48,9 +48,9 @@ const Fox = function() {
 
 Fox.prototype = Object.create(Agent.prototype);
 
-Fox.MASS_MIN = 2000;
+Fox.MASS_MIN = 1500;
 Fox.MOVE_CHANCE = 0.2;
-Fox.HERBIVORE_THRESHOLD = 2500;
+Fox.HERBIVORE_THRESHOLD = 4000;
 Fox.HERBIVORE_CHANCE = 0.8;
-Fox.MOVE_THRESHOLD = 1500;
-Fox.COPY_THRESHOLD = 5000;
+Fox.MOVE_THRESHOLD = 3000;
+Fox.COPY_THRESHOLD = 6000;

@@ -57,7 +57,7 @@ const makeRabbitsFoxes = () => {
 		plantsRabbitsGraphCanvas,
 		plantsRabbitsGraphLegendDiv,
 		[Types.TYPE_PLANT, Types.TYPE_RABBIT, Types.TYPE_FOX],
-	    [0.5, 0.01, 0.01],
+	    [0.5, 0.02, 0.002],
 	    plantsRabbitsControls.getElementsByClassName("frame")[0],
 	    plantsRabbitsControls.getElementsByClassName("stop")[0],
 	    plantsRabbitsControls.getElementsByClassName("play")[0],
