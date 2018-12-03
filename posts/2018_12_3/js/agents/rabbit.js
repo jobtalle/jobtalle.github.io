@@ -23,8 +23,14 @@ const Rabbit = function(direction) {
         if (Math.random() < Rabbit.TURN_CHANCE)
             _direction = Math.floor(Math.random() * 6);
 
-        if (this.getMass() < Rabbit.IDLE_THRESHOLD && Math.random() < Rabbit.IDLE_CHANCE)
+        if (this.getMass() < Rabbit.IDLE_THRESHOLD && Math.random() < Rabbit.IDLE_CHANCE) {
+            const access = context.getAccess();
+
+            if (access.length)
+              _direction = access[Math.floor(Math.random() * access.length)];
+
             return new Action(Action.TYPE_IDLE);
+          }
 
         return new Action(Action.TYPE_MOVE, _direction);
     };
@@ -35,5 +41,5 @@ Rabbit.prototype = Object.create(Agent.prototype);
 Rabbit.MASS_MIN = 180;
 Rabbit.IDLE_CHANCE = 0.7;
 Rabbit.IDLE_THRESHOLD = 400;
-Rabbit.COPY_THRESHOLD = 1700;
+Rabbit.COPY_THRESHOLD = 1600;
 Rabbit.TURN_CHANCE = 0.5;
