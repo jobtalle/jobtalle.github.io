@@ -1,0 +1,40 @@
+#sim-plants-rabbits {
+	width: 100%;
+}
+
+.simulation .wrapper {
+	height: 500px;
+}
+
+.simulation .grid {
+	position: relative;
+	width: 100%;
+	height: 70%;
+}
+
+.simulation .grid .legend {
+	position: absolute;
+    left: 0;
+    top: 0;
+	white-space: nowrap;
+	background-color: #00000060;
+	padding: 6px;
+	color: white;
+}
+
+.simulation .graph {
+	position: relative;
+	width: 100%;
+	height: 30%;
+}
+
+.simulation .graph .legend {
+    position: absolute;
+    left: 0;
+    bottom: 0;
+	width: 150px;
+}
+
+.simulation .graph .legend .legend-entry {
+	margin: 4px;
+}

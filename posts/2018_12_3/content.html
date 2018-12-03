@@ -1,3 +1,22 @@
+<script local src="js/vector.js"></script>
+<script local src="js/gridPoint.js"></script>
+<script local src="js/grid.js"></script>
+<script local src="js/gui.js"></script>
+<script local src="js/simulation.js"></script>
+<script local src="js/agents/types.js"></script>
+<script local src="js/agents/agent.js"></script>
+<script local src="js/agents/plant.js"></script>
+<script local src="js/agents/rabbit.js"></script>
+<script local src="js/agents/fox.js"></script>
+<script local src="js/agents/colors.js"></script>
+<script local src="js/agents/names.js"></script>
+<script local src="js/agents/objects.js"></script>
+<script local src="js/gridRenderer.js"></script>
+<script local src="js/tileRenderer.js"></script>
+<script local src="js/graphRenderer.js"></script>
+<script local src="js/action.js"></script>
+<script local src="js/context.js"></script>
+<script local src="js/instance.js"></script>
 <h2>Closed ecosystems</h2>
 <p>The type of ecosystem I want to simulate is a <em>closed ecosystem</em>. This means nothing enters or leaves the system from the outside world. In this way, ecosystems can never lose all their contents and die as a result, and organisms inside it cannot cheat by giving themselves something that didn't exist in the ecosystem before.</p>
 <figure title="A closed ecosystem">
@@ -83,3 +102,24 @@
 <p>I have implemented the simulation described above. To demonstrate it, I have also implemented two rather simple agents.</p>
 <p>The <em>plant</em> consumes fertilizer from the ground at a slow rate, or idles when not enough fertilizer is available. When a certain mass threshold is reached, the plant tries to copy itself to a free neighboring tile.</p>
 <p>The <em>rabbit</em> looks in a certain direction and eats a plant if it sees one. When a plant is eaten, the rabbit continues to move into that direction hoping to find more plants. When no plant is found, the rabbit moves around randomly. If the rabbit's mass gets very low, the rabbit tends to idle to conserve energy.</p>
+<div id="sim-plants-rabbits" class="simulation">
+	<div class="wrapper">
+		<div class="grid">
+			<div class="legend-area"></div>
+		</div>
+		<div class="graph">
+			<div class="legend-area"></div>
+		</div>
+	</div>
+	<div class="controls">
+		<label>
+			<input class="frame" type="text" readonly>
+		</label>
+		<button class="stop">◼</button>
+		<button class="play">►</button>
+		<button class="step">Step</button>
+		<button class="reset">Reset</button>
+	</div>
+</div>
+<div id="sim-plants-rabbits-controls"></div>
+<script local src="js/simPlantsRabbits.js"></script>
