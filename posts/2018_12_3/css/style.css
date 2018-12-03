@@ -2,12 +2,12 @@
 	width: 100%;
 }
 
-.simulation canvas {
-	width: 100%;
+.simulation {
+	
 }
 
-.simulation .wrapper {
-	
+.simulation canvas {
+	width: 100%;
 }
 
 .simulation .grid {

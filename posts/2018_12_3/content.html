@@ -115,19 +115,20 @@
 		<label>
 			<input class="frame" type="text" readonly>
 		</label>
-		<button class="stop">◼</button>
-		<button class="play">►</button>
+		<button class="stop">Stop</button>
+		<button class="play">Play</button>
 		<button class="step">Step</button>
 		<button class="reset">Reset</button>
 	</div>
 </div>
-<div id="sim-plants-rabbits-controls"></div>
 <script local src="js/simPlantsRabbits.js"></script>
 <p>While the simulation runs, a graph is generated below it. This graph shows how the biomass of the system is built up. Most of it is gray, this is the dead biomass or fertilizer. A part of it consists of the organisms in the legend, plants and rabbits in this case. Usually, the course of the simulation follows a predictable pattern:</p>
 <ul>
-	<li>The plants grow quickly.</li>
+	<li>The plants grow quickly, because there are only a few rabbits eating them.</li>
 	<li>Because there is more food, the population of rabbits grows too.</li>
 	<li>The number of plants decreases because of the eating rabbits.</li>
 	<li>The number of rabbits decreases because there are less plants.</li>
 </ul>
-<p>This process repeats indefinitely, or until an unfortunate twist of fate causes the rabbits to go extinct. After initialization, the situation is very random and unstable. At first, big shifts in populations occur often. After a few waves though, the simulation seems to become more stable. This is similar to the early behavior of my ecosystem in a jar: the water quality and animal populations showed a few peaks and valleys before finally stabilising.</p>
+<p>This process repeats indefinitely, or until an unfortunate twist of fate causes the rabbits to go extinct. After initialization, the situation is very random and unstable. At first, big shifts in populations occur often. After a few waves, the simulation seems to become more stable. This is similar to the early behavior of my ecosystem in a jar: the water quality and animal populations showed a few peaks and valleys before finally stabilising.</p>
+<p>I had to adjust the parameters for quite a bit to make a balanced ecosystem where multiple species continuously exist. Firstly, the plants should multiply much faster and be less massive than rabbits to allow the rabbits to eat enough of them. Secondly, the rabbits shouldn't reproduce too quickly, and they should die when there is not enough plant material to feed them. In fact, all agents should die as soon as their chances of survival become too small to make sure their mass is assimilated into the ecosystem again, because others need it to survive.</p>
+<p>I have published the code for this simulation <a href="https://github.com/jobtalle/PredatorPreySystem" target="_blank">on GitHub</a> under the MIT license.</p>

@@ -16,7 +16,7 @@ plantsRabbitsGridDiv.appendChild(plantsRabbitsGridCanvas);
 plantsRabbitsGraphDiv.appendChild(plantsRabbitsGraphCanvas);
 
 new Instance(
-	7,
+	Math.ceil(plantsRabbitsGridCanvas.width / 130),
 	plantsRabbitsGridCanvas,
 	plantsRabbitsGridLegendDiv,
 	plantsRabbitsGraphCanvas,

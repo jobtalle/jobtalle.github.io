@@ -1,11 +1,11 @@
 const ColorsLow = [
     "#91ba87",
-    "#997dd1",
-    "#d1984b"
+	"#d1984b",
+    "#997dd1"
 ];
 
 const ColorsHigh = [
     "#46683e",
-    "#431b9c",
-    "#a86c19"
+	"#a86c19",
+    "#431b9c"
 ];

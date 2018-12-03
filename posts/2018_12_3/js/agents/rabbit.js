@@ -32,7 +32,7 @@ const Rabbit = function(direction) {
 
 Rabbit.prototype = Object.create(Agent.prototype);
 
-Rabbit.MASS_MIN = 100;
+Rabbit.MASS_MIN = 150;
 Rabbit.IDLE_CHANCE = 0.7;
 Rabbit.IDLE_THRESHOLD = 400;
 Rabbit.COPY_THRESHOLD = 1500;
