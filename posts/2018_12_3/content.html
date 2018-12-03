@@ -96,7 +96,7 @@
 	<li>The amount of fertilizer in the tile the agent is on.</li>
 	<li>The accessibility of the tiles around the agents.</li>
 </ul>
-<p>A single function is responsible for an agent's behavior. This function takes a context as an argument, and returns an action. If this action turns out to be impossible (for example if an agent tries to move to a blocked tile), the idle action will be performed instead. Because of this, every agent will perform some action whenever the simulation is updated.</p>
+<p>A single function is responsible for an agent's behaviour. This function takes a context as an argument, and returns an action. If this action turns out to be impossible (for example if an agent tries to move to a blocked tile), the idle action will be performed instead. Because of this, every agent will perform some action whenever the simulation is updated.</p>
 <p>Finally, every agent must have a minimum mass. If an agent falls below that mass, the agent will die. You might think entering the lowest possible mass would be cheating here. It turns out this is not the case, but more on this later.</p>
 <h2>Plants and rabbits</h2>
 <p>I have implemented the simulation described above. To demonstrate it, I have also implemented two rather simple agents.</p>
@@ -129,7 +129,7 @@
 	<li>The number of plants decreases because of the eating rabbits.</li>
 	<li>The number of rabbits decreases because there are less plants.</li>
 </ul>
-<p>This process repeats infinitely, or until an unfortunate twist of fate causes the rabbits to go extinct. After initialization, the situation is very random and unstable. At first, big shifts in populations occur often. After a few waves, the simulation seems to become more stable. This is similar to the early behavior of my ecosystem in a jar: the water quality and animal populations showed a few peaks and valleys before finally stabilising.</p>
+<p>This process repeats infinitely, or until an unfortunate twist of fate causes the rabbits to go extinct. After initialization, the situation is very random and unstable. At first, big shifts in populations occur often. After a few waves, the simulation seems to become more stable. This is similar to the early behaviour of my ecosystem in a jar: the water quality and animal populations showed a few peaks and valleys before finally stabilising.</p>
 <p>I had to adjust the parameters quite a bit to make a balanced ecosystem where multiple species continuously exist. Firstly, the plants should multiply much faster and be less massive than rabbits to allow the rabbits to eat enough of them. Secondly, the rabbits shouldn't reproduce too quickly, and they should die when there is not enough plant material to feed them. In fact, all agents should die as soon as their chances of survival become too small to make sure their mass is assimilated into the ecosystem again, because others need it to survive.</p>
 <p>I have published the code for this simulation <a href="https://github.com/jobtalle/PredatorPreySystem" target="_blank">on GitHub</a> under the MIT license.</p>
 <h2>Predators</h2>
@@ -153,7 +153,7 @@
 		<button class="reset">Reset</button>
 	</div>
 </div>
-<p>The foxes need to be heavier than the rabbits to be able to eat them. They also need to be a fair bit smarter than their prey to be able to catch them. Additionally, they will eat rabbits less often than rabbits eat plants, because the number of rabbits in the simulation is low compared to the number of plants. This means foxes need to spend their hard earned mass sparingly. I made a fox with the following behavior:</p>
+<p>The foxes need to be heavier than the rabbits to be able to eat them. They also need to be a fair bit smarter than their prey to be able to catch them. Additionally, they will eat rabbits less often than rabbits eat plants, because the number of rabbits in the simulation is low compared to the number of plants. This means foxes need to spend their hard earned mass sparingly. I made a fox with the following behaviour:</p>
 <ul>
 	<li>Foxes are omnivores, so they will eat plants when hungry.</li>
 	<li>Meat is a part of their diet, so they will only reproduce when eating meat. More precisely, they only eat plants when hungry, and thus they can only reach the size at which they reproduce by eating rabbits.</li>
@@ -164,5 +164,5 @@
 <h2>Conclusion</h2>
 <p>Implementing these simulations was an interesting exercise. It is noteworthy that the ratio of the organisms over time (especially in the first simulation with rabbits and plants) strongly resembles the <a href="https://en.wikipedia.org/wiki/Lotka%E2%80%93Volterra_equations" target="_blank"><em>Lotka-Volterra equations</em></a> which are used to describe such biological systems. The simulations seem to be usable models for ecosystems.</p>
 <p>Currently, agents do not have a memory at all, so the awareness of their surroundings is very limited. Mapping recently visited tiles or being able to walk back to a previously visited spot could give rise to more succesful strategies.</p>
-<p>The agents have been "hard-coded" by me and do not change their behavior over time. An interesting extension would be evolving or adapting behavior. In <a href="https://github.com/jobtalle/PredatorPreySystem" target="_blank">the implementation</a>, every agent has a <em>copy</em> function. This is currently more of a placeholder, but it can be used to let agents inherit behavior from their parent. Agents could then slightly randomize their tactics, and the best tactics would become dominant through reproduction.</p>
+<p>The agents have been "hard-coded" by me and do not change their behaviour over time. An interesting extension would be evolving or adapting behaviour. In <a href="https://github.com/jobtalle/PredatorPreySystem" target="_blank">the implementation</a>, every agent has a <em>copy</em> function. This is currently more of a placeholder, but it can be used to let agents inherit behaviour from their parent. Agents could then slightly randomize their tactics, and the best tactics would become dominant through reproduction.</p>
 <script local src="js/simulations.js"></script>
