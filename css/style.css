@@ -29,6 +29,7 @@ h1 {
 
 #menu-buttons {
 	z-index: 2;
+	backface-visibility: hidden;
 	-webkit-backface-visibility: hidden;
 	position: fixed;
 	top: 0px;
@@ -209,26 +210,16 @@ h1 {
 	background-color: var(--color-hover);
 }
 
-#tags {
-	width: 100%;
-	display: inline-block;
-}
-
-.post-tag {
-	margin: 4px 2px 4px 2px;
-	float: right;
-	font-size: 14px;
-}
-
-.post-tag::before {
-	content: "#";
+.post-link {
+	overflow: auto;
+	clear: right;
 }
 
 .post-link-preview {
 	float: right;
 	display: block;
 	max-width: 100%;
-	padding: 8px 0px 0px 8px;
+	padding: 8px 0px 8px 8px;
 }
 
 .post-link-preview img {
