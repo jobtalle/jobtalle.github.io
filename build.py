@@ -7,13 +7,8 @@ import datetime
 from sys import argv
 from os import listdir
 
-BUILD_TAGS = False
-
 def format_page_name(name):
 	return name.replace(" ", "_").lower() + ".html"
-
-def get_tag_url(tag):
-	return format_page_name("tag " + tag)
 
 def compress(string):
 	return string.replace("\t", "").replace(">\n", ">");
@@ -29,7 +24,6 @@ class Post:
 	PROPERTY_TITLE = "title"
 	PROPERTY_ABSTRACT = "abstract"
 	PROPERTY_PREVIEW = "preview"
-	PROPERTY_TAGS = "tags"
 
 	DIR_JAVASCRIPT = "js"
 	DIR_CSS = "css"
@@ -39,10 +33,7 @@ class Post:
 	CLASS_POST_REFERENCE_LEFT = "post-reference-left"
 	CLASS_POST_REFERENCE_RIGHT = "post-reference-right"
 
-	ID_TAGS = "tags"
 	ID_REFERENCES = "references"
-
-	CLASS_TAG = "post-tag"
 
 	MONTH_ABBREVIATIONS = [
 		"Jan",
@@ -94,7 +85,7 @@ class Post:
 
 	def get_content(self, previous, next):
 		contentFile = open(self.content)
-		content = self.get_post_header(self.properties[self.PROPERTY_TITLE]) + contentFile.read() + self.build_neighbors(previous, next) + self.build_tags()
+		content = self.get_post_header(self.properties[self.PROPERTY_TITLE]) + contentFile.read() + self.build_neighbors(previous, next)
 		contentFile.close()
 
 		return content.replace("local src=\"", "src=\"" + self.site.DIR_POSTS + "/" + self.directory + "/")
@@ -214,33 +205,6 @@ class Post:
 	def get_preview_file(self):
 		return self.site.DIR_POSTS + "/" + self.directory + "/" + self.properties[self.PROPERTY_PREVIEW]
 
-	def get_tags(self):
-		return self.properties[self.PROPERTY_TAGS]
-
-	def build_tag(self, tag):
-		return \
-			"<a href=\"" + get_tag_url(tag) +\
-			"\" title=\"Show posts tagged with '" +\
-			tag +\
-			"'\"><div class=\"" +\
-			self.CLASS_TAG +\
-			" round-button\">" +\
-			tag +\
-			"</div></a>"
-
-	def build_tags(self):
-		if BUILD_TAGS is False:
-			return "<div id=\"" + self.ID_TAGS + "\"></div>"
-
-		result = "<div id=\"" + self.ID_TAGS + "\">"
-
-		tags = self.properties[self.PROPERTY_TAGS]
-		tags.sort()
-		for tag in tags:
-			result = result + self.build_tag(tag)
-
-		return result + "</div>"
-
 	def build_neighbor(self, neighbor, type):
 		if neighbor is None:
 			return ""
@@ -281,7 +245,6 @@ class Post:
 			self.get_preview() +\
 			self.get_post_header(self.properties[self.PROPERTY_TITLE], self.get_post_file_name()) +\
 			self.get_abstract() +\
-			self.build_tags() +\
 			"</div>"
 
 
@@ -356,45 +319,8 @@ class Site:
 			for index in range(1, len(self.MENU_PAGES)):
 				self.build_page(self.MENU_PAGES[index], self.MENU_TITLES[index])
 
-			self.build_tags()
-
 		self.log_scope_decrement()
 		self.log("Done")
-
-	def build_tags(self):
-		if BUILD_TAGS is False:
-			return ""
-
-		all_tags = []
-
-		for post in self.posts:
-			for tag in post.get_tags():
-				if tag not in all_tags:
-					all_tags.append(tag)
-
-		for tag in all_tags:
-			self.log("Building index for posts tagged with \"" + tag + "\"")
-
-			posts = ""
-
-			for post, post_link in zip(self.posts, self.post_links):
-				if tag in post.get_tags():
-					posts = posts + post_link
-
-			page = get_tag_url(tag)
-
-			result = self.template
-			result = result.replace(self.KEY_TITLE, self.TITLE + self.TITLE_DIVISOR + tag)
-			result = result.replace(self.KEY_DESCRIPTION, self.DESCRIPTION)
-			result = result.replace(self.KEY_ADDITIONAL_CSS, "")
-			result = result.replace(self.KEY_MENU_BUTTONS, self.build_menu())
-			result = result.replace(self.KEY_CONTENT, posts)
-			result = result.replace(self.KEY_POST_SCRIPT, "")
-			result = result.replace(self.KEY_META, "")
-
-			file = open(page, "w")
-			file.write(compress(result))
-			file.close()
 
 	def build_menu(self, current = None):
 		result = ""
