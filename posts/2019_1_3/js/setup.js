@@ -1,34 +1,30 @@
-const aspectRatio = 0.6;
+const aspectRatio = 0.5;
 const divLife = document.getElementById("game-of-life");
 const divSand = document.getElementById("falling-sand");
+const divWater = document.getElementById("water");
 const canvasLife = document.createElement("canvas");
 const canvasSand = document.createElement("canvas");
+const canvasWater = document.createElement("canvas");
 
 let lastDate = new Date();
 let focus = null;
 
-canvasLife.width = divLife.clientWidth;
-canvasLife.height = canvasLife.width * aspectRatio;
-canvasSand.width = divSand.clientWidth;
-canvasSand.height = canvasSand.width * aspectRatio;
+canvasLife.width = Math.ceil(divLife.clientWidth);
+canvasLife.height = Math.ceil(divLife.clientWidth * aspectRatio);
+canvasSand.width = Math.ceil(divSand.clientWidth);
+canvasSand.height = Math.ceil(divSand.clientWidth * aspectRatio);
+canvasWater.width = Math.ceil(divWater.clientWidth);
+canvasWater.height = Math.ceil(divWater.clientWidth * aspectRatio);
 
 divLife.appendChild(canvasLife);
 divSand.appendChild(canvasSand);
+divWater.appendChild(canvasWater);
 
 const life = new Life(canvasLife);
 const sand = new Sand(canvasSand);
-
-life.update(0);
-sand.update(0);
-
-const simulations = [
-    life, sand
-];
+const water = new Water(canvasWater);
 
 function activate(object) {
-    for (const simulation of simulations) if (simulation !== object)
-        simulation.reset();
-
     focus = object;
 };
 

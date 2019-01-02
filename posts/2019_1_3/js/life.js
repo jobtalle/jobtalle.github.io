@@ -1,5 +1,6 @@
 const Life = function(canvas) {
     const scale = 3;
+    const frameDelay = 3;
     const mousePrevious = new Myr.Vector(0, 0);
     const mouseCurrent = new Myr.Vector(0, 0);
     const myr = new Myr(canvas);
@@ -38,15 +39,16 @@ const Life = function(canvas) {
         Math.ceil(myr.getHeight() / scale));
 
     let brushDown = false;
-    let skip = false;
+    let frame = 1;
 
     myr.setClearColor(new Myr.Color(0.6, 0.6, 0.6));
 
     this.update = () => {
-        if (!skip)
+        if (--frame === 0) {
             texture.update();
 
-        skip = !skip;
+            frame = frameDelay;
+        }
 
         myr.bind();
         myr.clear();
@@ -54,13 +56,6 @@ const Life = function(canvas) {
         texture.getFront().drawScaled(0, 0, scale, scale);
 
         myr.flush();
-    };
-
-    this.reset = () => {
-        texture.getFront().bind();
-        texture.getFront().clear();
-        
-        this.update();
     };
 
     addMouseDown(canvas, (x, y) => {

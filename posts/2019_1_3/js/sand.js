@@ -69,13 +69,6 @@ const Sand = function(canvas) {
         myr.flush();
     };
 
-    this.reset = () => {
-        texture.getFront().bind();
-        texture.getFront().clear();
-        
-        this.update();
-    };
-
     addMouseDown(canvas, (x, y) => {
         activate(this);
 

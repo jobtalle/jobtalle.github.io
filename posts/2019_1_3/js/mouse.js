@@ -11,7 +11,8 @@ function addMouseMove(target, f) {
         f(event.clientX - target.getBoundingClientRect().left, event.clientY - target.getBoundingClientRect().top));
     
     target.addEventListener("touchmove", event => {
-        event.preventDefault();
+        if (event.cancelable)
+            event.preventDefault();
 
         f(event.touches[0].clientX - target.getBoundingClientRect().left, event.touches[0].clientY - target.getBoundingClientRect().top)
     });

@@ -3,5 +3,18 @@
 }
 
 .simulation canvas {
-	width: 100%;
+	display: block;
+}
+
+#game-of-life {
+	background-image: url("../img/default_life.jpg");
+}
+
+#falling-sand {
+	background-image: url("../img/default_sand.jpg");
+	background-position: bottom left;
+}
+
+#water {
+	background-image: url("../img/default_water.jpg")
 }
