@@ -40,9 +40,9 @@ const Life = function(canvas) {
     let brushDown = false;
     let skip = false;
 
-    myr.setClearColor(new Myr.Color(0.1, 0.3, 0.6));
+    myr.setClearColor(new Myr.Color(0.6, 0.6, 0.6));
 
-    myr.utils.loop(function(timeStep) {
+    this.update = timeStep => {
         if (!skip)
             texture.update();
 
@@ -54,11 +54,11 @@ const Life = function(canvas) {
         texture.getFront().drawScaled(0, 0, scale, scale);
 
         myr.flush();
-
-        return true;
-    });
+    };
 
     addMouseDown(canvas, (x, y) => {
+        activate(this);
+
         mouseCurrent.x = x / scale;
         mouseCurrent.y = y / scale;
 
