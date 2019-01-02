@@ -7,7 +7,7 @@
 <p>Before continuing, there is already a problem that needs to be solved: a texture cannot be read from and written to at the same time, graphics API's like OpenGL and DirectX don't allow this. Because the next state of a texture depends on the previous state, a fix is needed. I need to read from a different source than the one I'm writing to.</p>
 <p><em>Double buffering</em> provides a solution. Figure 1 shows how this works: there are actually to textures instead of one, but one of them is being written to while the other one is being read. The texture being written to is known as the <em>back buffer</em>, and the one being rendered is the <em>front buffer</em>. Because a convolutional texture "writes to itself", the back buffer writes to the front buffer on every frame, and then the front buffer is shown. When the next frame arrives, the roles are swapped and the previous front buffer is used as a source for the next front buffer.</p>
 <p>A convolutional texture achieves interesting effects and animations by using a specific <em>fragment shader</em> (or <em>pixel shader</em>) to render the previous state to the next one. The shader determines how the state changes. The source code of all examples in this article (and more) can be found <a href="https://github.com/jobtalle/ConvolutionalTextures" target="_blank">in this repository on GitHub</a>.</p>
-<h2>A simple application</h2>
+<h2>Simple applications</h2>
 <p>To demonstrate this technique, I've chosen a well known simulation where the state depends completely on the previous state when updating: <em>Conway's game of life</em>. This simulation takes place on a square grid, and every cell is either alive or dead. The rules for the next state of a cell are simple:</p>
 <ul>
     <li>If a living cell has less than two neighbors, it becomes a dead cell.</li>
@@ -15,9 +15,16 @@
     <li>If a living cell has more than three living neighbors, it becomes a dead cell.</li>
     <li>If a dead cell has three living neighbors, it becomes a living cell.</li>
 </ul>
-<p>To implement this game as a convolutional texture, I interpret the texture as the game's grid, and the shader renders using the rules above. A transparent pixel is a dead cell, and a white opaque pixel is a living cell. This interactive implementation is shown below. To get access to the GPU, I'm using <a href="https://github.com/jobtalle/myr.js" target="_blank"><em>myr.js</em></a>, which requires <em>WebGL 2</em>. Most modern browsers can run this, but if it doesn't work for you, that's probably the issue. Use the mouse (or a touchscreen) to paint living cells on the texture.</p>
+<p>To implement this game as a convolutional texture, I interpret the texture as the game's grid, and the shader renders using the rules above. A transparent pixel is a dead cell, and a white opaque pixel is a living cell. This interactive implementation is shown below. To get access to the GPU, I'm using <a href="https://github.com/jobtalle/myr.js" target="_blank"><em>myr.js</em></a>, which requires <em>WebGL 2</em>. Most modern browsers can run this, but if it doesn't work, your browser most likely doesn't support it yet. Use the mouse (or a touchscreen) to paint living cells on the texture.</p>
 <div class="simulation" id="game-of-life"></div>
-<h2>Applications</h2>
+<p>Another simple convolutional texture is the <em>falling sand game</em>, where the user can throw colored sand into the scene that will fall and form heaps. Although the implementation is a bit more complex, the rules are simpler:</p>
+<ul>
+    <li>If there is no sand below a grain of sand, fall one pixel down.</li>
+    <li>If there is sand below a grain of sand, but it can slide down 45 degrees in either direction, it will do so.</li>
+</ul>
+<p>The controls for this example are the same as they were in the game of life above. Because the sand can only fall with a speed of one pixel per second using these rules, the field updates twice per frame to speed it up a little.</p>
+<div class="simulation" id="falling-sand"></div>
+<p></p>
 <h2>A different interpretation</h2>
 <h2>Other uses & caveats</h2>
 <h2>Conclusion</h2>
@@ -25,4 +32,5 @@
 <script local src="js/convTex.js"></script>
 <script local src="js/mouse.js"></script>
 <script local src="js/life.js"></script>
+<script local src="js/sand.js"></script>
 <script local src="js/setup.js"></script>

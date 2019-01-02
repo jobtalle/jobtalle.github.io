@@ -42,7 +42,7 @@ const Life = function(canvas) {
 
     myr.setClearColor(new Myr.Color(0.6, 0.6, 0.6));
 
-    this.update = timeStep => {
+    this.update = () => {
         if (!skip)
             texture.update();
 
