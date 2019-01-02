@@ -1,5 +1,5 @@
 const Life = function(canvas) {
-    const scale = 2;
+    const scale = 3;
     const mousePrevious = new Myr.Vector(0, 0);
     const mouseCurrent = new Myr.Vector(0, 0);
     const myr = new Myr(canvas);
