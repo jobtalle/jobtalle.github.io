@@ -56,6 +56,10 @@ const Life = function(canvas) {
         myr.flush();
     };
 
+    this.reset = () => {
+
+    };
+
     addMouseDown(canvas, (x, y) => {
         activate(this);
 

@@ -1,6 +1,6 @@
 const Sand = function(canvas) {
     const scale = 2;
-    const speed = 2;
+    const speed = 3;
     const mousePrevious = new Myr.Vector(0, 0);
     const mouseCurrent = new Myr.Vector(0, 0);
     const myr = new Myr(canvas);
@@ -67,6 +67,10 @@ const Sand = function(canvas) {
         texture.getFront().drawScaled(0, 0, scale, scale);
 
         myr.flush();
+    };
+
+    this.reset = () => {
+
     };
 
     addMouseDown(canvas, (x, y) => {

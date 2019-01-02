@@ -15,10 +15,20 @@ canvasSand.height = canvasSand.width * aspectRatio;
 divLife.appendChild(canvasLife);
 divSand.appendChild(canvasSand);
 
-new Life(canvasLife).update(0);
-new Sand(canvasSand).update(0);
+const life = new Life(canvasLife);
+const sand = new Sand(canvasSand);
+
+life.update(0);
+sand.update(0);
+
+const simulations = [
+    life, sand
+];
 
 function activate(object) {
+    for (const simulation of simulations) if (simulation !== object)
+        simulation.reset();
+
     focus = object;
 };
 
