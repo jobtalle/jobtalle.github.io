@@ -33,7 +33,7 @@
 			<td>Pop the last turtle state from the stack and assume this state</td>
 		</tr>
 	</table>
-	<figcaption>Figure 1: Alphabet for drawing a 2D Lindenmayer system</figcaption>
+	<figcaption>Figure 1: Alphabet for drawing a 2D Lindenmayer system.</figcaption>
 </figure>
 <h2>Rendering sentences</h2>
 <p>After a system has been defined and iterated, we have a large sentence with interesting properties. To visualize these properties, a method to render them needs to be devised. In this article, I render the system using <em>turtle graphics</em>.</p>
@@ -157,7 +157,7 @@
 			<td>Pop the last turtle state from the stack and assume this state</td>
 		</tr>
 	</table>
-	<figcaption>Figure 2: Alphabet for drawing a 3D Lindenmayer system</figcaption>
+	<figcaption>Figure 2: Alphabet for drawing a 3D Lindenmayer system.</figcaption>
 </figure>
 <h2>Parametric grammar</h2>
 <p>To facilitate the new features, I need to extend my alphabet and syntax. Figure 2 shows the key for this new system. The new symbols in this table are rotation symbols required for moving the turtle in 3D space.</p>
@@ -169,7 +169,7 @@
 <p>The system is almost complete. One last thing I would like to encode is context. The context of a symbol should be able to influence what rules are applied to it. I could in theory encode context in symbol parameters, but this would result in a very complex system of rules and parameter lists. Instead, I add one last syntax rule to the production methods.</p>
 <figure title="Context sensitive Lindenmayer system">
 	<img local src="img/context-sensitive-lsystem.gif">
-	<figcaption>Figure 1: A context sensitive Lindenmayer system in action</figcaption>
+	<figcaption>Figure 1: A context sensitive Lindenmayer system in action.</figcaption>
 </figure>
 <p>Suppose I have an axiom consisting of a number of $A$'s and one $B$ at the beginning, and I want the $B$ to move one step to the right on each iteration, without changing the sentence length. This can be done with a context sensitive rule. The first rule I introduce is $B < A \to B$. This should be read as follows: $A \to B$ if $A$ is <em>preceded</em> by $B$. Every iteration this rule is applied, every $A$ with a $B$ to the left will change to a $B$. Now I only want the $B$ to move, so after every iteration the $B$ should become an $A$ again to prevent every $A$ from becoming a $B$ over time. The simple rule $B \to A$ does this. Figure 1 shows this system evolving for eleven iterations, where the initial axiom was $BAAAAAAAAA$.</p>
 <p>This context sensitive grammar is compatible with the parametric grammar described earlier. Suppose I have a sentence of several instances of $A(x)$ where the value of $x$ varies between symbols. I want to make a context sensitive production rule which changes $A$ to $B$ only if $A$ is surrounded by other instances of $A$ whose parameters are equal; in other words, there must be an $A$ on the left and an $A$ on the right with the same parameter values. The production rule looks like this:</p>

@@ -7,7 +7,7 @@
 <p>When the developers of the latest Call of Duty game in 2013 enthusiastically announced their state of the art "fish AI", they were ridiculed. After all, even the 1996 title Super Mario 64 featured fish reacting to their environments. While I can totally appreciate details like realistic animal behaviour in games, it should be said that simulating schooling behaviour is not that ground breaking. The algorithms are simpler than the emergent behaviour makes it seem. That does not make the applications less interesting though, and there are many.</p>
 <figure title="Schooling fish">
 	<img local src="img/fish.jpg">
-	<figcaption>Figure 1: schooling fish</figcaption>
+	<figcaption>Figure 1: schooling fish.</figcaption>
 </figure>
 <p>Swarming frequently occurs in nature. Animals often benefit from it because it offers them increased protection from predators, or it may help them follow the rest of the group to a destination. To name some common examples:</p>
 <ul>
@@ -21,7 +21,7 @@
 <p>One of the first algorithms for flocking called <em>Boids</em> was made by Craig Reynolds in 1986. The simulation I have implemented mostly follows his design. In this algorithm, every agent determines how it should move or steer by itself. Agents have a limited view of the world around them, and their behaviour is determined by what they sense. The goal of the algorithm is to make agents stay together, without touching or colliding too much and without the group falling apart. This is accomplished by using three different sensing areas which trigger three kinds of behaviour.</p>
 <figure title="An agent from Boids">
 	<img local src="img/boid.jpg">
-	<figcaption>Figure 2: the perception of an agent</figcaption>
+	<figcaption>Figure 2: the perception of an agent.</figcaption>
 </figure>
 <p>Figure 2 shows the sensing areas of an agent. The three colored zones around the agent center will tell the agent when other agents are detected in that area. The behaviour an agent will show depends on the zone other agents are detected in. The three zones have three different effects:</p>
 <ul>
