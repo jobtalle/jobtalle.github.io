@@ -70,7 +70,10 @@ const Sand = function(canvas) {
     };
 
     this.reset = () => {
-
+        texture.getFront().bind();
+        texture.getFront().clear();
+        
+        this.update();
     };
 
     addMouseDown(canvas, (x, y) => {
