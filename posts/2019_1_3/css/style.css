@@ -1,5 +1,6 @@
 .simulation {
-	width: 100%;
+	width: calc(100% - 2px);
+	border: 1px solid var(--color-gray);
 }
 
 .simulation canvas {

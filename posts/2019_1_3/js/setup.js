@@ -9,11 +9,11 @@ const canvasWater = document.createElement("canvas");
 let lastDate = new Date();
 let focus = null;
 
-canvasLife.width = Math.ceil(divLife.clientWidth);
+canvasLife.width = Math.ceil(divLife.clientWidth - 1);
 canvasLife.height = Math.ceil(divLife.clientWidth * aspectRatio);
-canvasSand.width = Math.ceil(divSand.clientWidth);
+canvasSand.width = Math.ceil(divSand.clientWidth - 1);
 canvasSand.height = Math.ceil(divSand.clientWidth * aspectRatio);
-canvasWater.width = Math.ceil(divWater.clientWidth);
+canvasWater.width = Math.ceil(divWater.clientWidth - 1);
 canvasWater.height = Math.ceil(divWater.clientWidth * aspectRatio);
 
 divLife.appendChild(canvasLife);
