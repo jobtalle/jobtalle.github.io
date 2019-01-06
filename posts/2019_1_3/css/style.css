@@ -1,11 +1,11 @@
 .simulation {
 	display: inline-block;
-	width: calc(100% - 2px);
-	border: 1px solid var(--color-gray);
+	width: 100%;
 }
 
 .simulation canvas {
 	display: block;
+	width: 100%;
 }
 
 #game-of-life {

@@ -10,14 +10,14 @@ const canvasGrass = document.createElement("canvas");
 
 let focus = null;
 
-canvasLife.width = Math.round(divLife.clientWidth - 1);
-canvasLife.height = Math.round(divLife.clientWidth * aspectRatio);
-canvasSand.width = Math.round(divSand.clientWidth - 1);
-canvasSand.height = Math.round(divSand.clientWidth * aspectRatio);
-canvasWater.width = Math.round(divWater.clientWidth - 1);
-canvasWater.height = Math.round(divWater.clientWidth * aspectRatio);
-canvasGrass.width = Math.round(divGrass.clientWidth - 1);
-canvasGrass.height = Math.round(divGrass.clientWidth * aspectRatio);
+canvasLife.width = Math.floor(divLife.clientWidth);
+canvasLife.height = Math.floor(divLife.clientWidth * aspectRatio);
+canvasSand.width = Math.floor(divSand.clientWidth);
+canvasSand.height = Math.floor(divSand.clientWidth * aspectRatio);
+canvasWater.width = Math.floor(divWater.clientWidth);
+canvasWater.height = Math.floor(divWater.clientWidth * aspectRatio);
+canvasGrass.width = Math.floor(divGrass.clientWidth);
+canvasGrass.height = Math.floor(divGrass.clientWidth * aspectRatio);
 
 divLife.appendChild(canvasLife);
 divSand.appendChild(canvasSand);
