@@ -100,15 +100,8 @@ const Water = function(canvas) {
 
         mouseCurrent.x = x;
         mouseCurrent.y = y;
-        brushDown = true;
 
-        texture.getFront().bind();
-        myr.primitives.fillCircleGradient(
-            new Myr.Color(1, 0, 0, 1),
-            new Myr.Color(0, 0, 0, 0),
-            mouseCurrent.x, mouseCurrent.y,
-            brushRadius
-        );
+        brushDown = true;
     });
 
     addMouseUp(canvas, () => {

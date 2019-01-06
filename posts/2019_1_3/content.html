@@ -66,6 +66,9 @@ void main() {
 <div class="simulation" id="water"></div>
 <p>I have only used the height map for displacing a texture and adding some shading here, but much more interesting applications exist in the third dimension. When the convolutional texture is interpreted by the vertex shader, a flat subdivided plane can be displaced to render three dimensional waves. The usual shading and lighting can be applied on the resulting shape.</p>
 <p>It's worth noting that the pixels in the convolutional texture used above sometimes store very small subtle values that shouldn't disappear in rounding errors. Therefore, the color channels on this texture need a higher resolution than the default of 8 bits. I have increased it to 16 bits per color channel for this example, which turns out to be precise enough. When storing something else than pixels, increasing texture precision is often required. Luckily, modern graphics API's support this.</p>
+<h2>Using all channels</h2>
+<p>The water example only uses the red and green channels, but the next example will use all four. A field of grass is simulated, which can be displaced by moving the cursor through it.</p>
+<div class="simulation" id="grass"></div>
 <h2>Other uses & caveats</h2>
 <p>Many other applications can be imagined:</p>
 <ul>
@@ -82,8 +85,10 @@ void main() {
 <p>Especially in 2D software, the GPU sits idle most if not all of the time. Although it may not seem like the GPU can play a role when no complex 3D scenes need to be rendered, the technique I have discussed in this article shows at least one way to unleash its power in different ways. By leveraging the capabilities GPU's were designed for, interesting effects and animations can be created that are usually too intensive for the CPU to calculate.</p>
 <script src="lib/myr/myr.js"></script>
 <script local src="js/convTex.js"></script>
+<script local src="js/cubicNoise.js"></script>
 <script local src="js/mouse.js"></script>
 <script local src="js/life.js"></script>
 <script local src="js/sand.js"></script>
 <script local src="js/water.js"></script>
+<script local src="js/grass.js"></script>
 <script local src="js/setup.js"></script>
