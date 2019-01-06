@@ -45,13 +45,11 @@ const Water = function(canvas) {
 
     let brushDown = false;
 
-    // Initialize convtex
     displacementShader.setSurface("source", image);
     texture.setClearColor(new Myr.Color(0, 0, 0, 1));
     texture.getFront().bind();
     texture.getFront().clear();
 
-    // Initialize image
     image.bind();
     image.clear();
 

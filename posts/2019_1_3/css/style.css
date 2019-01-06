@@ -9,14 +9,14 @@
 }
 
 #game-of-life {
-	background-image: url("../img/default_life.jpg");
+	background-image: url("../img/default_life.png");
 }
 
 #falling-sand {
-	background-image: url("../img/default_sand.jpg");
+	background-image: url("../img/default_sand.png");
 	background-position: bottom left;
 }
 
 #water {
-	background-image: url("../img/default_water.jpg")
+	background-image: url("../img/default_water.png")
 }

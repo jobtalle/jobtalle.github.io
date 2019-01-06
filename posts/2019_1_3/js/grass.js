@@ -1,11 +1,12 @@
 const Grass = function(canvas) {
     const scale = canvas.width / 823;
-    const brushRadius = 150 * scale;
-    const grassHeight = Math.ceil(100 * scale);
+    const brushRadius = 130 * scale;
+    const brushSpacing = 10;
+    const grassHeight = Math.ceil(120 * scale);
     const grassClearance = Math.ceil(5 * scale);
     const grassSpacing = Math.ceil(20 * scale);
     const grassLayers = [];
-    const bladeWidth = Math.ceil(18 * scale);
+    const bladeWidth = Math.ceil(20 * scale);
     const bladeSpacing = Math.ceil(3 * scale);
     const bladeColor = new Myr.Color(0.36, 0.68, 0.33);
     const bladeBaseColor = new Myr.Color(0.36 * 0.4, 0.68 * 0.4, 0.33 * 0.4);
@@ -13,7 +14,6 @@ const Grass = function(canvas) {
     const mouseCurrent = new Myr.Vector(0, 0);
     const myr = new Myr(canvas);
     const application = new myr.Surface(myr.getWidth(), myr.getHeight());
-    const applyPush = new myr.Surface(brushRadius * 2, brushRadius * 2);
     const noiseConfig = cubicNoiseConfig(Math.round(Math.random() * 2147483647), Math.ceil(64 * scale));
     const texture = new ConvTex(
         myr,
@@ -22,7 +22,7 @@ const Grass = function(canvas) {
                 "lowp vec4 pixel = texture(source, uv);" +
                 "color = clamp(vec4(" +
                     "pixel.rg + (pixel.ba - vec2(0.5)) * 0.1," +
-                    "vec2(0.5) + (pixel.ba - vec2(0.5) - (pixel.rg - vec2(0.5)) * 0.12) * 0.95), 0.0, 1.0);" +
+                    "vec2(0.5) + (pixel.ba - vec2(0.5) - (pixel.rg - vec2(0.5)) * 0.07) * 0.965), 0.0, 1.0);" +
             "}",
             ["source"],
             []
@@ -47,7 +47,7 @@ const Grass = function(canvas) {
             "lowp vec2 uvOffset = (1.0 - uv.y) * (delta - vec2(0.5));" +
             "lowp float lighting = 1.0 - uvOffset.y * 3.0;" +
             "uvOffset.y += length(uvOffset) * 5.0 * (1.0 - uv.y);" +
-            "color = texture(source, uv - uvOffset * pixelSize * 180.0) * lighting;" +
+            "color = texture(source, uv - uvOffset * pixelSize * 230.0) * lighting;" +
         "}",
         ["source", "displacement"],
         ["base"]
@@ -76,7 +76,7 @@ const Grass = function(canvas) {
                     bladeBaseColor,
                     x + bladeWidth, height + grassClearance,
                     color,
-                    x + bladeWidth * 0.5, grassClearance + height * (1 - h)
+                    x + bladeWidth * (0.4 + 0.2 * Math.random()), grassClearance + height * (1 - h)
                 );
             }
         };
@@ -96,38 +96,12 @@ const Grass = function(canvas) {
 
     applicationShader.setSurface("source", application);
 
-    // Initialize convtex
     texture.setClearColor(new Myr.Color(0.5, 0.5, 0.5, 0.5));
     texture.getFront().bind();
     texture.getFront().clear();
 
-    // Initialize push shape
-    applyPush.bind();
-
-    for (let y = 0; y < applyPush.getHeight(); ++y) for (let x = 0; x < applyPush.getWidth(); ++x) {
-        const delta = new Myr.Vector(x - brushRadius, y - brushRadius);
-        const length = delta.length();
-        const direction = delta.angle();
-
-        if (length > brushRadius)
-            continue;
-        
-        myr.blendDisable();
-        myr.primitives.drawPoint(new Myr.Color(
-            0.5 + 0.5 * Math.cos(direction),
-            0.5 + 0.5 * Math.sin(direction),
-            0,
-            Math.min(1 - length / brushRadius, length / brushRadius)
-        ), x, y);
-        myr.blendEnable();
-    }
-
-    // Initialize grass
-    for (let y = grassSpacing; y < myr.getHeight() + grassHeight; y += grassSpacing) {
-        const layer = new GrassLayer(grassHeight, y);
-
-        grassLayers.push(layer);
-    }
+    for (let y = grassSpacing; y < myr.getHeight() + grassHeight; y += grassSpacing)
+        grassLayers.push(new GrassLayer(grassHeight, y));
 
     myr.setClearColor(bladeBaseColor);
 
@@ -179,15 +153,22 @@ const Grass = function(canvas) {
             const dx = mouseCurrent.x - mousePrevious.x;
             const dy = mouseCurrent.y - mousePrevious.y;
             const dl = Math.sqrt(dx * dx + dy * dy);
+            const direction = Math.atan2(dy, dx);
+            const c = 0.5 + 0.5 * Math.cos(direction);
+            const s = 0.5 + 0.5 * Math.sin(direction);
+            const colorInner = new Myr.Color(c, s, 0, (dl / 100) * 0.5);
+            const colorOuter = new Myr.Color(c, s, 0, 0);
 
             application.bind();
             application.clear();
             myr.blendDisable();
-            myr.setAlpha(Math.min(1, dl / 100));
             
-            applyPush.draw(
-                mousePrevious.x - brushRadius,
-                mousePrevious.y - brushRadius,
+            myr.primitives.fillCircleGradient(
+                colorInner,
+                colorOuter,
+                mouseCurrent.x,
+                mouseCurrent.y,
+                brushRadius
             );
 
             myr.setAlpha(1);
