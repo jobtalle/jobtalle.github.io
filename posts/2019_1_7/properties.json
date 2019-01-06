@@ -1,5 +1,5 @@
 {
     "title": "Convolutional textures",
-    "abstract": "Self updating textures can be used to achieve impressive visual effects using the GPU. In this article I demonstrate four interactive applications of this technique, ranging from simple cellular automata to displacing vegetation and simulating waves in a body of water.",
+    "abstract": "Self-updating textures can be used to achieve impressive visual effects using the GPU. In this article I demonstrate four interactive applications of this technique, ranging from simple cellular automata to displacing vegetation and simulating waves in a body of water.",
     "preview": "img/preview.jpg"
 }
