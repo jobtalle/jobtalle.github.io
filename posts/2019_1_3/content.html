@@ -18,40 +18,40 @@
 <p>To implement this game as a convolutional texture, I interpret the texture as the game's grid, and the shader renders using the rules above. A transparent pixel is a dead cell, and a white opaque pixel is a living cell. This interactive implementation is shown below. To get access to the GPU, I'm using <a href="https://github.com/jobtalle/myr.js" target="_blank"><em>myr.js</em></a>, which requires <em>WebGL 2</em>. Most modern browsers (E.G. Chrome and Firefox) can run this, but if it doesn't work, your browser most likely doesn't support it yet. Use the mouse (or a touchscreen) to paint living cells on the texture.</p>
 <div class="simulation" id="game-of-life"></div>
 <p>The fragment shader code (in GLSL, since I'm using OpenGL for rendering) is shown below. I first implement the function <code class="prettyprint">get</code>, which helps me to read a pixel with a certain offset from the current one. The variable <code class="prettyprint">pixelSize</code> is a predefined 2D vector containing the uv offset per pixel, and the <code class="prettyprint">get</code> function uses this to read a neighboring cell. The <code class="prettyprint">main</code> function then determines the new color of a cell depending on the current state (<code class="prettyprint">live</code>) and the number of living neighbors.</p>
-<pre class="prettyprint">
-    uniform sampler2D source;
-    uniform lowp vec2 pixelSize;
-    
-    in mediump vec2 uv;
-    
-    layout (location = 0) out lowp vec4 color;
-    
-    int get(int dx, int dy) {
-        return int(texture(source, uv + pixelSize * vec2(dx, dy)).r);
-    }
-    
-    void main() {
-        int live = get(0, 0);
-        int neighbors =
-            get(-1, -1) +
-            get(0, -1) +
-            get(1, -1) +
-            get(-1, 0) +
-            get(1, 0) +
-            get(-1, 1) +
-            get(0, 1) +
-            get(1, 1);
-        if (live == 1 && neighbors < 2)
-            color = vec4(0);
-        else if (live == 1 && (neighbors == 2 || neighbors == 3))
-            color = vec4(1);
-        else if (live == 1 && neighbors == 3)
-            color = vec4(0);
-        else if (live == 0 && neighbors == 3)
-            color = vec4(1);
-        else
-            color = vec4(0);
-    }
+<pre class="prettyprint noscroll">
+uniform sampler2D source;
+uniform lowp vec2 pixelSize;
+
+in mediump vec2 uv;
+
+layout (location = 0) out lowp vec4 color;
+
+int get(int dx, int dy) {
+    return int(texture(source, uv + pixelSize * vec2(dx, dy)).r);
+}
+
+void main() {
+    int live = get(0, 0);
+    int neighbors =
+        get(-1, -1) +
+        get(0, -1) +
+        get(1, -1) +
+        get(-1, 0) +
+        get(1, 0) +
+        get(-1, 1) +
+        get(0, 1) +
+        get(1, 1);
+    if (live == 1 && neighbors < 2)
+        color = vec4(0);
+    else if (live == 1 && (neighbors == 2 || neighbors == 3))
+        color = vec4(1);
+    else if (live == 1 && neighbors == 3)
+        color = vec4(0);
+    else if (live == 0 && neighbors == 3)
+        color = vec4(1);
+    else
+        color = vec4(0);
+}
 </pre>
 <p>Another simple convolutional texture is the <em>falling sand game</em>, where the user can throw colored sand into the scene that will fall and form heaps. Although the implementation is a bit more complex, the rules are simpler:</p>
 <ul>

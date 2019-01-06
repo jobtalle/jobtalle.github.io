@@ -133,6 +133,10 @@ h1 {
 	padding: 1px 4px 1px 4px !important;
 }
 
+#content .prettyprint.noscroll {
+	max-height: none !important;
+}
+
 #content figure table tr td {
 	background-color: var(--color-code);
 	padding: 5px;
