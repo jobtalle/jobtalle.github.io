@@ -5,8 +5,8 @@ const Grass = function(canvas) {
     const grassClearance = Math.ceil(5 * scale);
     const grassSpacing = Math.ceil(20 * scale);
     const grassLayers = [];
-    const bladeWidth = Math.ceil(20 * scale);
-    const bladeSpacing = Math.ceil(4 * scale);
+    const bladeWidth = Math.ceil(18 * scale);
+    const bladeSpacing = Math.ceil(3 * scale);
     const bladeColor = new Myr.Color(0.36, 0.68, 0.33);
     const bladeBaseColor = new Myr.Color(0.36 * 0.4, 0.68 * 0.4, 0.33 * 0.4);
     const mousePrevious = new Myr.Vector(0, 0);
@@ -14,7 +14,7 @@ const Grass = function(canvas) {
     const myr = new Myr(canvas);
     const application = new myr.Surface(myr.getWidth(), myr.getHeight());
     const applyPush = new myr.Surface(brushRadius * 2, brushRadius * 2);
-    const noiseConfig = cubicNoiseConfig(Math.round(Math.random() * (1 << 32)), Math.ceil(64 * scale));
+    const noiseConfig = cubicNoiseConfig(Math.round(Math.random() * 2147483647), Math.ceil(64 * scale));
     const texture = new ConvTex(
         myr,
         new myr.Shader(
@@ -22,7 +22,7 @@ const Grass = function(canvas) {
                 "lowp vec4 pixel = texture(source, uv);" +
                 "color = clamp(vec4(" +
                     "pixel.rg + (pixel.ba - vec2(0.5)) * 0.1," +
-                    "vec2(0.5) + (pixel.ba - vec2(0.5) - (pixel.rg - vec2(0.5)) * 0.1) * 0.95), 0.0, 1.0);" +
+                    "vec2(0.5) + (pixel.ba - vec2(0.5) - (pixel.rg - vec2(0.5)) * 0.12) * 0.95), 0.0, 1.0);" +
             "}",
             ["source"],
             []
@@ -45,8 +45,8 @@ const Grass = function(canvas) {
         "void main() {" +
             "lowp vec2 delta = texture(displacement, vec2(uv.x, base)).xy;" +
             "lowp vec2 uvOffset = (1.0 - uv.y) * (delta - vec2(0.5));" +
-            "lowp float lighting = 1.0 - uvOffset.y * 2.0;" +
-            "uvOffset.y += length(uvOffset) * 3.0 * (1.0 - uv.y);" +
+            "lowp float lighting = 1.0 - uvOffset.y * 3.0;" +
+            "uvOffset.y += length(uvOffset) * 5.0 * (1.0 - uv.y);" +
             "color = texture(source, uv - uvOffset * pixelSize * 180.0) * lighting;" +
         "}",
         ["source", "displacement"],
@@ -64,7 +64,7 @@ const Grass = function(canvas) {
             
             for (let x = -Math.floor(Math.random() * bladeWidth); x < _surface.getWidth(); x += bladeWidth + Math.floor(Math.random() * bladeSpacing)) {
                 const sample = cubicNoiseSample(noiseConfig, x, base);
-                const h = 0.4 + sample * 0.6;
+                const h = 0.4 + sample * 0.5 + Math.random() * 0.2;
                 const color = bladeColor.copy();
                 const lighting = 0.65 + 0.35 * sample;
                 
@@ -170,8 +170,6 @@ const Grass = function(canvas) {
     });
 
     addMouseMove(canvas, (x, y) => {
-        activate(this);
-
         mousePrevious.x = mouseCurrent.x;
         mousePrevious.y = mouseCurrent.y;
         mouseCurrent.x = x;
@@ -185,7 +183,7 @@ const Grass = function(canvas) {
             application.bind();
             application.clear();
             myr.blendDisable();
-            myr.setAlpha(Math.min(1, dl / 80));
+            myr.setAlpha(Math.min(1, dl / 100));
             
             applyPush.draw(
                 mousePrevious.x - brushRadius,
