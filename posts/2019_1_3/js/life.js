@@ -4,6 +4,7 @@ const Life = function(canvas) {
     const mousePrevious = new Myr.Vector(0, 0);
     const mouseCurrent = new Myr.Vector(0, 0);
     const myr = new Myr(canvas);
+    const start = new myr.Surface("posts/2019_1_3/img/life_initial.png");
     const texture = new ConvTex(
         myr,
         new myr.Shader(
@@ -38,10 +39,21 @@ const Life = function(canvas) {
         Math.ceil(myr.getWidth() / scale),
         Math.ceil(myr.getHeight() / scale));
 
+    let initialized = false;
     let brushDown = false;
     let frame = 1;
 
-    myr.setClearColor(new Myr.Color(0.6, 0.6, 0.6));
+    myr.setClearColor(new Myr.Color(0.55, 0.63, 0.74));
+
+    const initialize = () => {
+        if (!start.ready())
+            return;
+
+        texture.getFront().bind();
+        start.draw(2, 2);
+
+        initialized = true;
+    };
 
     this.update = () => {
         if (--frame === 0) {
@@ -54,12 +66,15 @@ const Life = function(canvas) {
         myr.clear();
 
         texture.getFront().drawScaled(0, 0, scale, scale);
-
+        
         myr.flush();
     };
 
     addMouseDown(canvas, (x, y) => {
         activate(this);
+
+        if (!initialized)
+            initialize();
 
         mouseCurrent.x = x / scale;
         mouseCurrent.y = y / scale;

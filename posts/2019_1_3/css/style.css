@@ -6,7 +6,6 @@
 
 .simulation canvas {
 	display: block;
-	width: calc(100% - 1px);
 }
 
 #game-of-life {
