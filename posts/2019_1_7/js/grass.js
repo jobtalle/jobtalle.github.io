@@ -123,7 +123,7 @@ const Grass = function(canvas) {
             dryColor.g + wetness * (bladeBaseColor.g - dryColor.g),
             dryColor.b + wetness * (bladeBaseColor.b - dryColor.b));
 
-        myr.primitives.drawPoint(color, x + 1, y + 1);
+        myr.primitives.drawPoint(color, x, y);
     }
 
     applicationShader.setSurface("source", application);
@@ -134,9 +134,6 @@ const Grass = function(canvas) {
 
     for (let y = grassSpacing; y < myr.getHeight() + grassHeight; y += grassSpacing)
         grassLayers.push(new GrassLayer(grassHeight, y));
-
-    //myr.setClearColor(bladeBaseColor);
-    myr.setClearColor(Myr.Color.WHITE);
 
     this.update = () => {
         if (brushed) {
