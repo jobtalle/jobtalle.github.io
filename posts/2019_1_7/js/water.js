@@ -1,7 +1,4 @@
 const Water = function(canvas) {
-    const gridSize = 48;
-    const gridColorBack = new Myr.Color(0.82, 0.75, 0.46);
-    const gridColorFront = new Myr.Color(0.63, 0.6, 0.45);
     const brushRadius = 16;
     const brushSpacing = brushRadius * 0.25;
     const mousePrevious = new Myr.Vector(0, 0);
