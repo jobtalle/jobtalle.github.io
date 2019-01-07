@@ -58,6 +58,10 @@ const Grass = function(canvas) {
 
     let brushDown = false;
 
+    const sampleNoise = (x, y) => {
+        return cubicNoiseSample(noiseConfig, x, y);
+    };
+
     const GrassLayer = function(height, base) {
         const _surface = new myr.Surface(myr.getWidth(), height + grassClearance);
         const _uvy = base / myr.getHeight() + Math.random() * 0.05;
@@ -66,7 +70,7 @@ const Grass = function(canvas) {
             _surface.bind();
             
             for (let x = -Math.floor(Math.random() * bladeWidth); x < _surface.getWidth(); x += bladeWidth + Math.floor(Math.random() * bladeSpacing)) {
-                const sample = cubicNoiseSample(noiseConfig, x + bladeWidth * 0.5, base);
+                const sample = sampleNoise(x + bladeWidth * 0.5, base);
 
                 if (sample < grassThreshold)
                     continue;
@@ -104,7 +108,7 @@ const Grass = function(canvas) {
     background.bind();
 
     for (let y = 0; y < background.getHeight(); ++y) for (let x = 0; x < background.getWidth(); ++x) {
-        const sample = cubicNoiseSample(noiseConfig, x, y);
+        const sample = sampleNoise(x, y);
         let wetness = Math.min(sample * (1 / (grassThreshold)), 1);
 
         if (wetness < 0.9) {
