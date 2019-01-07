@@ -8,11 +8,12 @@ const Water = function(canvas) {
     const mouseCurrent = new Myr.Vector(0, 0);
     const myr = new Myr(canvas);
     const image = new myr.Surface(myr.getWidth(), myr.getHeight());
+    const sand = new myr.Surface("posts/2019_1_7/img/default_water.jpg");
     const texture = new ConvTex(
         myr,
         new myr.Shader(
             "void main() {" +
-                "lowp float damping = 0.997;" +
+                "lowp float damping = 0.998;" +
                 "lowp vec4 pixel = texture(source, uv);" +
                 "lowp vec4 pixelLeft = texture(source, vec2(uv.x - pixelSize.x, uv.y));" +
                 "lowp vec4 pixelUp = texture(source, vec2(uv.x, uv.y - pixelSize.y));" +
@@ -44,42 +45,25 @@ const Water = function(canvas) {
     );
 
     let brushDown = false;
+    let initialized = false;
 
     displacementShader.setSurface("source", image);
     texture.setClearColor(new Myr.Color(0, 0, 0, 1));
     texture.getFront().bind();
     texture.getFront().clear();
 
-    image.bind();
-    image.clear();
-
-    for (let y = 0; y < image.getHeight(); y += gridSize << 1) {
-        for (let x = 0; x < image.getWidth(); x += gridSize << 1) {
-            myr.primitives.fillRectangle(
-                gridColorBack,
-                x, y,
-                gridSize * 2, gridSize * 2
-            );
-
-            myr.primitives.fillRectangle(
-                gridColorFront,
-                x, y,
-                gridSize, gridSize
-            );
-
-            myr.primitives.fillRectangle(
-                gridColorFront,
-                x + gridSize, y + gridSize,
-                gridSize, gridSize
-            );
-        }
-    }
-
     myr.setClearColor(Myr.Color.WHITE);
 
     this.update = () => {
         brushed = false;
         
+        if (!initialized && sand.ready()) {
+            image.bind();
+            sand.draw(0, 0);
+
+            initialized = true;
+        }
+
         texture.update();
 
         myr.bind();

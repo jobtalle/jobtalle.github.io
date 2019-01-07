@@ -4,7 +4,7 @@ const Life = function(canvas) {
     const mousePrevious = new Myr.Vector(0, 0);
     const mouseCurrent = new Myr.Vector(0, 0);
     const myr = new Myr(canvas);
-    const start = new myr.Surface("posts/2019_1_3/img/life_initial.png");
+    const start = new myr.Surface("posts/2019_1_7/img/life_initial.png");
     const texture = new ConvTex(
         myr,
         new myr.Shader(
