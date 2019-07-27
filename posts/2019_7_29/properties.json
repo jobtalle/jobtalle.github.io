@@ -1,0 +1,5 @@
+{
+    "title": "Evolving Lindenmayer systems",
+    "abstract": "Lindenmayer systems have been developed to model plant growth. A genetic algorithm can be used to simulate plant evolution using L-systems. The systems themselves represent DNA, while the structures they produce represent plants. This technique gives rise to interesting yet familiar plant-like structures.",
+    "preview": "img/preview.jpg"
+}

@@ -1,0 +1,42 @@
+<h2>Evolving Lindenmayer systems</h2>
+<p>A while back, I explored <em>Lindenmayer systems</em> in <a href="https://jobtalle.com/lindenmayer_systems.html" target="_blank">this blog post</a>. Since the theory of L-systems is thoroughly described and referenced there, I will skip most of that in this article. In short, L-systems model plant growth using production rules. All plants are rendered using the turtle graphics technique described in that blog post. Since plants (and the survival strategies they use) arose through evolutionary processes, I have applied an evolutionary algorithm to Lindenmayer systems to explore how well the biological analogy holds.</p>
+<p>The main question is: what do I want to end up with? The answer to this question determines how the evolutionary algorithm should evaluate the Lindenmayer systems. In my pursuit of realism, I want to end up with plants that would realistically be successful. My definition of a successful plant is as follows:</p>
+<ul>
+	<li>Since plants get their energy from <em>photosynthesis</em>, they must collect as much sunlight as they can using <em>leaves</em>.</li>
+	<li>Plants must have <em>stable</em> structures.</li>
+	<li>Plants must be <em>efficient</em>; they should not produce unnecessary leaves and branches, and their systems should not be overly complex.</li>
+</ul>
+<h2>A simple simulation</h2>
+<p>To evaluate whether Lindenmayer systems can be evolved to produce plants with these properties, I wrote a small two-dimensional prototype. In this simple simulation, all end branches of plants are treated as leaves, and the photosynthesis score increases when these end branches have more free space around them.</p>
+<figure title="2D Lindenmayer systems">
+	<img local src="img/2d_plants.png">
+	<figcaption>Figure 1: successful plants obtained at t=80000.</figcaption>
+</figure>
+<p>Figure 1 shows the result of a simulation run. The evolved plants use a fan-like growth pattern to spread out the end branches as efficiently as possible, without wasting any structure. The L-system for these plants is surprisingly simple: the axiom is $$A[+B]AAAA$$and the one production rule is$$A \to B[-A]+B$$The system iterates five times to obtain the plant shape in Figure 1. To explore this particular system further, it can be entered in the interactive renderer in <a href="https://jobtalle.com/lindenmayer_systems.html" target="_blank">my previous blog post on Lindenmayer systems</a>. The simulation software can be found <a href="https://github.com/jobtalle/Beagle" target="_blank">in this GitHub repository</a>, and I've hosted a browser version <a href="https://jobtalle.com/Beagle/" target="_blank">here</a>, but beware; it is quite buggy and uses WebGL 2.0 for rendering.</p>
+<p>In summary, evolving Lindenmayer systems with certain properties is very doable. It's time to take further steps that increase the realism of this simulation.</p>
+<h2>Adding dimensions</h2>
+<p>Now that the 2D simulation has shown that evolving Lindenmayer systems is viable, a more intricate simulation can be set up. It is not enough to hold the plants to realistic standards; the environment must be realistic as well. I have set up some goals for the next simulation:</p>
+<ul>
+	<li>Both the environment and the plants in it must be three-dimensional.</li>
+	<li>Fertility across the environment must vary to simulate natural boundaries, and to enforce diverse plants adapting to different circumstances.</li>
+	<li>Competition between plants should be simulated. Plants can compete on different levels, e.g. space, sunlight exposure and reproductive strength.</li>
+</ul>
+<p>Making everything three-dimensional is not very hard, it does not change the process of applying or rendering L-systems. This was mostly an engineering effort. I wrote <em>OpenGL</em> based software in <em>C++</em> to render these three dimensional simulation environments. The other two goals are a bit more difficult to design.</p>
+<figure title="A 3D simulation environment">
+	<img local src="img/environment.jpg">
+	<figcaption>Figure 2: a three-dimensional simulation environment with four separated fertile valleys.</figcaption>
+</figure>
+<h2>Environment fertility</h2>
+<p>Figure 2 shows an empty simulation environment, representing ground in which plants may grow. Fertility is visualized by making fertile ground darker and deeper than infertile areas. In fertile grounds, plants may grow larger. The amount of material a plant may grow correlates with fertility. The least fertile areas will only support very small plants like grass, while the valleys allow for shrubbery and trees.</p>
+<p>The fertility feature has two aims:</p>
+<ul>
+	<li>It supports different plant species simultaneously. Small plants on the infertile areas will coexist with more complex plants in the valleys.</li>
+	<li>It creates natural boundaries, causing divergent evolution. At a simpler stage, plants may spread across the entire environment. As time goes on however, they may develop into more complex plants in the valleys, preventing them from escaping their biomes. At this point, a single species has split up into multiple species.</li>
+</ul>
+<h2>Competition</h2>
+<p>Simulating competition is a threefold issue:</p>
+<ul>
+	<li>Plants will compete for space. They can not grow infinitely dense, if other plants already occupy a certain area, no new plants can sprout there.</li>
+	<li>Plants will compete for sunlight. If sunlight is occluded by the light of other plants, the overshadowed plant will not be successful.</li>
+	<li>Plants will compete at the level of reproductive strength.</li>
+</ul>

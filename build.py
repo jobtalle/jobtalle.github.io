@@ -273,7 +273,7 @@ class Site:
 	KEY_DESCRIPTION = "$description$"
 	KEY_META = "$additional-meta$"
 
-	INDEX_LINKS_PER_PAGE = 6
+	INDEX_LINKS_PER_PAGE = 7
 
 	SCRIPT_LOAD_MORE = "<script src=\"js/loadmore.js\"></script>"
 
