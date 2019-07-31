@@ -113,6 +113,7 @@ class Post:
 		result = result.replace(self.site.KEY_MENU_BUTTONS, self.site.build_menu())
 		result = result.replace(self.site.KEY_CONTENT, content)
 		result = result.replace(self.site.KEY_POST_SCRIPT, post_script)
+		result = result.replace(self.site.KEY_YEAR, str(datetime.datetime.now().year))
 		result = result.replace(self.site.KEY_META, self.get_meta())
 
 		file = open(self.get_post_file_name(), "w")
@@ -272,6 +273,7 @@ class Site:
 	KEY_POST_SCRIPT = "$post-script$"
 	KEY_DESCRIPTION = "$description$"
 	KEY_META = "$additional-meta$"
+	KEY_YEAR = "$year$"
 
 	INDEX_LINKS_PER_PAGE = 7
 
@@ -351,6 +353,7 @@ class Site:
 		result = result.replace(self.KEY_MENU_BUTTONS, self.build_menu(page))
 		result = result.replace(self.KEY_CONTENT, source)
 		result = result.replace(self.KEY_POST_SCRIPT, "")
+		result = result.replace(self.KEY_YEAR, str(datetime.datetime.now().year))
 		result = result.replace(self.KEY_META, "")
 
 		file = open(page, "w")
@@ -425,6 +428,7 @@ class Site:
 			result = result.replace(self.KEY_MENU_BUTTONS, self.build_menu("index.html"))
 			result = result.replace(self.KEY_CONTENT, content)
 			result = result.replace(self.KEY_POST_SCRIPT, self.SCRIPT_LOAD_MORE)
+			result = result.replace(self.KEY_YEAR, str(datetime.datetime.now().year))
 			result = result.replace(self.KEY_META, "")
 		else:
 			result = content
