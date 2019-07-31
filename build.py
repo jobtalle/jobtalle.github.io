@@ -88,7 +88,7 @@ class Post:
 		content = self.get_post_header(self.properties[self.PROPERTY_TITLE]) + contentFile.read() + self.build_neighbors(previous, next)
 		contentFile.close()
 
-		return content.replace("local src=\"", "src=\"" + self.site.DIR_POSTS + "/" + self.directory + "/")
+		return content.replace("local src=\"", "src=\"" + self.site.DIR_POSTS + "/" + self.directory + "/").replace("local href=\"", "href=\"" + self.site.DIR_POSTS + "/" + self.directory + "/")
 
 	def build(self, previous, next):
 		self.site.log("Building " + self.get_post_file_name())

@@ -6,11 +6,12 @@
 	<li>Plants must have <em>stable</em> structures.</li>
 	<li>Plants must be <em>efficient</em>; they should not produce unnecessary leaves and branches, and their systems should not be overly complex.</li>
 </ul>
+<p>This article is based on <a local href="EvolvingLSystems.pdf" target="_blank">my bachelor's thesis</a>, which contains all the technical details and mathematical formulas omitted here.</p>
 <h2>A simple simulation</h2>
 <p>To evaluate whether Lindenmayer systems can be evolved to produce plants with these properties, I wrote a small two-dimensional prototype. In this simple simulation, all end branches of plants are treated as leaves, and the photosynthesis score increases when these end branches have more free space around them.</p>
 <figure title="2D Lindenmayer systems">
-	<img local src="img/2d_plants.png">
-	<figcaption>Figure 1: successful plants obtained at t=80000.</figcaption>
+	<img local src="img/2d_plant.jpg">
+	<figcaption>Figure 1: A successful plant obtained at t=80000.</figcaption>
 </figure>
 <p>Figure 1 shows the result of a simulation run. The evolved plants use a fan-like growth pattern to spread out the end branches as efficiently as possible, without wasting any structure. The L-system for these plants is surprisingly simple: the axiom is $$A[+B]AAAA$$and the one production rule is$$A \to B[-A]+B$$The system iterates five times to obtain the plant shape in Figure 1. To explore this particular system further, it can be entered in the interactive renderer in <a href="https://jobtalle.com/lindenmayer_systems.html" target="_blank">my previous blog post on Lindenmayer systems</a>. The simulation software can be found <a href="https://github.com/jobtalle/Beagle" target="_blank">in this GitHub repository</a>, and I've hosted a browser version <a href="https://jobtalle.com/Beagle/" target="_blank">here</a>, but beware; it is quite buggy and uses WebGL 2.0 for rendering.</p>
 <p>In summary, evolving Lindenmayer systems with certain properties is very doable. It's time to take further steps that increase the realism of this simulation.</p>
@@ -21,10 +22,10 @@
 	<li>Fertility across the environment must vary to simulate natural boundaries, and to enforce diverse plants adapting to different circumstances.</li>
 	<li>Competition between plants should be simulated. Plants can compete on different levels, e.g. space, sunlight exposure and reproductive strength.</li>
 </ul>
-<p>Making everything three-dimensional is not very hard, it does not change the process of applying or rendering L-systems. This was mostly an engineering effort. I wrote <em>OpenGL</em> based software in <em>C++</em> to render these three dimensional simulation environments. The other two goals are a bit more difficult to design.</p>
+<p>Making everything three-dimensional is not very hard, it does not change the process of applying or rendering L-systems. This was mostly an engineering effort. I wrote <em>OpenGL</em> based software in <em>C++</em> to render these three dimensional simulation environments. The Lindenmayer system interpreter models leaves  The other two goals are a bit more difficult to design.</p>
 <figure title="A 3D simulation environment">
-	<img local src="img/environment.jpg">
-	<figcaption>Figure 2: a three-dimensional simulation environment with four separated fertile valleys.</figcaption>
+	<img local src="img/environment.gif">
+	<figcaption>Figure 2: A three-dimensional simulation environment with four separated fertile valleys.</figcaption>
 </figure>
 <h2>Environment fertility</h2>
 <p>Figure 2 shows an empty simulation environment, representing ground in which plants may grow. Fertility is visualized by making fertile ground darker and deeper than infertile areas. In fertile grounds, plants may grow larger. The amount of material a plant may grow correlates with fertility. The least fertile areas will only support very small plants like grass, while the valleys allow for shrubbery and trees.</p>
@@ -40,3 +41,36 @@
 	<li>Plants will compete for sunlight. If sunlight is occluded by the light of other plants, the overshadowed plant will not be successful.</li>
 	<li>Plants will compete at the level of reproductive strength.</li>
 </ul>
+<p>Competition for space is implemented by defining a <em>density threshold</em>; the threshold at a certain point in the environment is the number of plant that overlap there. If the number of overlapping plants at a point is over the density threshold, no new plants may sprout there.</p>
+<p>Competition for sunlight is implemented through the way leaves work. The fitness of a plant is largely determined by the amount of sunlight its leaves receive in relation to its size. The more sunlight received per mass, the higher the fitness. Leaves are, realistically, not fully opaque. They do however reduce the amount of light that passes through them. If some plants in a simulation evolve taller structures, they will automatically reduce the success of their neighbors by reducing the amount of sunlight they receive. The entire population that experiences occlusion will then favor taller plants.</p>
+<figure title="Small plants with seeds">
+	<img local src="img/grasses.jpg">
+	<figcaption>Figure 3: Small plants with seeds.</figcaption>
+</figure>
+<p>Reproductive strength is modelled through seed production. Figure 3 shows plants using this technique; the brown spheres represent the seeds. When the next generation of plants is produced, a new plant is created for each seed in the environment, not for each plant. The seeds are then ranked by parent plant fitness, after which they sprout in order of fitness score. On account of the space competition method mentioned above, seeds will only create plants at locations that are not too densely occupied. The result of the interplay between seeds and space competition is a new generation that will consist of at least the best plants from the last generation, but also of less successful plants that managed to find an empty spot to grow in. Plants with a high number of seeds will have a higher chance to reproduce, but creating seeds bears a fitness penalty; plants must therefore evolve to grow an effective number of seeds that is not needlessly high, but at the same time high enough to ensure survival.</p>
+<h2>Results</h2>
+<figure title="A family of plants">
+	<img local src="img/family.jpg">
+	<figcaption>Figure 4: A familiy of plants.</figcaption>
+</figure>
+<p>Simulations were initialized by seeding empty environments with plants consisting of a single seed, and no production rules. This simple plant can only reproduce itself, without creating any structure. As the simulation progresses and the plants reproduce, small mutations give rise to more complex and successful structures.</p>
+<p>Figure 4 shows four plants obtained from a simulation that ran for about ten thousand generations. These plants share a common ancestor, but they have evolved into different species. Their growth patterns are still very similar; leafless branches develop near the base of the plant, and they develop into leaves as the plant grows. The seed growth patterns vary; they grow across the entire plant structure in the top two plants, while they are more concentrated in the others. The leaf placement varies as well. In some plants, they are more spread out, while others try to grow them as high as possible.</p>
+<p>These different strategies emerged because the four plants in figure 4 evolved in different valleys (see figure 2); they never grew next to one another. These plants had to compete against different neighbors, requiring different competitive tactics to survive.</p>
+<figure title="Evolved leaf nerves">
+	<img local src="img/leafnerves.jpg">
+	<figcaption>Figure 5: Evolved leaf nerves.</figcaption>
+</figure>
+<p>The simulation favors well supported smaller leaf surfaces over large ones, mostly because unsupported surfaces are weak and vulnerable, and to prevent plants from cheating by spanning huge areas with leaf material. Figure 5 shows how plants in the simulation solve this challenge: leaf surfaces are separated by <em>leaf nerves</em>, which are very similar and analogous to the way real world leaves structure themselves.</p>
+<figure title="A stable but outlandish plant">
+	<img local src="img/stable.jpg">
+	<figcaption>Figure 6: This plant is stable according to the fitness function, but weird nontheless.</figcaption>
+</figure>
+<p>To promote stable structures, the simulation favors plants whose center of gravity is as close to their root as possible. This penalizes both unnecessary tall or skewed structures. This criterion is of course a simplified one. Figure 6 shows a plant that satisfies this constraint very well. Its center of mass is approximately above its root, and it grows quite close to the ground will still exposing all its leaves to the sun. In reality however, this structure would be awkwardly spring-like and unstable. This exposes a limitation in the simplified stability criterion.</p>
+<h2>The need for competition</h2>
+<figure title="The effect of competition on evolution">
+	<img local src="img/competition.jpg">
+	<figcaption>Figure 7: If not competition exists, no complex plant species emerge.</figcaption>
+</figure>
+<p>To evaluate the effect of competition on the simulation, I ran two almost equal simulations for 20000 generations. The only difference was the density threshold; in one simulation, the density threshold was so low that plants could never really overlap, ruling out competition for sunlight and space. The result surprised me.</p>
+<p>Figure 7 shows the end result of the simulations. The one on top had a normal density threshold, while the one on the bottom had a very low one. While more complex plants emerged in the normal simulation, the one without competition had nothing interesting in it. From generation 1500 and onwards, the plants did not change. Their Lindenmayer systems did slowly change through mutation, but they did not add any complexity. This experiment shows that complex plants do not evolve without competition. In fact, there is no need to compete without neighbors. A very small plant consisting of nothing more than one leaf (similar to the ones in figure 7) is very efficient in this setting.</p>
+<h2>Conclusion</h2>
