@@ -275,7 +275,7 @@ class Site:
 	KEY_META = "$additional-meta$"
 	KEY_YEAR = "$year$"
 
-	INDEX_LINKS_PER_PAGE = 5
+	INDEX_LINKS_PER_PAGE = 10
 
 	SCRIPT_LOAD_MORE = "<script src=\"js/loadmore.js\"></script>"
 
@@ -427,7 +427,12 @@ class Site:
 			result = result.replace(self.KEY_ADDITIONAL_CSS, "")
 			result = result.replace(self.KEY_MENU_BUTTONS, self.build_menu("index.html"))
 			result = result.replace(self.KEY_CONTENT, content)
-			result = result.replace(self.KEY_POST_SCRIPT, "<script>var indices = " + str(self.get_index_count()) + ";</script>" + self.SCRIPT_LOAD_MORE)
+
+			if self.get_index_count() > 1:
+				result = result.replace(self.KEY_POST_SCRIPT, "<script>var indices = " + str(self.get_index_count()) + ";</script>" + self.SCRIPT_LOAD_MORE)
+			else:
+				result = result.replace(self.KEY_POST_SCRIPT, "")
+
 			result = result.replace(self.KEY_YEAR, str(datetime.datetime.now().year))
 			result = result.replace(self.KEY_META, "")
 		else:
