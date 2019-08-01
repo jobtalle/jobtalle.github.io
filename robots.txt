@@ -1,0 +1,3 @@
+User-agent: *
+Disallow: /templates/
+Sitemap: https://www.jobtalle.com/sitemap.xml

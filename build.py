@@ -170,6 +170,14 @@ class Post:
 
 		return str(day) + " " + month + " " + str(year)
 
+	def get_lastmod(self):
+		parts = self.directory.split("_")
+		year = parts[0]
+		month = parts[1]
+		day = parts[2]
+
+		return str(year) + "-" + str(month.zfill(2)) + "-" + str(day.zfill(2))
+
 	def get_post_header(self, title, url=None):
 		if url is None:
 			link_open = ""
@@ -314,6 +322,7 @@ class Site:
 		self.log_scope_increment()
 
 		self.build_posts()
+		self.build_sitemap()
 
 		if self.exclusive is None:
 			self.build_indices()
@@ -377,6 +386,24 @@ class Site:
 			post = self.posts[index]
 			if self.exclusive is None or post.get_post_file_name() == self.exclusive:
 				self.post_links.append(post.build(previous, next))
+
+	def build_sitemap(self):
+		contents = "<?xml version=\"1.0\" encoding=\"UTF-8\"?><urlset xmlns=\"http://www.sitemaps.org/schemas/sitemap/0.9\">"
+		contents += "<url><loc>https://www.jobtalle.com/index.html</loc><changefreq>monthly</changefreq><priority>1</priority></url>"
+
+		for post in self.posts:
+			contents += "<url>"
+			contents += "<loc>https://www.jobtalle.com/" + post.get_post_file_name() + "</loc>"
+			contents += "<lastmod>" + post.get_lastmod() + "</lastmod>"
+			contents += "<changefreq>monthly</changefreq>"
+			contents += "<priority>0.5</priority>"
+			contents += "</url>"
+
+		contents += "</urlset>"
+
+		file = open("sitemap.xml", "w")
+		file.write(contents)
+		file.close()
 
 	def get_index_count(self):
 		return int(math.ceil(float(self.get_post_count()) / self.INDEX_LINKS_PER_PAGE))
