@@ -275,7 +275,7 @@ class Site:
 	KEY_META = "$additional-meta$"
 	KEY_YEAR = "$year$"
 
-	INDEX_LINKS_PER_PAGE = 7
+	INDEX_LINKS_PER_PAGE = 5
 
 	SCRIPT_LOAD_MORE = "<script src=\"js/loadmore.js\"></script>"
 
