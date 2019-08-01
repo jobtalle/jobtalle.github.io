@@ -12,7 +12,6 @@ function loadMore() {
 		
 		request.open("GET", "index" + currentIndex++ + ".html", true);
 		request.onload = function() {
-			console.log(request.status);
 			if(request.status >= 200 && request.status < 400)
 				document.getElementById("content").innerHTML += request.responseText;
 		};
