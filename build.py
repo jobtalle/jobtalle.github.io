@@ -427,7 +427,7 @@ class Site:
 			result = result.replace(self.KEY_ADDITIONAL_CSS, "")
 			result = result.replace(self.KEY_MENU_BUTTONS, self.build_menu("index.html"))
 			result = result.replace(self.KEY_CONTENT, content)
-			result = result.replace(self.KEY_POST_SCRIPT, self.SCRIPT_LOAD_MORE)
+			result = result.replace(self.KEY_POST_SCRIPT, "<script>var indices = " + str(self.get_index_count()) + ";</script>" + self.SCRIPT_LOAD_MORE)
 			result = result.replace(self.KEY_YEAR, str(datetime.datetime.now().year))
 			result = result.replace(self.KEY_META, "")
 		else:

@@ -1,24 +1,17 @@
-currentIndex = 1;
+var currentIndex = 0;
 
 function loadMore() {
-	var nextRequest = new XMLHttpRequest();
-	
-	nextRequest.open("HEAD", "index" + (currentIndex + 1) + ".html", true);
-	nextRequest.onloadend = function() {
-		var request = new XMLHttpRequest();
-		
-		request.open("GET", "index" + currentIndex++ + ".html", true);
-		request.onload = function() {
-			if(request.status >= 200 && request.status < 400) {
-				document.getElementById("content").innerHTML += request.responseText;
+	var request = new XMLHttpRequest();
 
-				if (nextRequest.status === 404)
-					document.getElementById("load-more").innerHTML = "";
-			}
-		};
+	request.open("GET", "index" + ++currentIndex + ".html", true);
+	request.onloadend = function() {
+		if (request.status >= 200 && request.status < 400) {
+			document.getElementById("content").innerHTML += request.responseText;
 
-		request.send();
+			if (currentIndex + 1 === indices)
+				document.getElementById("load-more").innerHTML = "";
+		}
 	};
 
-	nextRequest.send();
+	request.send();
 }
