@@ -14,7 +14,7 @@ const Sand = function(canvas) {
         new Myr.Color(0.38, 0.25, 0.14),
         new Myr.Color(0.14, 0.10, 0.08),
         new Myr.Color(0.17, 0.22, 0.25)
-    ]
+    ];
     const texture = new ConvTex(
         myr,
         new myr.Shader(

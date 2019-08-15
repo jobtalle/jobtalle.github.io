@@ -3,6 +3,7 @@ import math
 import sys
 import os.path
 import datetime
+import re
 
 from sys import argv
 from os import listdir
@@ -11,7 +12,12 @@ def format_page_name(name):
 	return name.replace(" ", "_").lower() + ".html"
 
 def compress(string):
-	return string.replace("\t", "").replace(">\n", ">");
+	return string.replace("\t", "").replace(">\n", ">")
+
+def replace_keys(keys, string):
+    regex = re.compile("|".join(map(re.escape, keys.keys())))
+
+    return regex.sub(lambda match: keys[match.group(0)], string)
 
 
 class Post:
@@ -106,15 +112,16 @@ class Post:
 		if "<pre class=\"prettyprint" in content or "<code class=\"prettyprint" in content:
 			post_script += self.get_prettify()
 
-		result = self.site.template
-		result = result.replace(self.site.KEY_TITLE, self.site.TITLE + self.site.TITLE_DIVISOR + self.properties[self.PROPERTY_TITLE])
-		result = result.replace(self.site.KEY_DESCRIPTION, self.properties[self.PROPERTY_ABSTRACT])
-		result = result.replace(self.site.KEY_ADDITIONAL_CSS, additional_css)
-		result = result.replace(self.site.KEY_MENU_BUTTONS, self.site.build_menu())
-		result = result.replace(self.site.KEY_CONTENT, content)
-		result = result.replace(self.site.KEY_POST_SCRIPT, post_script)
-		result = result.replace(self.site.KEY_YEAR, str(datetime.datetime.now().year))
-		result = result.replace(self.site.KEY_META, self.get_meta())
+		result = replace_keys({
+			self.site.KEY_TITLE: self.site.TITLE + self.site.TITLE_DIVISOR + self.properties[self.PROPERTY_TITLE],
+			self.site.KEY_DESCRIPTION: self.properties[self.PROPERTY_ABSTRACT],
+			self.site.KEY_ADDITIONAL_CSS: additional_css,
+			self.site.KEY_MENU_BUTTONS: self.site.build_menu(),
+			self.site.KEY_CONTENT: content,
+			self.site.KEY_POST_SCRIPT: post_script,
+			self.site.KEY_YEAR: str(datetime.datetime.now().year),
+			self.site.KEY_META: self.get_meta()
+			}, self.site.template)
 
 		file = open(self.get_post_file_name(), "w")
 		file.write(compress(result))
@@ -265,7 +272,7 @@ class Site:
 	TITLE = "Job Talle"
 	TITLE_DIVISOR = " | "
 
-	DESCRIPTION = "A blog on game development, AI & Algorithms"
+	DESCRIPTION = "A blog on software development, AI & Algorithms"
 
 	DIR_POSTS = "posts"
 	DIR_JAVASCRIPT = "js"
@@ -355,15 +362,16 @@ class Site:
 		source = source_file.read()
 		source_file.close()
 
-		result = self.template
-		result = result.replace(self.KEY_TITLE, self.TITLE + self.TITLE_DIVISOR + title)
-		result = result.replace(self.KEY_DESCRIPTION, self.DESCRIPTION)
-		result = result.replace(self.KEY_ADDITIONAL_CSS, "")
-		result = result.replace(self.KEY_MENU_BUTTONS, self.build_menu(page))
-		result = result.replace(self.KEY_CONTENT, source)
-		result = result.replace(self.KEY_POST_SCRIPT, "")
-		result = result.replace(self.KEY_YEAR, str(datetime.datetime.now().year))
-		result = result.replace(self.KEY_META, "")
+		result = replace_keys({
+			self.KEY_TITLE: self.TITLE + self.TITLE_DIVISOR + title,
+            self.KEY_DESCRIPTION: self.DESCRIPTION,
+            self.KEY_ADDITIONAL_CSS: "",
+            self.KEY_MENU_BUTTONS: self.build_menu(page),
+            self.KEY_CONTENT: source,
+            self.KEY_POST_SCRIPT: "",
+            self.KEY_YEAR: str(datetime.datetime.now().year),
+            self.KEY_META: ""
+		}, self.template)
 
 		file = open(page, "w")
 		file.write(compress(result))
@@ -390,6 +398,10 @@ class Site:
 	def build_sitemap(self):
 		contents = "<?xml version=\"1.0\" encoding=\"UTF-8\"?><urlset xmlns=\"http://www.sitemaps.org/schemas/sitemap/0.9\">"
 		contents += "<url><loc>https://www.jobtalle.com/index.html</loc><changefreq>monthly</changefreq><priority>1</priority></url>"
+
+		for page in self.MENU_PAGES:
+			if page != "index.html":
+				contents += "<url><loc>https://www.jobtalle.com/" + page + "</loc><changefreq>monthly</changefreq><priority>0.75</priority></url>"
 
 		for post in self.posts:
 			contents += "<url>"
@@ -448,20 +460,16 @@ class Site:
 			if self.get_index_count() > 1:
 				content += self.get_load_more()
 
-			result = self.template
-			result = result.replace(self.KEY_TITLE, self.TITLE)
-			result = result.replace(self.KEY_DESCRIPTION, self.DESCRIPTION)
-			result = result.replace(self.KEY_ADDITIONAL_CSS, "")
-			result = result.replace(self.KEY_MENU_BUTTONS, self.build_menu("index.html"))
-			result = result.replace(self.KEY_CONTENT, content)
-
-			if self.get_index_count() > 1:
-				result = result.replace(self.KEY_POST_SCRIPT, "<script>var indices = " + str(self.get_index_count()) + ";</script>" + self.SCRIPT_LOAD_MORE)
-			else:
-				result = result.replace(self.KEY_POST_SCRIPT, "")
-
-			result = result.replace(self.KEY_YEAR, str(datetime.datetime.now().year))
-			result = result.replace(self.KEY_META, "")
+			result = replace_keys({
+                self.KEY_TITLE: self.TITLE,
+                self.KEY_DESCRIPTION: self.DESCRIPTION,
+                self.KEY_ADDITIONAL_CSS: "",
+                self.KEY_MENU_BUTTONS: self.build_menu("index.html"),
+                self.KEY_CONTENT: content,
+                self.KEY_POST_SCRIPT: "<script>var indices = " + str(self.get_index_count()) + ";</script>" + self.SCRIPT_LOAD_MORE if self.get_index_count() > 1 else "",
+                self.KEY_YEAR: str(datetime.datetime.now().year),
+                self.KEY_META: ""
+			}, self.template)
 		else:
 			result = content
 
