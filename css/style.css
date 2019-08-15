@@ -42,10 +42,10 @@ h1 {
 	background-color: var(--color-elements);
 	border: none;
 	outline: none;
-	font-size: 24px;
+	font-size: 20px;
 	color: var(--color-white);
 	text-align: center;
-	padding: 8px 24px 8px 24px;
+	padding: 8px 12px 8px 12px;
 }
 
 .menu-button:hover {
@@ -217,13 +217,24 @@ h1 {
 .post-link {
 	overflow: auto;
 	clear: right;
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: center;
+	border-top: 2px solid var(--color-gray);
+}
+
+.post-link .text {
+	flex-basis: 60%;
+	flex-grow: 1;
+}
+
+.post-link .text h1 {
+	border-top: none !important;
 }
 
 .post-link-preview {
-	float: right;
-	display: block;
 	max-width: 100%;
-	padding: 8px 0 8px 8px;
+	padding: 8px;
 }
 
 .post-link-preview img {

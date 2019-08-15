@@ -257,10 +257,11 @@ class Post:
 		return \
 			"<div class=\"" +\
 			self.CLASS_POST_LINK +\
-			"\">" +\
-			self.get_preview() +\
+			"\"><div class=\"text\">" +\
 			self.get_post_header(self.properties[self.PROPERTY_TITLE], self.get_post_file_name()) +\
 			self.get_abstract() +\
+			"</div>" +\
+			self.get_preview() +\
 			"</div>"
 
 
@@ -296,11 +297,13 @@ class Site:
 
 	MENU_PAGES = [
 		"index.html",
+		"sketches.html",
 		"about.html",
 		"contact.html"
 	]
 	MENU_TITLES = [
 		"Blog",
+		"Sketches",
 		"About",
 		"Contact"
 	]
