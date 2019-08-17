@@ -148,6 +148,7 @@ class Post:
 		result = ""
 
 		dir = Site.DIR_POSTS + "/" + self.directory + "/" + self.DIR_CSS
+
 		if os.path.isdir(dir):
 			for file in listdir(dir):
 				if file.endswith(".css"):
@@ -265,6 +266,35 @@ class Post:
 			"</div>"
 
 
+class Sketch:
+	FILE_PROPERTIES = "properties.json"
+	FILE_PREVIEW = "preview.jpg"
+
+	CLASS = "sketch"
+
+	KEY_TITLE = "title"
+
+	def __init__(self, site, directory):
+		self.site = site
+		self.directory = directory
+		self.properties = Site.DIR_SKETCHES + "/" + directory + "/" + self.FILE_PROPERTIES
+
+		self.read_properties()
+
+	def read_properties(self):
+		properties_file = open(self.properties)
+		self.properties = json.load(properties_file)
+		properties_file.close()
+
+	def build_image(self):
+		return "<img src=\"" + Site.DIR_SKETCHES + "/" + self.directory + "/" + self.FILE_PREVIEW + "\" title=\"" + self.properties[self.KEY_TITLE] + "\">"
+
+	def build(self):
+		self.site.log("Building sketch \"" + self.properties[self.KEY_TITLE] + "\"")
+
+		return "<div class=\"" + self.CLASS + "\">" + self.build_image() + "</div>"
+
+
 class Site:
 	URL = "https://jobtalle.com/"
 
@@ -276,6 +306,7 @@ class Site:
 	DESCRIPTION = "A blog on software development, AI & Algorithms"
 
 	DIR_POSTS = "posts"
+	DIR_SKETCHES = "sketches"
 	DIR_JAVASCRIPT = "js"
 	DIR_TEMPLATES = "templates"
 
@@ -320,6 +351,7 @@ class Site:
 
 		self.template = self.read_template()
 		self.posts = self.get_posts()
+		self.sketches = self.get_sketches()
 
 	@staticmethod
 	def clean():
@@ -365,6 +397,9 @@ class Site:
 		source = source_file.read()
 		source_file.close()
 
+		if page == "sketches.html":
+			source = source.replace("$sketches$", self.build_sketches())
+
 		result = replace_keys({
 			self.KEY_TITLE: self.TITLE + self.TITLE_DIVISOR + title,
             self.KEY_DESCRIPTION: self.DESCRIPTION,
@@ -398,13 +433,19 @@ class Site:
 			if self.exclusive is None or post.get_post_file_name() == self.exclusive:
 				self.post_links.append(post.build(previous, next))
 
+	def build_sketches(self):
+		result = ""
+
+		for sketch in self.sketches:
+			result += sketch.build()
+
+		return result
+
 	def build_sitemap(self):
 		contents = "<?xml version=\"1.0\" encoding=\"UTF-8\"?><urlset xmlns=\"http://www.sitemaps.org/schemas/sitemap/0.9\">"
-		contents += "<url><loc>https://www.jobtalle.com/index.html</loc><changefreq>monthly</changefreq><priority>1</priority></url>"
 
 		for page in self.MENU_PAGES:
-			if page != "index.html":
-				contents += "<url><loc>https://www.jobtalle.com/" + page + "</loc><changefreq>monthly</changefreq><priority>0.75</priority></url>"
+			contents += "<url><loc>https://www.jobtalle.com/" + page + "</loc><changefreq>monthly</changefreq><priority>" + ("1" if page == "index.html" else "0.75") + "</priority></url>"
 
 		for post in self.posts:
 			contents += "<url>"
@@ -522,6 +563,12 @@ class Site:
 		directories.sort(key=lambda x: datetime.datetime.strptime(x, '%Y_%m_%d'), reverse=True)
 
 		return [Post(self, dir) for dir in directories]
+
+	def get_sketches(self):
+		directories = [dir for dir in listdir(self.DIR_SKETCHES)]
+		directories.sort(key=lambda x: datetime.datetime.strptime(x, '%Y_%m_%d'), reverse=True)
+
+		return [Sketch(self, dir) for dir in directories]
 
 def main():
 	site = None
