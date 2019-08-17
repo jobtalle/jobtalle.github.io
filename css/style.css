@@ -391,6 +391,7 @@ h1 {
 .sketch .links a {
 	display: block;
 	flex-grow: 1;
+	text-decoration: none;
 }
 
 .sketch .links .round-button {
