@@ -8,6 +8,8 @@
 	--color-code: #F0F0F0;
 	--max-width: 960px;
 	--bold-weight: 900;
+	--button-padding-x: 16px;
+	--button-padding-y: 4px;
 }
 
 body {
@@ -201,12 +203,14 @@ h1 {
 }
 
 .round-button {
-	padding: 4px 16px 4px 16px;
+	padding: var(--button-padding-y) var(--button-padding-x) var(--button-padding-y) var(--button-padding-x);
 	color: var(--color-white);
 	border-radius: 16px;
 	background-color: var(--color-elements);
 	border: 0;
 	font: inherit;
+	user-select: none;
+	text-align: center;
 }
 
 .round-button:hover {
@@ -355,4 +359,41 @@ h1 {
 	width: 100%;
 	height: 240px;
 	resize: none;
+}
+
+#sketches {
+	display: flex;
+	justify-content: space-between;
+	flex-wrap: wrap;
+}
+
+.sketch {
+	display: flex;
+	flex-direction: column;
+	flex-basis: 256px;
+	flex-grow: 1;
+	max-width: 512px;
+	padding: 4px;
+}
+
+.sketch a {
+	display: flex;
+}
+
+.sketch a img {
+	width: 100%;
+}
+
+.sketch .links {
+	display: flex;
+}
+
+.sketch .links a {
+	display: block;
+	flex-grow: 1;
+}
+
+.sketch .links .round-button {
+	border-top-left-radius: 0;
+	border-top-right-radius: 0;
 }

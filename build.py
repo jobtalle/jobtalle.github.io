@@ -271,8 +271,15 @@ class Sketch:
 	FILE_PREVIEW = "preview.jpg"
 
 	CLASS = "sketch"
+	CLASS_LINK = "round-button"
+	CLASS_LINKS = "links"
 
 	KEY_TITLE = "title"
+	KEY_URL = "url"
+	KEY_SOURCE = "source"
+
+	TEXT_VIEW = "View"
+	TEXT_SOURCE = "Source"
 
 	def __init__(self, site, directory):
 		self.site = site
@@ -287,12 +294,21 @@ class Sketch:
 		properties_file.close()
 
 	def build_image(self):
-		return "<img src=\"" + Site.DIR_SKETCHES + "/" + self.directory + "/" + self.FILE_PREVIEW + "\" title=\"" + self.properties[self.KEY_TITLE] + "\">"
+		return "<a href=\"" + self.properties[self.KEY_URL] + "\" target=\"_blank\"><img src=\"" + Site.DIR_SKETCHES + "/" + self.directory + "/" + self.FILE_PREVIEW + "\" title=\"" + self.properties[self.KEY_TITLE] + "\"></a>"
+
+	def build_link(self, text, target):
+		return "<a href=\"" + target + "\" target=\"_blank\" ><div class=\"" + self.CLASS_LINK + "\">" + text + "</div></a>"
+
+	def build_link_view(self):
+		return self.build_link(self.TEXT_VIEW, self.properties[self.KEY_URL])
+
+	def build_link_source(self):
+		return self.build_link(self.TEXT_SOURCE, self.properties[self.KEY_SOURCE])
 
 	def build(self):
 		self.site.log("Building sketch \"" + self.properties[self.KEY_TITLE] + "\"")
 
-		return "<div class=\"" + self.CLASS + "\">" + self.build_image() + "</div>"
+		return "<div class=\"" + self.CLASS + "\">" + self.build_image() + "<div class=\"" + self.CLASS_LINKS + "\">" + self.build_link_view() + self.build_link_source() + "</div></div>"
 
 
 class Site:
