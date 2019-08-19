@@ -10,6 +10,8 @@
 	--bold-weight: 900;
 	--button-padding-x: 16px;
 	--button-padding-y: 4px;
+	--sketch-min-width: 256px;
+	--sketch-max-width: 512px;
 }
 
 body {
@@ -370,17 +372,18 @@ h1 {
 .sketch {
 	display: flex;
 	flex-direction: column;
-	flex-basis: 256px;
+	flex-basis: var(--sketch-min-width);
 	flex-grow: 1;
-	max-width: 512px;
+	max-width: var(--sketch-max-width);
 	padding: 4px;
 }
 
-.sketch a {
-	display: flex;
+.sketch .preview {
+
 }
 
-.sketch a img {
+.sketch .preview img {
+	display: flex;
 	width: 100%;
 }
 
