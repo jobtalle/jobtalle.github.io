@@ -274,10 +274,12 @@ class Sketch:
 	CLASS_LINK = "round-button"
 	CLASS_PREVIEW = "preview"
 	CLASS_LINKS = "links"
+	CLASS_SUMMARY = "summary"
 
 	KEY_TITLE = "title"
 	KEY_URL = "url"
 	KEY_SOURCE = "source"
+	KEY_DESCRIPTION = "description"
 
 	TEXT_VIEW = "View"
 	TEXT_SOURCE = "Source"
@@ -295,10 +297,19 @@ class Sketch:
 		properties_file.close()
 
 	def build_image(self):
-		return "<a href=\"" + self.properties[self.KEY_URL] + "\" target=\"_blank\"><img src=\"" + Site.DIR_SKETCHES + "/" + self.directory + "/" + self.FILE_PREVIEW + "\" title=\"" + self.properties[self.KEY_TITLE] + "\"></a>"
+		return "<a href=\"" + self.properties[self.KEY_URL] + "\" target=\"_blank\"><img src=\"" + Site.DIR_SKETCHES + "/" + self.directory + "/" + self.FILE_PREVIEW + "\"></a>"
+
+	def build_title(self):
+		return "<h2>" + self.properties[self.KEY_TITLE] + "</h2>"
+
+	def build_description(self):
+		return "<p>" + self.properties[self.KEY_DESCRIPTION] + "</p>"
+
+	def build_summary(self):
+		return "<div class=\"" + self.CLASS_SUMMARY + "\">" + self.build_title() + self.build_description() + "</div>"
 
 	def build_preview(self):
-		return "<div class=\"" + self.CLASS_PREVIEW + "\">" + self.build_image() + "</div>"
+		return "<div class=\"" + self.CLASS_PREVIEW + "\">" + self.build_summary() + self.build_image() + "</div>"
 
 	def build_link(self, text, target):
 		return "<a href=\"" + target + "\" target=\"_blank\" ><div class=\"" + self.CLASS_LINK + "\">" + text + "</div></a>"

@@ -12,6 +12,8 @@
 	--button-padding-y: 4px;
 	--sketch-min-width: 256px;
 	--sketch-max-width: 512px;
+    --transition-in: 0.3s;
+    --transition-out: 0.2s;
 }
 
 body {
@@ -32,7 +34,7 @@ h1 {
 }
 
 #menu-buttons {
-	z-index: 2;
+	z-index: 3;
 	backface-visibility: hidden;
 	-webkit-backface-visibility: hidden;
 	position: fixed;
@@ -379,12 +381,44 @@ h1 {
 }
 
 .sketch .preview {
-
+    background-color: black;
 }
 
-.sketch .preview img {
+.sketch .preview .summary {
+    color: var(--color-white);
+    position: relative;
+    pointer-events: none;
+    width: 100%;
+    height: 0;
+    overflow: visible;
+    z-index: 2;
+    opacity: 0;
+}
+
+.sketch .preview:hover .summary {
+    opacity: 1;
+    transition: var(--transition-in);
+}
+
+.sketch .preview .summary h2, .sketch .preview .summary p {
+    padding: 12px !important;
+    margin: 0;
+}
+
+.sketch .preview a {
+    position: relative;
+    z-index: 1;
+}
+
+.sketch .preview a img {
 	display: flex;
 	width: 100%;
+    transition: var(--transition-out);
+}
+
+.sketch .preview:hover a img {
+    opacity: 0.5;
+    transition: var(--transition-in);
 }
 
 .sketch .links {
