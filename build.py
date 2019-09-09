@@ -593,7 +593,8 @@ class Site:
 			self.abort()
 
 	def get_posts(self):
-		directories = [dir for dir in listdir(self.DIR_POSTS)]
+		directories = [dir for dir in listdir(self.DIR_POSTS) if not dir.startswith("_")]
+		print(directories)
 		directories.sort(key=lambda x: datetime.datetime.strptime(x, '%Y_%m_%d'), reverse=True)
 
 		return [Post(self, dir) for dir in directories]
