@@ -97,6 +97,7 @@ const loopFunction = () => {
 const replan = () => {
     loader.update(0);
     plan = new Plan(size, height, 1 / scale, lighting);
+    angleDelta = 0;
 };
 
 const mouseDown = (x, y) => {

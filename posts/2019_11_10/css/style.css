@@ -22,6 +22,7 @@
     position: relative;
     float: left;
     height: 0;
+    margin-bottom: 16px;
 }
 
 #renderer {
@@ -96,5 +97,4 @@
 
 #renderer #controls-wrapper #controls button {
     width: 100%;
-    height: 32px;
 }
