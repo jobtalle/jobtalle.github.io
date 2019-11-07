@@ -120,7 +120,7 @@ h1 {
 	text-align: justify;
 }
 
-#content a {
+#content p a, #content li a {
 	color: var(--color-elements);
 	font-weight: var(--bold-weight);
 	text-decoration: inherit;
