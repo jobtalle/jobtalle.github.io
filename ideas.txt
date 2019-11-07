@@ -1,4 +1,0 @@
-- Postfix expression parsing
-- Texture atlasing technique comparison
-- Memory pooling
-- Pathfinding
