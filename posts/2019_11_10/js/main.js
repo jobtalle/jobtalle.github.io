@@ -126,8 +126,10 @@ const mouseMove = (x, y) => {
 
 window.onresize = resize;
 
-canvas2d.addEventListener("mousedown", event =>
-    mouseDown(event.clientX, event.clientY));
+canvas2d.addEventListener("mousedown", event => {
+    if (event.button === 0)
+        mouseDown(event.clientX, event.clientY);
+});
 canvas2d.addEventListener("touchstart", event =>
     mouseDown(event.touches[0].clientX, event.touches[0].clientY, true));
 canvas2d.addEventListener("mousemove", event =>
