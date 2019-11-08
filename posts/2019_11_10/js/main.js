@@ -1,5 +1,5 @@
 const ANGLE_SPEED = 0.3;
-const DRAG_SPEED = 0.006;
+const DRAG_SPEED = 0.012;
 const X_FILL = 1;
 const Y_FILL = 0.65;
 const HEIGHT_RATIO = 0.18;
@@ -47,7 +47,7 @@ const resize = () => {
     canvas2d.height = canvasWebgl.height = canvasWrapper.offsetHeight;
     divRenderer.style.width = canvas2d.width + "px";
     divRenderer.style.height = canvas2d.height + "px";
-
+    
     renderer.resize(canvasWrapper.offsetWidth, canvasWrapper.offsetHeight);
 
     updateParameters();

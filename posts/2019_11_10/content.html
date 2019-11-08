@@ -59,7 +59,7 @@
 			</div>
 		<div id="controls-wrapper">
 			<div id="controls">
-				<table>
+				<table id="controls-table">
 					<tr>
 						<td>Quality</td>
 						<td>
@@ -86,12 +86,14 @@
 							</label>
 						</td>
 					</tr>
-					<tr>
-						<td></td>
-						<td>
-							<button onclick="replan()">Generate</button>
-						</td>
-					</tr>
+				</table>
+				<table>
+					<td>
+						<button onclick="document.getElementById('controls-table').classList.toggle('visible')">Options</button>
+					</td>
+					<td>
+						<button onclick="replan()">Generate</button>
+					</td>
 				</table>
 			</div>
 		</div>
