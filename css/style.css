@@ -335,6 +335,10 @@ h1 {
 	background-image: url("../img/ico_twitter.svg");
 }
 
+#icon-rss {
+	background-image: url("../img/ico_rss.svg");
+}
+
 #load-more {
 	margin: 8px auto 8px auto;
 	text-align: center;

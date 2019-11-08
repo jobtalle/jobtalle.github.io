@@ -41,6 +41,16 @@ class Post:
 
 	ID_REFERENCES = "references"
 
+	DAY_ABBREVIATIONS = [
+		"Mon",
+		"Tue",
+		"Wed",
+		"Thu",
+		"Fri",
+		"Sat",
+		"Sun"
+	]
+
 	MONTH_ABBREVIATIONS = [
 		"Jan",
 		"Feb",
@@ -50,7 +60,7 @@ class Post:
 		"Jun",
 		"Jul",
 		"Aug",
-		"Sept",
+		"Sep",
 		"Oct",
 		"Nov",
 		"Dec"
@@ -186,6 +196,14 @@ class Post:
 
 		return str(year) + "-" + str(month.zfill(2)) + "-" + str(day.zfill(2))
 
+	def get_lastmod_rss(self):
+		parts = self.directory.split("_")
+		year = parts[0]
+		month = parts[1]
+		day = parts[2]
+		
+		return self.DAY_ABBREVIATIONS[datetime.datetime(int(year), int(month), int(day)).weekday()] + ", " + str(day).rjust(2, '0') + " " + self.MONTH_ABBREVIATIONS[int(month) - 1] + " " + str(year) + " 08:00:00 GMT"
+
 	def get_post_header(self, title, url=None):
 		if url is None:
 			link_open = ""
@@ -202,6 +220,12 @@ class Post:
 			"</h1><span class=\"date\">" +\
 			self.get_date() +\
 			"</span>"
+
+	def get_title(self):
+		return self.properties[self.PROPERTY_TITLE]
+	
+	def get_description(self):
+		return self.properties[self.PROPERTY_ABSTRACT]
 
 	def get_preview(self):
 		return \
@@ -399,6 +423,7 @@ class Site:
 
 		self.build_posts()
 		self.build_sitemap()
+		self.build_rss()
 
 		if self.exclusive is None:
 			self.build_indices()
@@ -479,11 +504,11 @@ class Site:
 		contents = "<?xml version=\"1.0\" encoding=\"UTF-8\"?><urlset xmlns=\"http://www.sitemaps.org/schemas/sitemap/0.9\">"
 
 		for page in self.MENU_PAGES:
-			contents += "<url><loc>https://www.jobtalle.com/" + page + "</loc><changefreq>monthly</changefreq><priority>" + ("1" if page == "index.html" else "0.75") + "</priority></url>"
+			contents += "<url><loc>https://jobtalle.com/" + page + "</loc><changefreq>monthly</changefreq><priority>" + ("1" if page == "index.html" else "0.75") + "</priority></url>"
 
 		for post in self.posts:
 			contents += "<url>"
-			contents += "<loc>https://www.jobtalle.com/" + post.get_post_file_name() + "</loc>"
+			contents += "<loc>https://jobtalle.com/" + post.get_post_file_name() + "</loc>"
 			contents += "<lastmod>" + post.get_lastmod() + "</lastmod>"
 			contents += "<changefreq>monthly</changefreq>"
 			contents += "<priority>0.5</priority>"
@@ -492,6 +517,30 @@ class Site:
 		contents += "</urlset>"
 
 		file = open("sitemap.xml", "w")
+		file.write(contents)
+		file.close()
+
+	def build_rss(self):
+		contents = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>"
+		contents += "<rss version=\"2.0\"><channel>"
+		contents += "<title>" + self.TITLE + "</title>"
+		contents += "<description>" + self.DESCRIPTION.replace('&', "and") + "</description>"
+		contents += "<link>https://jobtalle.com</link>"
+		contents += "<lastBuildDate>" + self.posts[0].get_lastmod_rss() + "</lastBuildDate>"
+		contents += "<ttl>1440</ttl>"
+
+		for post in self.posts:
+			contents += "<item>"
+			contents += "<title>" + post.get_title() + "</title>"
+			contents += "<description>" + post.get_description() + "</description>"
+			contents += "<link>https://jobtalle.com/" + post.get_post_file_name() + "</link>"
+			contents += "<guid isPermaLink=\"true\">https://jobtalle.com/" + post.get_post_file_name() + "</guid>"
+			contents += "<pubDate>" + post.get_lastmod_rss() + "</pubDate>"
+			contents += "</item>"
+
+		contents += "</channel></rss>"
+
+		file = open("rss.xml", "w")
 		file.write(contents)
 		file.close()
 
@@ -581,7 +630,7 @@ class Site:
 			self.abort()
 
 		if not os.path.isfile(os.path.join(self.DIR_TEMPLATES, self.FILE_LOADMORE)):
-			self.log(self.FILE_LOADMORE + + " was not found")
+			self.log(self.FILE_LOADMORE + " was not found")
 			self.abort()
 
 		if not os.path.isdir(self.DIR_POSTS):
