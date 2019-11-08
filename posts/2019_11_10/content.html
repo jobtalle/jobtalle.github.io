@@ -114,6 +114,7 @@
 	<li>Scenes can be split up into <em>chunks</em>. Currently, a lot of empty air and invisible underground voxels are rendered (but never seen). Splitting up the scene into chunks and omitting chunks that do not require rendering both improves performance (while also reducing the memory footprint) and allows invisible parts of the scene to be rendered only when they come into view. Additionally, the scene size is no longer restricted, since shapes are only queried when rendering chunks that contain them.</li>
 	<li>Perspective transformation can be added. For many 3D applications, perspective rendering is preferred over isometric rendering.</li>
 	<li>A level of detail criterion can be added. Currently, all voxels are rendered at the maximum resolution. It would however be possible to render half or quarter resolution layers that can be displayed for distant parts of the scene until the camera comes closer. Note that this only makes sense when perspective is used, since distant objects don't become smaller in isometric renderers.</li>
+	<li>A <em>depth buffer</em> can be used while rendering. If we have a depth buffer, traditional 3D models can be rendered into the scene. One could then compose a hybrid scene, for example an environment with voxel terrain that has traditional 3D objects interacting with it.</li>
 </ul>
 <p>The proposed method has some drawbacks too:</p>
 <ul>
