@@ -40,8 +40,8 @@ const Trees = function(height, heightmap, bounds, lighting, scale) {
 };
 
 Trees.VOLUME_DENSITY = 0.5;
-Trees.RADIUS_MIN = 8;
-Trees.RADIUS_MAX = 18;
+Trees.RADIUS_MIN = 6;
+Trees.RADIUS_MAX = 12;
 Trees.HEIGHT_FACTOR_MIN = 1.8;
 Trees.HEIGHT_FACTOR_MAX = 2.5;
 Trees.SPACING = Trees.RADIUS_MIN * 1.65;
