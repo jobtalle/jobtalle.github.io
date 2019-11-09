@@ -1,5 +1,5 @@
 <h2>Layered voxel rendering</h2>
-<p>Three dimensional images can be stored using <em>voxels</em>. Voxels are effectively three dimensional pixels. Contrary to common 3D models that store scenes as large collections of triangular planes, voxels can encode volume as well. Additionally, their detail is equal for every part of the scene. The drawbacks however are numerous:</p>
+<p>Three dimensional images can be stored using <em>voxels</em>. Voxels are effectively three dimensional pixels. Contrary to common 3D models that store scenes as large collections of triangular planes, voxel shapes can have volume as well. Additionally, their detail is equal for every part of the scene. The drawbacks however are numerous at first sight:</p>
 <ul>
 	<li>Voxels take up a lot of storage space. Storing colors and surface data of volume interiors that will likely never be rendered need to be stored regardless.</li>
 	<li>Rendering voxels is slow. Rendering ten thousands of triangles is very doable on modern hardware, but a typical voxel scene has many more voxels than triangles. Also, voxels are often rendered as little cubes consisting of multiple triangles, which makes rendering even slower.</li>
@@ -9,7 +9,7 @@
 	<img local src="img/island.jpg">
 	<figcaption>Figure 1: A rendered voxel scene.</figcaption>
 </figure>
-<p>In this article, I propose a real-time voxel rendering method called <em>layered voxel rendering</em>, while trying to tackle these issues. Additionally, an interactive real-time javascript renderer is demonstrated using three different rendering methods. A procedural island generator is used to provide scenes for the renderers. Figure 1 shows a procedurally generated island rendered using the included renderer. The island generator itself is explained in the appendix.</p>
+<p>In this article, I propose a real-time voxel rendering method called <em>layered voxel rendering</em>, while trying to tackle these issues. Additionally, an interactive real-time javascript renderer is demonstrated using three different rendering methods. A procedural island generator is used to provide scenes for the renderers; the island generation process is explained in the appendix. Figure 1 shows a procedurally generated island rendered using the included renderer.</p>
 <p>The rendering method supports</p>
 <ul>
 	<li>real time voxel rendering at reasonable speed,</li>
@@ -21,11 +21,11 @@
 	<figcaption>Figure 2: Stacked images as voxel scene layers.</figcaption>
 </figure>
 <h2>Voxel layers</h2>
-<p>The voxel scene that needs to be rendered is first split up in layers; for every vertical layer of voxels, a <em>slice</em> is created, containing all voxels at that layer. The result is a two dimensional image per layer. Every slice is simply an image. When rendering, these images are drawn from the bottom to the top. Figure 2 shows a schematic of a rendered scene, where layers are used to compose a three dimensional image.</p>
+<p>The voxel scene that needs to be rendered is split up into layers; for every vertical layer of voxels, a <em>slice</em> is created, containing all voxels at that layer. The result is a two dimensional image per layer. Every slice is simply an image. When rendering, these images are drawn from the bottom to the top. Figure 2 shows a schematic representation of a rendered scene, where layers are used to compose a three dimensional image.</p>
 <p>Note that all images are scaled down vertically. This scale changes the camera pitch angle; scaling down further points the camera more towards the direction of the horizon. To rotate the scene, all images are rotated along the vertical axis before scaling is applied.</p>
 <p></p>
 <h2>Representing a scene</h2>
-<p>The voxel scene will be represented using <em>primitive shapes</em>, and, for the sake of the island example, a heightmap shape to represent the terrain. It is clearer and simpler to populate a scene with shapes than voxels. This representation is also much more compact than storing every voxel in the scene. To be able to make the island shown in Figure 1, the following shapes are needed:</p>
+<p>The voxel scene will be represented using <em>primitive shapes</em>, and, for the sake of the island example, a heightmap shape to represent terrain. It is clearer and simpler to populate a scene with shapes than with voxels. This representation is also much more compact than storing every voxel in the scene. To be able to make the island shown in Figure 1, the following shapes are needed:</p>
 <ul>
 	<li>A heightmap to render the terrain.</li>
 	<li>Cones to render the trees and roofs.</li>
@@ -43,9 +43,10 @@
 <ol>
 	<li>A region to "voxelize" is chosen. Parts of the scene may be omitted, or a scene can be broken up into multiple blocks of layers to make sure not everything needs to be rendered all the time.</li>
 	<li>A number of layers (which are just images) equal to the height of the render area is created.</li>
-	<li>For every pixel on every image, the voxel for that coordinate is queried and rendered to its layer.</li>
+	<li>For every pixel on every image, the voxel for that coordinate is queried (if there is one) and rendered to its layer.</li>
 </ol>
 <p>This process is shown in Figure 3, where a sphere shape is translated to voxel layers. Once the layers are created, they can be sent to the renderer to produce the complete and interactive voxel image.</p>
+<p>To increase performance, layers may be cropped before sending them to the rendering engine. The top layer in figure 3 fox example contains only a small amount of voxels; it is much larger than it needs to be. Empty spaces can be cut out, and if no voxels exist on the entire layer, it can be omitted completely.</p>
 <h2>An interactive renderer</h2>
 <div id="renderer-container">
 	<div id="renderer">
@@ -118,7 +119,7 @@
 </ul>
 <p>The proposed method has some drawbacks too:</p>
 <ul>
-	<li>The camera pitch angle must be within a certain range. If the camera is pitched horizontally enough, you can see too far under the vertical layers. Voxels that should not be seen are then revealed, creating messy images.</li>
+	<li>The camera pitch angle must be within a certain range. If the camera is pitched horizontally enough, you can see too far under the layers. Voxels that should not be seen are then revealed, creating messy images.</li>
 	<li>Layers need to be <em>pre-rendered</em>. Another rendering pass is required for dynamic objects. Rendering large moving objects could be slow. This performance hit can be avoided by using a <em>depth buffer</em> while rendering the scene; after the chunks have been rendered, dynamic objects can then be inserted into the scene as traditional 3D models using the populated depth buffer.</li>
 	<li>Rendering is still quite slow compared to traditional 3D rendering. There must be a good reason for using voxels to make this method interesting. Once the layers have been rendered though, this method can be implemented in almost every framework and on almost every device, no 3D hardware or software is required (the CSS renderer shows it even works in plain HTML for example).</li>
 </ul>

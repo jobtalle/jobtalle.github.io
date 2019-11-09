@@ -1,5 +1,5 @@
 {
     "title": "Layered voxel rendering",
-    "abstract": "....",
+    "abstract": "Voxels scenes can be rendered using layered voxel rendering by splitting the scene into image layers and pre-shading the voxels. The method is trivial to implement and surprisingly performant. This article walks through the process and demonstrates a procedural island generator using this technique.",
     "preview": "img/preview.jpg"
 }
