@@ -46,7 +46,7 @@
 	<li>For every pixel on every image, the voxel for that coordinate is queried (if there is one) and rendered to its layer.</li>
 </ol>
 <p>This process is shown in Figure 3, where a sphere shape is translated to voxel layers. Once the layers are created, they can be sent to the renderer to produce the complete and interactive voxel image.</p>
-<p>To increase performance, layers may be cropped before sending them to the rendering engine. The top layer in figure 3 fox example contains only a small amount of voxels; it is much larger than it needs to be. Empty spaces can be cut out, and if no voxels exist on the entire layer, it can be omitted completely.</p>
+<p>To increase performance, layers may be cropped before sending them to the rendering engine. The top layer in figure 3 for example contains only a small amount of voxels; it is much larger than it needs to be. Empty spaces can be cut out, and if no voxels exist on the entire layer, it can be omitted completely.</p>
 <h2>An interactive renderer</h2>
 <div id="renderer-container">
 	<div id="renderer">
