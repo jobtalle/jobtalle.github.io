@@ -5,7 +5,7 @@
 <p>To demonstrate neuroevolution, I want to evolve digital squids. The squids have the following properties:</p>
 <ul>
 	<li>Squids can have any number of tentacles with varying length.</li>
-	<li>The arms are controlled by a single output neuron, swinging them to one direction when low output is produced and in the opposite direction when high output is produced.</li>
+	<li>Each arm is controlled by a single output neuron, swinging them to one direction when low output is produced and in the opposite direction when high output is produced.</li>
 	<li>Squids have <em>heads</em>, the size of the head determines the amount of neurons it may have.</li>
 	<li>The mass of a squid is determined by its head size and the size of its tentacles.</li>
 	<li>Squids swim in simulated liquid filled with dots representing food. Touching these dots "eats" them, and the score of a squid is the number of dots it eats divided by its mass.</li>
@@ -13,13 +13,13 @@
 <p>These properties should through evolution produce squids that can swim efficiently through an environment, eating as much food as possible. Because they have mass as well, squid bodies must be effective: heavy bodies and big tentacles require more food, there must be a good reason to evolve them.</p>
 <p>Because the squid can have varying properties (like head size and the configuration of its tentacles), these properties evolve as well. The <em>DNA</em> of a squid does not only contain the blueprint for its brain, but also its body plan.</p>
 <h2>Spiking neural networks</h2>
-<p>There are many different flavours of neural networks, <a href="https://towardsdatascience.com/the-mostly-complete-chart-of-neural-networks-explained-3fb6f2367464" target="_blank">this chart</a> contains a nice overview of some of them. The neural networks controlling the squids are in some aspects not like most well known networks:</p>
+<p>Choosing the right neural network for the job at hand is tricky. There are many different flavours of neural networks, <a href="https://towardsdatascience.com/the-mostly-complete-chart-of-neural-networks-explained-3fb6f2367464" target="_blank">this chart</a> contains a nice overview of some of them. The neural networks controlling the squids are in some aspects not like most well known networks:</p>
 <ul>
 	<li>They do not have a traditional input to output structure. In fact, they do not need to contain input neurons at all. While many traditional neural networks transform or classify input in a way, the squid networks should produce behaviour.</li>
 	<li>The squid neurons need to work in <em>real-time</em>. There is no question to answer structure, the networks should function continually.</li>
 	<li>Because the networks evolve over time, they have no preset structure or size. The number of neurons and the number of connections between them varies according to their DNA, and changes over generations.</li>
 </ul>
-<p>A <em>spiking neural network</em> fits these requirements. They work over time, and were designed to mimic nature more closely. Just like real neurons, cells in a spiking neural network build up potential gathered from all its inputs over time, and slowly return to their "neutral" state when no input is received. Spiking neural networks do not need to adhere to a strict connectivity scheme. It does consist of a layer of input neurons, a layer of output neurons (controlling the tentacles in our case) and a number of neurons in between, called the <em>hidden layer</em>. Neurons in the hidden layer may be connected to each other in any way, but neurons may be disconnected as well.</p>
+<p>A <em><a href="https://en.wikipedia.org/wiki/Spiking_neural_network" target="_blank">spiking neural network</a></em> fits these requirements. They operate in real-time, and were designed to mimic nature more closely. Just like real neurons, cells in a spiking neural network build up potential gathered from all its inputs over time, and slowly return to their "neutral" state when no input is received. Spiking neural networks do not need to adhere to a strict connectivity scheme. They consist of a layer of input neurons, a layer of output neurons (controlling the tentacles in our case) and a number of neurons in between, called the <em>hidden layer</em>. Neurons in the hidden layer may be connected to each other in any way, but neurons may be disconnected as well.</p>
 <figure title="The logistic function">
 	<img local src="img/sigmoid.svg" width="400" height="300">
 	<figcaption>Figure 1: The logistic function.</figcaption>
@@ -28,12 +28,12 @@
 <p>$$\frac{1}{1+e^{-a}}$$</p>
 <p>In this equation, $a$ is the activation of the neuron. Figure 1 shows a plot of the function. When $a=0$, the output is $0.5$; this is useful in this simulation, because the network must be able to produce behaviour even when no input is given. If the default output is non zero, some signals always flow through the system. The value of $a$ can in theory be very small or very large, but the asymptotes of the logistic function ensure that the output value is always in the range $[0, 1]$. In this way, extreme output values will not propagate through the system.</p>
 <h2>Simulating evolution</h2>
-<p>The simulation environment now consists of the following components:</p>
+<p>The simulation environment consists of the following components:</p>
 <ul>
 	<li>Any number of squids with varying body plans and a spiking neural network to control its limbs.</li>
-	<li>Food dots scattered around the environment.</li>
+	<li>Food scattered around the environment.</li>
 </ul>
-<p>To start simulating evolution, the simulation simulates a fixed amount of time per generation. In my simulations, I chose time periods of 20 to 30 seconds. After this time, the best performing squid is picked and duplicated to form a new generation of squids. Before the next simulation takes place, all squids are mutated slightly. The following properties may mutate:</p>
+<p>To start simulating evolution, the simulation simulates a fixed amount of time per generation. In my simulations, I chose time periods of 20 to 30 seconds. After this time, the best performing squid is picked and duplicated several times to form a new generation of squids. Before the next simulation takes place, all squids are mutated slightly. The following properties may mutate:</p>
 <ul>
 	<li>Body radius, and with that the maximum number of allowed neurons in the squid brain.</li>
 	<li>The number and location of tentacles.</li>
@@ -50,5 +50,6 @@
 	<li>Sensors may be added to the squids. One or more eyes could produce signals that may steer a squid towards food sources or away from competitors.</li>
 	<li>Other output organs could be created as well. Simple arms could move or push food around, and ink sacs can cloud the vision of nosy competitors.</li>
 	<li>Larger environments can be created where squids only reproduce in their neighbourhood to allow multiple different species to evolve and exist simultaneously.</li>
+	<li>Generations can be simulated for longer periods of time. Currently, the behaviour can be interpreted as a race to get all the food quickly and efficiently. This requires speed, but no complex maneuvers. If food grows over time, or moves with a current, much more elaborate strategies are required.</li>
 </ul>
 <p>These additions would not require any changes to the basic mechanism of neuroevolution, they just allow for more different strategies to emerge. The versatility and adaptivity of the demonstrated neuroevolution framework makes it an interesting tool for many other applications, especially those focusing on <em>artificial life</em>.</p>
