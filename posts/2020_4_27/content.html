@@ -4,25 +4,25 @@
 <h2>Digital squids</h2>
 <p>To demonstrate neuroevolution, I want to evolve digital squids. The squids have the following properties:</p>
 <ul>
-    <li>Squids can have any number of tentacles with varying length.</li>
-    <li>The arms are controlled by a single output neuron, swinging them to one direction when low output is produced and in the opposite direction when high output is produced.</li>
-    <li>Squids have <em>heads</em>, the size of the head determines the amount of neurons it may have.</li>
-    <li>The mass of a squid is determined by its head size and the size of its tentacles.</li>
-    <li>Squids swim in simulated liquid filled with dots representing food. Touching these dots "eats" them, and the score of a squid is the number of dots it eats divided by its mass.</li>
+	<li>Squids can have any number of tentacles with varying length.</li>
+	<li>The arms are controlled by a single output neuron, swinging them to one direction when low output is produced and in the opposite direction when high output is produced.</li>
+	<li>Squids have <em>heads</em>, the size of the head determines the amount of neurons it may have.</li>
+	<li>The mass of a squid is determined by its head size and the size of its tentacles.</li>
+	<li>Squids swim in simulated liquid filled with dots representing food. Touching these dots "eats" them, and the score of a squid is the number of dots it eats divided by its mass.</li>
 </ul>
 <p>These properties should through evolution produce squids that can swim efficiently through an environment, eating as much food as possible. Because they have mass as well, squid bodies must be effective: heavy bodies and big tentacles require more food, there must be a good reason to evolve them.</p>
 <p>Because the squid can have varying properties (like head size and the configuration of its tentacles), these properties evolve as well. The <em>DNA</em> of a squid does not only contain the blueprint for its brain, but also its body plan.</p>
 <h2>Spiking neural networks</h2>
 <p>There are many different flavours of neural networks, <a href="https://towardsdatascience.com/the-mostly-complete-chart-of-neural-networks-explained-3fb6f2367464" target="_blank">this chart</a> contains a nice overview of some of them. The neural networks controlling the squids are in some aspects not like most well known networks:</p>
 <ul>
-    <li>They do not have a traditional input to output structure. In fact, they do not need to contain input neurons at all. While many traditional neural networks transform or classify input in a way, the squid networks should produce behaviour.</li>
-    <li>The squid neurons need to work in <em>real-time</em>. There is no question to answer structure, the networks should function continually.</li>
-    <li>Because the networks evolve over time, they have no preset structure or size. The number of neurons and the number of connections between them varies according to their DNA, and changes over generations.</li>
+	<li>They do not have a traditional input to output structure. In fact, they do not need to contain input neurons at all. While many traditional neural networks transform or classify input in a way, the squid networks should produce behaviour.</li>
+	<li>The squid neurons need to work in <em>real-time</em>. There is no question to answer structure, the networks should function continually.</li>
+	<li>Because the networks evolve over time, they have no preset structure or size. The number of neurons and the number of connections between them varies according to their DNA, and changes over generations.</li>
 </ul>
 <p>A <em>spiking neural network</em> fits these requirements. They work over time, and were designed to mimic nature more closely. Just like real neurons, cells in a spiking neural network build up potential gathered from all its inputs over time, and slowly return to their "neutral" state when no input is received. Spiking neural networks do not need to adhere to a strict connectivity scheme. It does consist of a layer of input neurons, a layer of output neurons (controlling the tentacles in our case) and a number of neurons in between, called the <em>hidden layer</em>. Neurons in the hidden layer may be connected to each other in any way, but neurons may be disconnected as well.</p>
 <figure title="The logistic function">
-    <img local src="img/sigmoid.svg" width="400" height="300">
-    <figcaption>Figure 1: The logistic function.</figcaption>
+	<img local src="img/sigmoid.svg" width="400" height="300">
+	<figcaption>Figure 1: The logistic function.</figcaption>
 </figure>
 <p>The neurons in the nervous systems all have an <em>activation function</em>. This function determines the output value of the neuron based on the sum of its inputs. Neurons are connected by <em>axons</em>, which connect a source to a target neuron. The axon adds the source output value multiplied by the <em>axon weight</em> (which can be a positive or negative number) to the target activation. The activation function then determines the neuron output based on its activation. The chosen activation function in this simulation is the <em>logistic function:</em></p>
 <p>$$\frac{1}{1+e^{-a}}$$</p>
@@ -30,18 +30,25 @@
 <h2>Simulating evolution</h2>
 <p>The simulation environment now consists of the following components:</p>
 <ul>
-    <li>Any number of squids with varying body plans and a spiking neural network to control its limbs.</li>
-    <li>Food dots scattered around the environment.</li>
+	<li>Any number of squids with varying body plans and a spiking neural network to control its limbs.</li>
+	<li>Food dots scattered around the environment.</li>
 </ul>
 <p>To start simulating evolution, the simulation simulates a fixed amount of time per generation. In my simulations, I chose time periods of 20 to 30 seconds. After this time, the best performing squid is picked and duplicated to form a new generation of squids. Before the next simulation takes place, all squids are mutated slightly. The following properties may mutate:</p>
 <ul>
-    <li>Body radius, and with that the maximum number of allowed neurons in the squid brain.</li>
-    <li>The number and location of tentacles.</li>
-    <li>The length of the tentacles.</li>
-    <li>The number of neurons in the brain.</li>
-    <li>The axon connections between the neurons (connections may appear and disappear, and connection weights may increase or decrease).</li>
+	<li>Body radius, and with that the maximum number of allowed neurons in the squid brain.</li>
+	<li>The number and location of tentacles.</li>
+	<li>The length of the tentacles.</li>
+	<li>The number of neurons in the brain.</li>
+	<li>The axon connections between the neurons (connections may appear and disappear, and connection weights may increase or decrease).</li>
 </ul>
 <p>For now, the squid brains contain no input neurons. The number of output neurons is always equal to the number of tentacles, and every tentacle is assigned one output neuron. When a tentacle mutates away, its corresponding output neuron is deleted as well. When a new tentacle is mutated, it receives a new randomly connected output neuron.</p>
 <p>The source code for the simulation is <a href="https://github.com/jobtalle/Cephalopods" target="_blank">on GitHub</a>, and the simulation <a href="https://jobtalle.com/Cephalopods/" target="_blank">runs in a browser</a>.</p>
 <h2>Results</h2>
 <h2>Adding complexity</h2>
+<p>The simulation at its current state demonstrates the effectiveness of neuroevolution, and forms a basis for several extensions:</p>
+<ul>
+	<li>Sensors may be added to the squids. One or more eyes could produce signals that may steer a squid towards food sources or away from competitors.</li>
+	<li>Other output organs could be created as well. Simple arms could move or push food around, and ink sacs can cloud the vision of nosy competitors.</li>
+	<li>Larger environments can be created where squids only reproduce in their neighbourhood to allow multiple different species to evolve and exist simultaneously.</li>
+</ul>
+<p>These additions would not require any changes to the basic mechanism of neuroevolution, they just allow for more different strategies to emerge. The versatility and adaptivity of the demonstrated neuroevolution framework makes it an interesting tool for many other applications, especially those focusing on <em>artificial life</em>.</p>
