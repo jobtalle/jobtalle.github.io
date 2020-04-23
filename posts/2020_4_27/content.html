@@ -24,13 +24,24 @@
     <img local src="img/sigmoid.svg" width="400" height="300">
     <figcaption>Figure 1: The logistic function.</figcaption>
 </figure>
-<p>The neurons in the nervous systems all have an <em>activation function</em>. This function determines the output value of the neuron based on the sum of its inputs. Neurons are connected by <em>axons</em>, which connect a source to a target neuron. The axon adds the source output value multiplied by the <em>axon weight</em> to the target activation. The activation function then determines the neuron output based on its activation. The chosen activation function in this simulation is the <em>logistic function:</em></p>
+<p>The neurons in the nervous systems all have an <em>activation function</em>. This function determines the output value of the neuron based on the sum of its inputs. Neurons are connected by <em>axons</em>, which connect a source to a target neuron. The axon adds the source output value multiplied by the <em>axon weight</em> (which can be a positive or negative number) to the target activation. The activation function then determines the neuron output based on its activation. The chosen activation function in this simulation is the <em>logistic function:</em></p>
 <p>$$\frac{1}{1+e^{-a}}$$</p>
-<p>In this equation, $a$ is the activation of the neuron. Figure 1 shows a plot of the function. When $a=0$, the output is $0.5$; this is useful in this simulation, because the network must be able to produce behaviour even when no input is given. If the default output is non zero, some signals always flow through the system.</p>
+<p>In this equation, $a$ is the activation of the neuron. Figure 1 shows a plot of the function. When $a=0$, the output is $0.5$; this is useful in this simulation, because the network must be able to produce behaviour even when no input is given. If the default output is non zero, some signals always flow through the system. The value of $a$ can in theory be very small or very large, but the asymptotes of the logistic function ensure that the output value is always in the range $[0, 1]$. In this way, extreme output values will not propagate through the system.</p>
 <h2>Simulating evolution</h2>
 <p>The simulation environment now consists of the following components:</p>
 <ul>
     <li>Any number of squids with varying body plans and a spiking neural network to control its limbs.</li>
     <li>Food dots scattered around the environment.</li>
 </ul>
-<p>To start simulating evolution, the simulation simulates a fixed amount of time per generation. In my simulations, I chose a time period of 20 to 30 seconds. After this time, the best performing squid is picked and duplicated to form a new generation of squids. Before the next simulation takes place, all squids are mutated slightly.</p>
+<p>To start simulating evolution, the simulation simulates a fixed amount of time per generation. In my simulations, I chose time periods of 20 to 30 seconds. After this time, the best performing squid is picked and duplicated to form a new generation of squids. Before the next simulation takes place, all squids are mutated slightly. The following properties may mutate:</p>
+<ul>
+    <li>Body radius, and with that the maximum number of allowed neurons in the squid brain.</li>
+    <li>The number and location of tentacles.</li>
+    <li>The length of the tentacles.</li>
+    <li>The number of neurons in the brain.</li>
+    <li>The axon connections between the neurons (connections may appear and disappear, and connection weights may increase or decrease).</li>
+</ul>
+<p>For now, the squid brains contain no input neurons. The number of output neurons is always equal to the number of tentacles, and every tentacle is assigned one output neuron. When a tentacle mutates away, its corresponding output neuron is deleted as well. When a new tentacle is mutated, it receives a new randomly connected output neuron.</p>
+<p>The source code for the simulation is <a href="https://github.com/jobtalle/Cephalopods" target="_blank">on GitHub</a>, and the simulation <a href="https://jobtalle.com/Cephalopods/" target="_blank">runs in a browser</a>.</p>
+<h2>Results</h2>
+<h2>Adding complexity</h2>
