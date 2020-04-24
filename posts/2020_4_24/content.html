@@ -1,17 +1,17 @@
 <h2>Evolving a neural network</h2>
-<p>Artificial neural networks mimic real biological nervous systems. They contain neurons and connections between them to transform input signals to meaningful output. In the field of machine learning, these networks are often initialized with random connections between the neurons, after which the network is <em>trained</em> until it behaves in a useful way. This works well enough, but many simple nervous systems found in animals work "out of the box"; no one teaches a fish to swim or butterflies to fly, even though their behaviour is produced by networks of neurons. Their nervous systems are not products of random initialization and subsequent training, but of <em>evolution</em>. After many generations, nature has produced an arrangement of cells and connections producing complex and useful behaviour.</p>
+<p>Artificial neural networks mimic real biological nervous systems. They contain neurons and connections between them to transform input signals into meaningful output. In the field of machine learning, these networks are often initialized with random connections between the neurons, after which the network is <em>trained</em> until it behaves in a useful way. This works well enough, but many simple nervous systems found in animals work "out of the box"; no one teaches a fish to swim or butterflies to fly, even though their behaviour is produced by networks of neurons. Their nervous systems are not products of random initialization and subsequent training, but of <em>evolution</em>. After many generations, nature has produced an arrangement of cells and connections producing complex and useful behaviour.</p>
 <p>To produce neural networks that produce non-learned behaviour, <em>neuroevolution</em> can be used. Evolutionary algorithms (like <a href="https://jobtalle.com/evolving_lindenmayer_systems.html" target="_blank">the one I used to evolve plants</a>) evolve a genetic code over time. The genetic code (a model for DNA) and the organism it represents starts out very simple, but over the course of many generations small mutations add beneficial complexity and functions promoting further propagation of these properties.</p>
 <h2>Digital squids</h2>
 <p>To demonstrate neuroevolution, I want to evolve digital squids. The squids have the following properties:</p>
 <figure title="A digital squid">
 	<img local src="img/squid.gif">
-	<figcaption>Figure 1: A simulated swimming squid.</figcaption>
+	<figcaption>Figure 1: A swimming squid.</figcaption>
 </figure>
 <ul>
-	<li>Squids can have any number of tentacles with varying length.</li>
+	<li>They can have any number of tentacles with varying length.</li>
 	<li>Each arm is controlled by a single output neuron, swinging them to one direction when low output is produced and in the opposite direction when high output is produced.</li>
 	<li>Squids have <em>heads</em>, the size of the head determines the amount of neurons it may have.</li>
-	<li>The mass of a squid is determined by its head size and the size of its tentacles.</li>
+	<li>The mass of a squid is determined by its head size and number of tentacle segments.</li>
 	<li>Squids swim in simulated liquid filled with dots representing food. Touching these dots "eats" them, and the score of a squid is the number of dots it eats divided by its mass.</li>
 </ul>
 <p>These properties should through evolution produce squids that can swim efficiently through an environment, eating as much food as possible. Because they have mass as well, squid bodies must be effective: heavy bodies and big tentacles require more food, there must be a good reason to evolve them.</p>
@@ -24,7 +24,7 @@
 	<li>The squid neurons need to work in <em>real-time</em>. There is no question to answer structure, the networks should function continually.</li>
 	<li>Because the networks evolve over time, they have no preset structure or size. The number of neurons and the number of connections between them varies according to their DNA, and changes over generations.</li>
 </ul>
-<p>A <em><a href="https://en.wikipedia.org/wiki/Spiking_neural_network" target="_blank">spiking neural network</a></em> fits these requirements. They operate in real-time, and were designed to mimic nature more closely. Just like real neurons, cells in a spiking neural network build up potential gathered from all its inputs over time, and slowly return to their "neutral" state when no input is received. Spiking neural networks do not need to adhere to a strict connectivity scheme. They consist of a layer of input neurons, a layer of output neurons (controlling the tentacles in our case) and a number of neurons in between, called the <em>hidden layer</em>. Neurons in the hidden layer may be connected to each other in any way, but neurons may be disconnected as well. For this application, neurons within the hidden layer may be connected to each other as well.</p>
+<p>A <em><a href="https://en.wikipedia.org/wiki/Spiking_neural_network" target="_blank">spiking neural network</a></em> fits these requirements. They operate in real-time, and were designed to mimic nature more closely. Just like real neurons, cells in a spiking neural network build up potential gathered from all its inputs over time, and slowly return to their "neutral" state when no input is received. Spiking neural networks do not need to adhere to a strict connectivity scheme. They consist of a layer of input neurons, a layer of output neurons (controlling the tentacles in our case) and a number of neurons in between, called the <em>hidden layer</em>. Neurons in the hidden layer may be connected to input and output neurons, but neurons may be disconnected as well. For this application, neurons within the hidden layer may be connected to each other.</p>
 <figure title="The logistic function">
 	<img local src="img/sigmoid.svg" width="400" height="300">
 	<figcaption>Figure 2: The logistic function.</figcaption>
