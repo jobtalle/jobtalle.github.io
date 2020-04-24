@@ -3,6 +3,10 @@
 <p>To produce neural networks that produce non-learned behaviour, <em>neuroevolution</em> can be used. Evolutionary algorithms (like <a href="https://jobtalle.com/evolving_lindenmayer_systems.html" target="_blank">the one I used to evolve plants</a>) evolve a genetic code over time. The genetic code (a model for DNA) and the organism it represents starts out very simple, but over the course of many generations small mutations add beneficial complexity and functions promoting further propagation of these properties.</p>
 <h2>Digital squids</h2>
 <p>To demonstrate neuroevolution, I want to evolve digital squids. The squids have the following properties:</p>
+<figure title="A digital squid">
+	<img local src="img/squid.gif">
+	<figcaption>Figure 1: A simulated swimming squid.</figcaption>
+</figure>
 <ul>
 	<li>Squids can have any number of tentacles with varying length.</li>
 	<li>Each arm is controlled by a single output neuron, swinging them to one direction when low output is produced and in the opposite direction when high output is produced.</li>
@@ -12,6 +16,7 @@
 </ul>
 <p>These properties should through evolution produce squids that can swim efficiently through an environment, eating as much food as possible. Because they have mass as well, squid bodies must be effective: heavy bodies and big tentacles require more food, there must be a good reason to evolve them.</p>
 <p>Because the squid can have varying properties (like head size and the configuration of its tentacles), these properties evolve as well. The <em>DNA</em> of a squid does not only contain the blueprint for its brain, but also its body plan.</p>
+<p>Figure 1 shows a simulated squid with two arms. The curling motion of the arms is achieved by adding a spring strength to the arm segments; if the muscles would stop moving the arms, the segments would slowly align until the arms are straight lines. To calculate the amount of acceleration, all lateral motion is summed. In the figure, all the sideways motion of the red lines would make up this number. By swinging tentacles behind its body, the squid achieves forward motion.</p>
 <h2>Spiking neural networks</h2>
 <p>Choosing the right neural network for the job at hand is tricky. There are many different flavours of neural networks, <a href="https://towardsdatascience.com/the-mostly-complete-chart-of-neural-networks-explained-3fb6f2367464" target="_blank">this chart</a> contains a nice overview of some of them. The neural networks controlling the squids are in some aspects not like most well known networks:</p>
 <ul>
@@ -22,11 +27,11 @@
 <p>A <em><a href="https://en.wikipedia.org/wiki/Spiking_neural_network" target="_blank">spiking neural network</a></em> fits these requirements. They operate in real-time, and were designed to mimic nature more closely. Just like real neurons, cells in a spiking neural network build up potential gathered from all its inputs over time, and slowly return to their "neutral" state when no input is received. Spiking neural networks do not need to adhere to a strict connectivity scheme. They consist of a layer of input neurons, a layer of output neurons (controlling the tentacles in our case) and a number of neurons in between, called the <em>hidden layer</em>. Neurons in the hidden layer may be connected to each other in any way, but neurons may be disconnected as well. For this application, neurons within the hidden layer may be connected to each other as well.</p>
 <figure title="The logistic function">
 	<img local src="img/sigmoid.svg" width="400" height="300">
-	<figcaption>Figure 1: The logistic function.</figcaption>
+	<figcaption>Figure 2: The logistic function.</figcaption>
 </figure>
 <p>The neurons in the nervous systems all have an <em>activation function</em>. This function determines the output value of the neuron based on the sum of its inputs. Neurons are connected by <em>axons</em>, which connect a source to a target neuron. The axon adds the source output value multiplied by the <em>axon weight</em> (which can be a positive or negative number) to the target activation. The activation function then determines the neuron output based on its activation. The chosen activation function in this simulation is the <em>logistic function:</em></p>
 <p>$$\frac{1}{1+e^{-a}}$$</p>
-<p>In this equation, $a$ is the activation of the neuron. Figure 1 shows a plot of the function. When $a=0$, the output is $0.5$; this is useful in this simulation, because the network must be able to produce behaviour even when no input is given. If the default output is non zero, some signals always flow through the system. The value of $a$ can in theory be very small or very large, but the asymptotes of the logistic function ensure that the output value is always in the range $[0, 1]$. In this way, extreme output values will not propagate through the system.</p>
+<p>In this equation, $a$ is the activation of the neuron. Figure 2 shows a plot of the function. When $a=0$, the output is $0.5$; this is useful in this simulation, because the network must be able to produce behaviour even when no input is given. If the default output is non zero, some signals always flow through the system. The value of $a$ can in theory be very small or very large, but the asymptotes of the logistic function ensure that the output value is always in the range $[0, 1]$. In this way, extreme output values will not propagate through the system.</p>
 <h2>Simulating evolution</h2>
 <p>The simulation environment consists of the following components:</p>
 <ul>
@@ -46,15 +51,15 @@
 <h2>Results</h2>
 <figure title="Pulsating neurons">
 	<img local src="img/neurons.gif">
-	<figcaption>Figure 2: A nervous system producing indefinite pulses.</figcaption>
+	<figcaption>Figure 3: A nervous system producing indefinite pulses.</figcaption>
 </figure>
 <p>Running the simulation usually results in moving squids within several hundreds of generations. When a working swimming strategy evolves, it will usually evolve into the most optimal version of itself over time.</p>
-<p>The nervous systems can be visualized. Figure 2 shows a simple nervous system of a squid with two arms. The network contains five neurons represented by orange dots, and two output neurons represented by blue dots. When neuron output rises, neurons be come more colourful. When output decreases, the dots become transparent. Axons are visualized by dotted lines between the neurons they connect. When an axon transports a signal (and influences the target neuron), the dotted line becomes more visible while the dots move in the signal direction.</p>
+<p>The nervous systems can be visualized. Figure 3 shows a simple nervous system of a squid with two arms. The network contains five neurons represented by orange dots, and two output neurons represented by blue dots. When neuron output rises, neurons be come more colourful. When output decreases, the dots become transparent. Axons are visualized by dotted lines between the neurons they connect. When an axon transports a signal (and influences the target neuron), the dotted line becomes more visible while the dots move in the signal direction.</p>
 <figure title="Swimming evolved squids">
 	<img local src="img/swimming.gif">
-	<figcaption>Figure 3: Evolved swimming squids. Note that not all agents are very efficient; some contain unhelpful mutations.</figcaption>
+	<figcaption>Figure 4: Evolved swimming squids. Note that not all agents are very efficient; some contain unhelpful mutations.</figcaption>
 </figure>
-<p>Figure 3 shows several squids swimming around in a simulation environment. These squids swim using two tentacles that swing simultaneously. Some variety among the agents can be seen:</p>
+<p>Figure 4 shows several squids swimming around in a simulation environment. These squids swim using two tentacles that swing simultaneously. Some variety among the agents can be seen:</p>
 <ul>
 	<li>Tentacle length varies, but their movement patterns are roughly equal.</li>
 	<li>Two agents in the lower half have evolved extra tentacles that don't do much at this point. They will add mass to the squid, making them perform worse.</li>
