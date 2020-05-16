@@ -4,46 +4,46 @@
  * @param {Number} y The Y coordinate to start at
  */
 trace = function(x, y) {
-    const ox = (random.getFloat() * 2 - 1) * radius;
-    const oy = (random.getFloat() * 2 - 1) * radius;
-    let sediment = 0;
-    let xp = x;
-    let yp = y;
-    let vx = 0;
-    let vy = 0;
+  const ox = (random.getFloat() * 2 - 1) * radius; // The X offset
+  const oy = (random.getFloat() * 2 - 1) * radius; // The Y offset
+  let sediment = 0; // The amount of carried sediment
+  let xp = x; // The previous X position
+  let yp = y; // The previous Y position
+  let vx = 0; // The horizontal velocity
+  let vy = 0; // The vertical velocity
 
-    for (let i = 0; i < maxIterations; ++i) {
-        const surfaceNormal = heightMap.sampleNormal(x + ox, y + oy);
+  for (let i = 0; i < maxIterations; ++i) {
+    // Get the surface normal of the terrain at the current location
+    const surfaceNormal = heightMap.sampleNormal(x + ox, y + oy);
 
-        // If the terrain is flat, stop simulating, the snowball cannot roll any further
-        if (surfaceNormal.y === 1)
-            break;
+    // If the terrain is flat, stop simulating, the snowball cannot roll any further
+    if (surfaceNormal.y === 1)
+      break;
 
-        // Calculate the deposition and erosion rate
-        const deposit = sediment * depositionRate * surfaceNormal.y;
-        const erosion = erosionRate * (1 - surfaceNormal.y) * Math.min(1, i * iterationScale);
+    // Calculate the deposition and erosion rate
+    const deposit = sediment * depositionRate * surfaceNormal.y;
+    const erosion = erosionRate * (1 - surfaceNormal.y) * Math.min(1, i * iterationScale);
 
-        // Change the sediment on the place this snowball came from
-        heightMap.change(xp, yp, deposit - erosion);
+    // Change the sediment on the place this snowball came from
+    heightMap.change(xp, yp, deposit - erosion);
+    sediment += erosion - deposit;
 
-        vx = friction * vx + surfaceNormal.x * speed;
-        vy = friction * vy + surfaceNormal.z * speed;
-
-        xp = x;
-        yp = y;
-        x += vx;
-        y += vy;
-        sediment += erosion - deposit;
-    }
+    vx = friction * vx + surfaceNormal.x * speed;
+    vy = friction * vy + surfaceNormal.z * speed;
+    xp = x;
+    yp = y;
+    x += vx;
+    y += vy;
+  }
 };
 
 // Simulate 50000 snowballs
-const drops = 50000;
+const snowballs = 50000;
 
-for (let i = 0; i < drops; ++i)
-    trace(
-        random.getFloat() * width,
-        random.getFloat() * height);
+for (let i = 0; i < snowballs; ++i)
+  trace(
+    random.getFloat() * width,
+    random.getFloat() * height);
 
 // Blur the height map to smooth out the effects
 heightMap.blur();
