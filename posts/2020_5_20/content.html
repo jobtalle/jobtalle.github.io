@@ -17,6 +17,10 @@
     <li>Erosion is simulated by keeping track of where water is for every position on the terrain. A grid (or 2D array) is created for the environment, and water levels and pressures are kept for every cell. When updating, the pressures determine where the water flows to. While flowing, water moves sediment around.</li>
     <li>Erosion is simulated by dropping many particles simulating raindrops on the terrain. The particles then move down the slopes of the terrain. They can bring sediment with them or deposit it.</li>
 </ul>
+<figure title="An island with simulated erosion">
+    <img local src="img/island.jpg">
+    <figcaption>Figure 2: An island after erosion has been applied to it.</figcaption>
+</figure>
 <p>Mostly for performance reasons, I've chosen to implement a drop based method. Because most drops don't flow very far, many inactive drop simulations can be terminated early and the bulk of the processing power will go to the drops that actually carve out terrain features. The grid based simulation will need to simulate every part on the terrain for every update cycle.</p>
 <h2>Snowballs</h2>
 <p>The drops in the simulation can be seen as <em>snowballs</em> instead of raindrops. Within the context of the simulation, I believe this is a better analogy. The snowballs start small when they are dropped, but gain more material as they roll down the hills. When they become too big, they start shedding material as they go. When they stop rolling in valleys or in the sea, the snowballs fall apart and leave their material on the terrain.</p>
