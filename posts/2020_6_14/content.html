@@ -1,6 +1,6 @@
 <h2>Simulating hydraulic erosion</h2>
 <p><em>Hydraulic erosion</em> is the process by which water transforms terrain over time. This is mostly caused by rainfall, but also by ocean waves hitting the shore and the flow of rivers. Figure 1 shows the considerable effects that a small stream has had on the rocky environment around it. When creating realistically looking environments, the effects of erosion need to be accounted for. I have experimented with procedural terrain generation before to generate scenes for <a href="layered_voxel_rendering.html" target="_blank">layered voxel rendering</a> and to demonstrate <a href="cubic_noise.html" target="_blank">cubic noise</a>. These terrains were very basic and did not account for erosion. Therefore, they lack a lot of detail, making them unrealistic at closer inspection.</p>
-<figure title="A small waterfall">
+<figure title="A small waterfall on La Palma">
 	<img local src="img/waterfall.jpg">
 	<figcaption>Figure 1: A small waterfall.</figcaption>
 </figure>
@@ -83,16 +83,17 @@ heightMap.blur();
 	<li>When changing the amount of sediment, the snowball edits the height map at its previous position instead of its current position. Erosion and deposition take place behind it to prevent snowballs from digging themselves in.</li>
 	<li>After simulating erosion, gaussian blur is applied to the height map. Because the height map in these examples has a low resolution, blur is required to keep the surfaces smooth enough to be visually appealing.</li>
 </ul>
+<p>Because the offset is used while eroding, and because the erosion rate is quite high, every traced snowball has a larger influence on the terrain than a smaller node that looks more like a raindrop would. This results in a fast simulation, but it reduces precision.</p>
 <h2>Results</h2>
-<figure title="Results">
+<figure title="The results of the erosion algorithm">
 	<img local src="img/results.jpg">
 	<figcaption>Figure 3: The results of the erosion algorithm.</figcaption>
 </figure>
 <p>Applying the algorithm above with varying snowball counts gives the results rendered in Figure 3. The algorithm <a href="https://jobtalle.com/HydraulicErosion" target="_blank">works in a browser</a>, and the source code can be found <a href="https://github.com/jobtalle/HydraulicErosion" target="_blank">on GitHub</a>. Pressing the space bar generates a new island. The "starting material" for the algorithm is shown in the first image of figure 3. This island shape was generated using a very similar algorithm to the one I used in <a href="layered_voxel_rendering.html" target="_blank">my layered voxel rendering example terrains</a>. While the shape does contain some details and ridges, it is very smooth and contains no traces of hydraulic erosion.</p>
-<p>The second image shows the same island after dropping 35.000 snowballs on it. They are dropped randomly and evenly spaced. Because of the random initial conditions of the starting shape, valleys and river like structures form where the snowballs find the quickest way to the sea.</p>
-<p>The third image shows the same island after dropping 50.000 snowballs. Compared to the previous image, no new details form, although they are more pronounced.</p>
-<p>The last image shows the island after dropping 100.000 snowballs. This is clearly too much; the ridges become very deep and the shore is very rough.</p>
-<p>All islands in the images above can be generated within half a second on my desktop computer, with the algorithm running on a single CPU thread. Therefore, it is not necessary to reduce the number of snowballs for performance reasons in most applications. The algorithm is fast enough already.</p>
+<p>The second image shows the same island after dropping 35.000 snowballs on it. They are dropped randomly and evenly spaced. Because of the random initial conditions of the starting shape, valleys and river like structures form where the snowballs find the quickest way to the sea. 35.000 may seem like a high number, but recall that snowballs that reach the sea floor or the edge of the map terminate early. The majority of drops don't fall on the island, so only a small number will actualy roll down one of the valleys that can be seen in the image.</p>
+<p>The third image shows the same island after dropping 50.000 snowballs. Compared to the previous image, no new details form, although the terrain features are more pronounced.</p>
+<p>The last image shows the island after dropping 100.000 snowballs. This is clearly too much; the ridges become very deep and the shore is very rough. At this point, the results start looking less realistic too. The valleys carve out very sharp terrain features that would erode away themselves.</p>
+<p>All islands in the images above can be generated within half a second on my desktop computer, with the algorithm running on a single CPU thread. Therefore, it is not necessary to reduce the number of snowballs for performance reasons in most applications. The algorithm is fast enough as it is.</p>
 <h2>Conclusion</h2>
 <p>The proposed algorithm provides a fast method to approximate hydraulic erosion. While realism was no priority, erosion and deposition patterns that one would expect do show up when testing the method on various terrains.</p>
 <p>Because the code runs very fast (contrary to most alternative solutions that can be found in the literature), it may be suitable for applications like procedural terrain generation in games. In those applications, it is desirable to produce results quickly, while the results do not need to be very realistic; they just need to look credible.</p>
