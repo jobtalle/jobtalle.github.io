@@ -84,5 +84,13 @@ heightMap.blur();
 	<li>After simulating erosion, gaussian blur is applied to the height map. Because the height map in these examples has a low resolution, blur is required to keep the surfaces smooth enough to be visually appealing.</li>
 </ul>
 <h2>Results</h2>
+<figure title="Results">
+    <img local src="img/results.jpg">
+    <figcaption>Figure 3: The results of the erosion algorithm.</figcaption>
+</figure>
+<p>Applying the algorithm above with varying snowball counts gives the results rendered in Figure 3. The "starting material" for the algorithm is shown in the first image. This island shape was generated using a very similar algorithm to the one I used in <a href="layered_voxel_rendering.html" target="_blank">my layered voxel rendering example terrains</a>. While the shape does contain some details and ridges, it is very smooth and contains no traces of hydraulic erosion.</p>
+<p>The second image shows the same island after dropping 35.000 snowballs on it. They are dropped randomly and evenly spaced. Because of the random initial conditions of the starting shape, valleys and river like structures form where the snowballs find the quickest way to the sea.</p>
+<p>The third image shows the same island after dropping 50.000 snowballs. Compared to the previous image, no new details form, although they are more pronounced.</p>
+<p>The last image shows the island after dropping 100.000 snowballs. This is clearly too much; the ridges become very deep and the shore is very rough.</p>
 <h2>Conclusion</h2>
 <h2>Appendix: rendering shore waves</h2>
