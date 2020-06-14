@@ -85,10 +85,10 @@ heightMap.blur();
 </ul>
 <h2>Results</h2>
 <figure title="Results">
-    <img local src="img/results.jpg">
-    <figcaption>Figure 3: The results of the erosion algorithm.</figcaption>
+	<img local src="img/results.jpg">
+	<figcaption>Figure 3: The results of the erosion algorithm.</figcaption>
 </figure>
-<p>Applying the algorithm above with varying snowball counts gives the results rendered in Figure 3. The "starting material" for the algorithm is shown in the first image. This island shape was generated using a very similar algorithm to the one I used in <a href="layered_voxel_rendering.html" target="_blank">my layered voxel rendering example terrains</a>. While the shape does contain some details and ridges, it is very smooth and contains no traces of hydraulic erosion.</p>
+<p>Applying the algorithm above with varying snowball counts gives the results rendered in Figure 3. The algorithm <a href="https://jobtalle.com/HydraulicErosion" target="_blank">works in a browser</a>, and the source code can be found <a href="https://github.com/jobtalle/HydraulicErosion" target="_blank">on GitHub</a>. The "starting material" for the algorithm is shown in the first image. This island shape was generated using a very similar algorithm to the one I used in <a href="layered_voxel_rendering.html" target="_blank">my layered voxel rendering example terrains</a>. While the shape does contain some details and ridges, it is very smooth and contains no traces of hydraulic erosion.</p>
 <p>The second image shows the same island after dropping 35.000 snowballs on it. They are dropped randomly and evenly spaced. Because of the random initial conditions of the starting shape, valleys and river like structures form where the snowballs find the quickest way to the sea.</p>
 <p>The third image shows the same island after dropping 50.000 snowballs. Compared to the previous image, no new details form, although they are more pronounced.</p>
 <p>The last image shows the island after dropping 100.000 snowballs. This is clearly too much; the ridges become very deep and the shore is very rough.</p>
@@ -97,3 +97,15 @@ heightMap.blur();
 <p>The proposed algorithm provides a fast method to approximate hydraulic erosion. While realism was no priority, erosion and deposition patterns that one would expect do show up when testing the method on various terrains.</p>
 <p>Because the code runs very fast (contrary to most alternative solutions that can be found in the literature), it may be suitable for applications like procedural terrain generation in games. In those applications, it is desirable to produce results quickly, while the results do not need to be very realistic; they just need to look credible.</p>
 <h2>Appendix: rendering shore waves</h2>
+<figure title="Waves">
+	<img local src="img/waves.jpg">
+	<figcaption>Figure 4: Rendering shore waves.</figcaption>
+</figure>
+<p>The <a href="https://jobtalle.com/HydraulicErosion" target="_blank">animated example</a> contains waves that move towards the shore of the islands. Besides clarifying the shape of the shore, they don't really serve a purpose with regards to the erosion, but it makes the scene prettier.</p>
+<p>Figure 4 shows the steps that create the wave animation:</p>
+<ol>
+    <li>First, a <a href="https://en.wikipedia.org/wiki/Voronoi_diagram" target="_blank"><em>Voronoi diagram</em></a> is created around the island shore. Instead of creating a diagram from points, the diagram is created from pixels. Every part of the island that is nog under sea level is essentially a point in the Voronoi diagram.</li>
+	<li>After the Voronoi diagram has been created, the data in the diagram is used to create a texture storing the distance and direction to the nearest shore point for every pixel.</li>
+	<li>A sine wave is created to represent the global wave pattern. The position in the sine wave is determined by the direction towards the nearest shore point, and the wave slowly shifts towards the shore. The direction towards the nearest shore point can be used to calculate the surface normals of the wave shape, if the waves are three dimensional.</li>
+	<li>Finally, the waves are stylized, and the wave patterns are broken up a bit to give the impressions that all waves are their own entities.</li>
+</ol>
