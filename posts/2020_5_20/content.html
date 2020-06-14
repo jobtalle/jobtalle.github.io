@@ -92,5 +92,8 @@ heightMap.blur();
 <p>The second image shows the same island after dropping 35.000 snowballs on it. They are dropped randomly and evenly spaced. Because of the random initial conditions of the starting shape, valleys and river like structures form where the snowballs find the quickest way to the sea.</p>
 <p>The third image shows the same island after dropping 50.000 snowballs. Compared to the previous image, no new details form, although they are more pronounced.</p>
 <p>The last image shows the island after dropping 100.000 snowballs. This is clearly too much; the ridges become very deep and the shore is very rough.</p>
+<p>All islands in the images above can be generated within half a second on my desktop computer, with the algorithm running on a single CPU thread. Therefore, it is not necessary to reduce the number of snowballs for performance reasons in most applications. The algorithm is fast enough already.</p>
 <h2>Conclusion</h2>
+<p>The proposed algorithm provides a fast method to approximate hydraulic erosion. While realism was no priority, erosion and deposition patterns that one would expect do show up when testing the method on various terrains.</p>
+<p>Because the code runs very fast (contrary to most alternative solutions that can be found in the literature), it may be suitable for applications like procedural terrain generation in games. In those applications, it is desirable to produce results quickly, while the results do not need to be very realistic; they just need to look credible.</p>
 <h2>Appendix: rendering shore waves</h2>
