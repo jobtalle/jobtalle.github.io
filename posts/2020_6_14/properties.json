@@ -1,0 +1,5 @@
+{
+  "title": "Simulating hydraulic erosion",
+  "abstract": "Terrain features are to a high degree shaped by hydraulic erosion. Several algorithms exist for simulating this process that vary in realism and computational complexity. This article proposes a simple and fast method that produces realistic looking results.",
+  "preview": "img/preview.jpg"
+}
