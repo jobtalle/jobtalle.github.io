@@ -290,6 +290,11 @@ h1 {
 	float: right;
 }
 
+#donate {
+	display: flex;
+	justify-content: center;
+}
+
 #footer {
 	font-size: 11px;
 	text-align: right;

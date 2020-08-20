@@ -101,7 +101,7 @@ class Post:
 
 	def get_content(self, previous, next):
 		contentFile = open(self.content)
-		content = self.get_post_header(self.properties[self.PROPERTY_TITLE]) + contentFile.read() + self.build_neighbors(previous, next)
+		content = self.get_post_header(self.properties[self.PROPERTY_TITLE]) + contentFile.read() + self.build_neighbors(previous, next) + self.build_donate()
 		contentFile.close()
 
 		return content.replace("local src=\"", "src=\"" + self.site.DIR_POSTS + "/" + self.directory + "/").replace("local href=\"", "href=\"" + self.site.DIR_POSTS + "/" + self.directory + "/")
@@ -277,6 +277,9 @@ class Post:
 			self.build_neighbor(previous, self.CLASS_POST_REFERENCE_LEFT) +\
 			self.build_neighbor(next, self.CLASS_POST_REFERENCE_RIGHT) +\
 			"</div>"
+
+	def build_donate(self):
+		return "<div id=\"donate\"><form action=\"https://www.paypal.com/cgi-bin/webscr\" method=\"post\" target=\"_top\"><input type=\"hidden\" name=\"cmd\" value=\"_donations\" /><input type=\"hidden\" name=\"business\" value=\"N3YA46PM75K2Y\" /><input type=\"hidden\" name=\"item_name\" value=\"writing articles on A.I. & software development\" /><input type=\"hidden\" name=\"currency_code\" value=\"USD\" /><input type=\"image\" src=\"https://www.paypalobjects.com/en_US/NL/i/btn/btn_donateCC_LG.gif\" border=\"0\" name=\"submit\" title=\"Buy me a coffee\" alt=\"Donate with PayPal button\" /><img alt=\"\" border=\"0\" src=\"https://www.paypal.com/en_NL/i/scr/pixel.gif\" width=\"1\" height=\"1\" /></form></div>"
 
 	def build_post_link(self):
 		return \
