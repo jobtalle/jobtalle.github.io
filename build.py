@@ -507,7 +507,7 @@ class Site:
 		contents = "<?xml version=\"1.0\" encoding=\"UTF-8\"?><urlset xmlns=\"http://www.sitemaps.org/schemas/sitemap/0.9\">"
 
 		for page in self.MENU_PAGES:
-			contents += "<url><loc>https://jobtalle.com/" + page + "</loc><changefreq>monthly</changefreq><priority>" + ("1" if page == "index.html" else "0.75") + "</priority></url>"
+			contents += "<url><loc>https://jobtalle.com/" + page + "</loc><changefreq>weekly</changefreq><priority>" + ("1" if page == "index.html" else "0.75") + "</priority></url>"
 
 		for post in self.posts:
 			contents += "<url>"
