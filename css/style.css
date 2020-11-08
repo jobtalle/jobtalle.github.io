@@ -12,8 +12,8 @@
 	--button-padding-y: 4px;
 	--sketch-min-width: 256px;
 	--sketch-max-width: 512px;
-    --transition-in: 0.3s;
-    --transition-out: 0.2s;
+	--transition-in: 0.3s;
+	--transition-out: 0.2s;
 }
 
 body {
@@ -305,7 +305,7 @@ h1 {
 #icons {
 	margin: 0 auto 0 auto;
 	height: 0;
-	width: 200px;
+	width: 240px;
 	text-align: center;
 }
 
@@ -326,6 +326,10 @@ h1 {
 
 #icon-mail {
 	background-image: url("../img/ico_mail.svg");
+}
+
+#icon-orcid {
+	background-image: url("../img/ico_orcid.svg");
 }
 
 #icon-github {
