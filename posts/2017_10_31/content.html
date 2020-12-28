@@ -12,6 +12,9 @@
 <p>Random noise is often used to produce pseudorandom effects in software. A notable example is terrain in games. 2D coherent random noise is produced, and the values are interpreted as a heightmap. An interactive demonstration of this technique can be found further down this page.</p>
 <h2>Cubic noise</h2>
 <p>Figure 1 shows an example of <em>cubic noise</em>. Cubic noise is essentially scaled up white noise with cubic interpolation. Cubic interpolation ensures the result is smoothed enough to remove grid like artifacts. The values are based on coordinates, every pixel in this example represents a set of coordinates. These coordinate values can be tiled to make a tiling noise texture. All values produced by the cubic noise algorithm lie within $[0, 1]$.</p>
+<p>The cubic interpolation method is as follows:</p>
+<p>$$n = x(x(x (-a + b - c + d) + 2a - 2b + c - d) - a + c) + b$$</p>
+<p>$a$, $b$, $c$ and $d$ are the four samples to interpolate between, and $x$ is the interpolation position in the range $[0, 1]$, which interpolates the region between $b$ and $c$. The noise value is $n$.</p>
 <p>The algorithm for cubic noise can be found in <a href="https://www.github.com/jobtalle/CubicNoise" target="_blank">this repository</a>. Implementations for several programming languages are included. The algorithm is very simple, so it can easily be ported to other languages. I have published the repository under the unlicense, so there's no licensing to worry about.</p>
 <figure title="Different stages of cubic noise with four octaves">
 	<img local src="img/octaves.jpg">
@@ -23,7 +26,7 @@
 <p>The number of octaves is defined as $o$. If $o = 3$, the total influence will be $\frac{1}{2} + \frac{1}{4} + \frac{1}{8} = \frac{7}{8}$. Unfortunately, this does not sum up to one. To normalize the total influence, it needs to be multiplied by the swapped fraction of the total sum (since $\frac{x}{y} * \frac{y}{x} = 1$), which is $\frac{8}{7}$ in this example. I call this normalizer $n$. The influence of the first octave $i$ can now be defined as $i = \frac{n}{f}$, which leads to</p>
 <p>$$\sum\limits_{x=1}^{o} \frac{n}{f ^ x} = 1$$</p>
 <p>If $n$ can be calculated from falloff and octaves, we have a general formula that yields an initial influence $i$ which will lead to the sum of all octaves being one. Luckily this is possible using the following formula, which calculates the numerator and denominator of the total sum given $f$ and $o$ and swaps them:</p>
-<p>$$n = \frac{(f - 1) * f ^ o}{f ^ o - 1}$$</p>
+<p>$$n = \frac{(f - 1) f ^ o}{f ^ o - 1}$$</p>
 <p>$$i = \frac{n}{f}$$</p>
 <p>Of course this formula for $i$ will not work when $f = 1$ or $f = 0$ because those values will result in divisions by zero. For $f = 1$, $i = \frac{1}{o}$, since every octave has the same influence. The second case shouldn't occur, because $f = 0$ makes no sense; the influence of every next octave would be infinitely larger than the previous one.</p>
 <p>An interactive demonstration of cubic noise with octaves is given below. All previously described parameters can be changed. Every next octave, the period of the noise is halved</p>
