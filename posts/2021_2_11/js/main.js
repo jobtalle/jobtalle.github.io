@@ -11,7 +11,19 @@ const plotPlateau = new PlotPlateau(
     document.getElementById("plot-probabilities-plateau-count"),
     document.getElementById("plot-probabilities-plateau-height"),
     document.getElementById("plot-probabilities-plateau-exponent"));
+const plotDistribution = new PointPlot(document.getElementById("plot-distribution"));
+const pointDistributionRandom = new PointDistributionRandom(
+    plotDistribution,
+    document.getElementById("plot-distribution-spacing"));
+const pointDistributionGrid = new PointDistributionGrid(
+    plotDistribution,
+    document.getElementById("plot-distribution-spacing"));
+const pointDistributionPoisson = new PointDistributionPoisson(
+    plotDistribution,
+    document.getElementById("plot-distribution-spacing"));
+let distribution = pointDistributionRandom;
 
 plotPower.update();
 plotSigmoid.update();
 plotPlateau.update();
+distribution.update();

@@ -47,10 +47,29 @@
 		</form>
 	</div>
 </div>
+<div class="demo-container">
+	<div class="renderer">
+		<canvas id="plot-distribution" width="500" height="300"></canvas>
+	</div>
+	<div class="controls">
+		<fieldset>
+			<legend>Controls</legend>
+			<label>Spacing<input id="plot-distribution-spacing" type="range" min="10" max="150" step="1" value="65" onchange="distribution.update()"></label>
+			<label>Random<input type="radio" name="dist-type" onclick="distribution = pointDistributionRandom; distribution.update()" checked></label>
+			<label>Grid<input type="radio" name="dist-type" onclick="distribution = pointDistributionGrid; distribution.update()"></label>
+			<label>Poisson<input type="radio" name="dist-type" onclick="distribution = pointDistributionPoisson; distribution.update()"></label>
+			<button type="button" onclick="distribution.update()">Generate</button>
+		</fieldset>
+	</div>
+</div>
 <script local src="js/swappedFunction.js"></script>
 <script local src="js/plot.js"></script>
 <script local src="js/plotPower.js"></script>
 <script local src="js/plotPlateau.js"></script>
 <script local src="js/plotSigmoid.js"></script>
-<script local src="js/canvasResizer.js"></script>
+<script local src="js/point.js"></script>
+<script local src="js/pointPlot.js"></script>
+<script local src="js/pointDistributionRandom.js"></script>
+<script local src="js/pointDistributionGrid.js"></script>
+<script local src="js/pointDistributionPoisson.js"></script>
 <script local src="js/main.js"></script>
