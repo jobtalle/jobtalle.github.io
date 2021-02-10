@@ -1,10 +1,56 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
-
-</body>
-</html>
+<h2>Introduction</h2>
+<h2>Probability modelling</h2>
+<h2>2d</h2>
+<div class="demo-container">
+	<div class="renderer">
+		<canvas id="plot-probabilities-power" width="500" height="300"></canvas>
+	</div>
+	<div class="controls">
+		<form>
+			<fieldset>
+				<legend>Controls</legend>
+				<label>Item count<input id="plot-probabilities-power-count" type="range" min="2" max="8" step="1" value="6" onchange="plotPower.update()"></label>
+				<label>$n$<input id="plot-probabilities-power-exponent" type="range" min="0.2" max="4" step="0.01" value="2" onchange="plotPower.update()"></label>
+			</fieldset>
+			<fieldset><legend>Function</legend>$y=x^n$</fieldset>
+		</form>
+	</div>
+</div>
+<div class="demo-container">
+	<div class="renderer">
+		<canvas id="plot-probabilities-sigmoid" width="500" height="300"></canvas>
+	</div>
+	<div class="controls">
+		<form>
+			<fieldset>
+				<legend>Controls</legend>
+				<label>Item count<input id="plot-probabilities-sigmoid-count" type="range" min="2" max="8" step="1" value="6" onchange="plotSigmoid.update()"></label>
+				<label>$n$<input id="plot-probabilities-sigmoid-exponent" type="range" min="1" max="8" step="0.01" value="1.5" onchange="plotSigmoid.update()"></label>
+			</fieldset>
+			<fieldset><legend>Function</legend>$y=\begin{cases}{\frac{1}{2}(2x)^n}&\text{for }x<\frac{1}{2}\\{1-\frac{1}{2}(2-2x)^n}&\text{otherwise}\end{cases}$</fieldset>
+		</form>
+	</div>
+</div>
+<div class="demo-container">
+	<div class="renderer">
+		<canvas id="plot-probabilities-plateau" width="500" height="300"></canvas>
+	</div>
+	<div class="controls">
+		<form>
+			<fieldset>
+				<legend>Controls</legend>
+				<label>Item count<input id="plot-probabilities-plateau-count" type="range" min="2" max="8" step="1" value="5" onchange="plotPlateau.update()"></label>
+				<label>$p$<input id="plot-probabilities-plateau-height" type="range" min="0.01" max="0.99" step="0.01" value="0.5" onchange="plotPlateau.update()"></label>
+				<label>$n$<input id="plot-probabilities-plateau-exponent" type="range" min="0" max="12" step="0.01" value="1" onchange="plotPlateau.update()"></label>
+			</fieldset>
+			<fieldset><legend>Function</legend>$y=(4(x-\frac{1}{2})^3*(1-sin(\pi x))^n+\frac{1}{2})^{\log_{0.5}p}$</fieldset>
+		</form>
+	</div>
+</div>
+<script local src="js/swappedFunction.js"></script>
+<script local src="js/plot.js"></script>
+<script local src="js/plotPower.js"></script>
+<script local src="js/plotPlateau.js"></script>
+<script local src="js/plotSigmoid.js"></script>
+<script local src="js/canvasResizer.js"></script>
+<script local src="js/main.js"></script>
