@@ -1,6 +1,6 @@
 .controls {
     float: right;
-    padding: 0 16px 16px;
+    padding: 0 var(--figure-padding) var(--figure-padding);
     clear: right;
 }
 
@@ -28,7 +28,7 @@
 
 .renderer {
     float: right;
-    padding: 17px;
+    padding: calc(var(--figure-padding) + 2px);
 }
 
 .renderer canvas {

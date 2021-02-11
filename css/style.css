@@ -14,6 +14,7 @@
 	--sketch-max-width: 512px;
 	--transition-in: 0.3s;
 	--transition-out: 0.2s;
+	--figure-padding: 16px;
 }
 
 body {
@@ -155,7 +156,7 @@ h1 {
 
 #content figure {
 	float: right;
-	padding: 16px;
+	padding: var(--figure-padding);
 	margin: auto 0 auto 0;
 	clear: right;
 	max-width: 100%;

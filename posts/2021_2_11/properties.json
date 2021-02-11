@@ -1,5 +1,5 @@
 {
-  "title": "Random distribution modelling",
-  "abstract": ".",
+  "title": "Random procedural generation",
+  "abstract": "Procedural content randomization can lead to interesting outcomes, but randomness needs to be limited and guided for good results. This article illustrates several techniques that can be used to achieve that goal with interactive javascript examples.",
   "preview": "img/preview.jpg"
 }
