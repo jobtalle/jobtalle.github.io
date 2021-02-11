@@ -17,8 +17,8 @@
 	<form>
 		<fieldset>
 			<legend>Controls</legend>
-			<label>Item count<input id="plot-probabilities-power-count" type="range" min="2" max="8" step="1" value="6" onchange="plotPower.update()"></label>
-			<label>$n$<input id="plot-probabilities-power-exponent" type="range" min="0.2" max="4" step="0.01" value="2.2" onchange="plotPower.update()"></label>
+			<label>Item count<input id="plot-probabilities-power-count" type="range" min="2" max="8" step="1" value="6" oninput="plotPower.update()"></label>
+			<label>$n$<input id="plot-probabilities-power-exponent" type="range" min="0.2" max="4" step="0.01" value="2.2" oninput="plotPower.update()"></label>
 		</fieldset>
 		<fieldset><legend>Function</legend>$y=x^n$</fieldset>
 	</form>
@@ -40,8 +40,8 @@
 	<form>
 		<fieldset>
 			<legend>Controls</legend>
-			<label>Item count<input id="plot-probabilities-sigmoid-count" type="range" min="2" max="8" step="1" value="6" onchange="plotSigmoid.update()"></label>
-			<label>$n$<input id="plot-probabilities-sigmoid-exponent" type="range" min="1" max="8" step="0.01" value="3" onchange="plotSigmoid.update()"></label>
+			<label>Item count<input id="plot-probabilities-sigmoid-count" type="range" min="2" max="8" step="1" value="6" oninput="plotSigmoid.update()"></label>
+			<label>$n$<input id="plot-probabilities-sigmoid-exponent" type="range" min="1" max="8" step="0.01" value="3" oninput="plotSigmoid.update()"></label>
 		</fieldset>
 		<fieldset><legend>Function</legend>$y=\begin{cases}{\frac{1}{2}(2x)^n}&\text{for }x<\frac{1}{2}\\{1-\frac{1}{2}(2-2x)^n}&\text{otherwise}\end{cases}$</fieldset>
 	</form>
@@ -55,9 +55,9 @@
 	<form>
 		<fieldset>
 			<legend>Controls</legend>
-			<label>Item count<input id="plot-probabilities-plateau-count" type="range" min="2" max="8" step="1" value="5" onchange="plotPlateau.update()"></label>
-			<label>$p$<input id="plot-probabilities-plateau-height" type="range" min="0.01" max="0.99" step="0.01" value="0.5" onchange="plotPlateau.update()"></label>
-			<label>$n$<input id="plot-probabilities-plateau-exponent" type="range" min="0" max="12" step="0.01" value="1" onchange="plotPlateau.update()"></label>
+			<label>Item count<input id="plot-probabilities-plateau-count" type="range" min="2" max="8" step="1" value="5" oninput="plotPlateau.update()"></label>
+			<label>$p$<input id="plot-probabilities-plateau-height" type="range" min="0.01" max="0.99" step="0.01" value="0.5" oninput="plotPlateau.update()"></label>
+			<label>$n$<input id="plot-probabilities-plateau-exponent" type="range" min="0" max="12" step="0.01" value="1" oninput="plotPlateau.update()"></label>
 		</fieldset>
 		<fieldset><legend>Function</legend>$y=(4(x-\frac{1}{2})^3*(1-sin(\pi x))^n+\frac{1}{2})^{\log_{0.5}p}$</fieldset>
 	</form>
@@ -74,7 +74,7 @@
 <div class="controls">
 	<fieldset>
 		<legend>Controls</legend>
-		<label>Spacing<input id="plot-distribution-spacing" type="range" min="10" max="150" step="1" value="65" onchange="distribution.update()"></label>
+		<label>Spacing<input id="plot-distribution-spacing" type="range" min="10" max="150" step="1" value="65" oninput="distribution.update()"></label>
 		<label>Random<input type="radio" name="dist-type" onclick="distribution = pointDistributionRandom; distribution.update()" checked></label>
 		<label>Grid<input type="radio" name="dist-type" onclick="distribution = pointDistributionGrid; distribution.update()"></label>
 		<label>Poisson<input type="radio" name="dist-type" onclick="distribution = pointDistributionPoisson; distribution.update()"></label>
