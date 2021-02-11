@@ -66,6 +66,8 @@
 <p>Another interesting shape for distributions is a <em>plateau shaped function</em>. In this case, most $y$ values lie on a preset plateau value, and rarer $y$ values are below or above the plateau. The interactive example shows such a function; the $p$ parameter determines the height of the plateau, while the $n$ parameter can be increased to make the plateau area wider.</p>
 <p>A fitting application for this function is the distribution of objects in a procedurally generated forest, where every category on the $y$ axis stands for a type of plant, and larger objects have a larger $y$ value. The biggest category can be grass for example. The categories under the plateau can then encode even smaller plants, like moss and small flowers, while the categories above the plateau stand for bushes and trees. Grass will be the most common plant in the environment, while several bigger and smaller plants are rarer.</p>
 <p>The source code for these plots can be found <a target="_blank" href="https://github.com/jobtalle/ProbabilityPlots">on GitHub</a> under the MIT license.</p>
+<h2>Two dimensional distributions</h2>
+<p>The three examples before are one dimensional, they apply a single random number to a distribution. In two dimensional applications, it is also useful to transform random values to improve their quality. The example on the right shows a <em>distribution plot</em>, where a number of points are randomly scattered in an environment. Randomly scattered points can be used in several ways:</p>
 <div class="renderer">
 	<canvas id="plot-distribution" width="500" height="300"></canvas>
 </div>
@@ -79,8 +81,6 @@
 		<button type="button" onclick="distribution.update()">Generate</button>
 	</fieldset>
 </div>
-<h2>Two dimensional distributions</h2>
-<p>The three examples before are one dimensional, they apply a single random number to a distribution. In two dimensional applications, it is also useful to transform random values to improve their quality. The example on the right shows a <em>distribution plot</em>, where a number of points are randomly scattered in an environment. Randomly scattered points can be used in several ways:</p>
 <ul>
 	<li>An environment can be populated according to these points, where items are created at their positions.</li>
 	<li>If the approximate shape or color of an object needs to be known, but it would be too computationally expensive too go through all the available data, it can be probed at random points to make an educated guess. It is important to use a high quality distribution here to prevent reading the same point multiple times, or skipping over big areas.</li>
