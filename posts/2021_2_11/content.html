@@ -1,5 +1,12 @@
 <h2>Probability modelling</h2>
 <p>Randomly generated content typically starts with a randomizer that returns numbers between $0$ and $1$. This article goes into the process of taking those random numbers and turning them into something more interesting or meaningful.</p>
+<figure>
+	<img local src="img/compare-sampling.jpg">
+	<figcaption>Figure 1: A weighed distribution of plant species on the left, versus a completely random distribution of plant species on the right.</figcaption>
+</figure>
+<h2>The challenge</h2>
+<p>When randomly generating content, it can be challenging to not make things <i>too</i> random. Consider the example of generating random colors for an environment; when colors are completely random, things will not look pretty. The same goes for placing content, there must be boundaries to prevent the randomizer from making things that make no sense.</p>
+<p>To illustrate both the challenge of procedural generation and a solution for it, a simple randomly generated scene is shown in Figure 1. Objects are placed at random. It looks messy, not logical and it's generally hard to read.</p>
 <h2>Randomizers</h2>
 <p>The basis of randomly generated content is a <em>randomizer</em>, or more specifically, a <em>pseudorandom number generator</em>, since true random does not typically exist within the realm of computer programming. A pseudorandom number generator generates numbers that are indistinguishable from random numbers to a human, which is good enough for most applications.</p>
 <p>Randomizers differ in quality, meaning that some randomizers generate sets of numbers that are less predictable than others. For procedurally generating game content, high quality randomizers are typically not needed, but a randomizer that determines the winners of a lottery for example shouldn't be too predictable to prevent abuse. An example of a very good (unpredictable) randomizer is the <a target="_blank" href="https://en.wikipedia.org/wiki/Mersenne_Twister">Mersenne Twister</a>; an example of a low quality but very fast randomizer is a <a target="_blank" href="https://github.com/jobtalle/random.js">linear congruential generator</a>.</p>
@@ -75,12 +82,18 @@
 <p>The three examples before are one dimensional, they apply a single random number to a distribution. In two dimensional applications, it is also useful to transform random values to improve their quality. The example on the right shows a <em>distribution plot</em>, where a number of points are randomly scattered in an environment. Randomly scattered points can be used in several ways:</p>
 <ul>
 	<li>An environment can be populated according to these points, where items are created at their positions.</li>
+	<li>If the approximate shape or color of an object needs to be known, but it would be too computationally expensive too go through all the available data, it can be probed at random points to make an educated guess.</li>
 </ul>
-<p>The plot shows points that are placed completely random by default. This means that every time a point is added, its position is randomized without checking where other points are. This results in a very unpredictable distribution, dense clusters can be seen, but empty areas can also occur. When placing items in an environment, this is not ideal; it's better to populate the environment completely without leaving empty spaces.</p>
+<p>The plot shows points that are placed completely random by default. This means that every time a point is added, its position is randomized without checking where other points are. This results in a very unpredictable distribution with both dense clusters and empty areas. When placing items in an environment, this is not ideal; it's better to populate the environment completely without leaving empty spaces.</p>
 <h2>Random points in a grid</h2>
 <p>The interactive example has a "Grid" option. This is an alternative way to distribute points, which leaves less open areas. This distribution is created by dividing the area up into grid cells, after which a point is placed in a random position inside each grid cell. This guarantees that there are no big empty spaces. It does however not prevent clusters from forming: if points are created in neighboring cell corners, they still cluster.</p>
+<figure>
+	<img local src="img/compare-distribution.jpg">
+	<figcaption>Figure 2: Plant placement according to Poisson sampling on the left, versus completely random placement on the right.</figcaption>
+</figure>
 <h2>Poisson sampling</h2>
 <p>To prevent clustering while also preventing the formation of open spaces, <em>Poisson sampling</em> can be used. This is also an option in the interactive example. In short, Poisson sampling ensures that points are always placed at a minimum distance from each other, while every new point is never placed further away from an existing point than twice that distance.</p>
+<p>Figure 2 shows a comparison of Poisson sampling and completely random placement of points: Poisson sampling is used on the left half of the image, while random placement is used on the right. Both halves contain the same amount of plants, but many empty spaces can be seen on the right. Poisson sampling clearly distributes the plants better than a random distribution does.</p>
 <p>The source code for the spatial distributions can be found <a target="_blank" href="https://github.com/jobtalle/DistributionPlots">on GitHub</a> under the MIT license.</p>
 <h2>Putting it together</h2>
 <script local src="js/swappedFunction.js"></script>
