@@ -1,0 +1,5 @@
+{
+  "title": "Rendering symmetry",
+  "abstract": "Symmetry or reflections can be rendered by defining plane surfaces though which the model should be reflected. This article details a shader algorithm that can be used to render geometry with one or more symmetry planes applied to it in real time.",
+  "preview": "img/preview.jpg"
+}
