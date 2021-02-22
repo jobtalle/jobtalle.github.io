@@ -31,7 +31,7 @@
     padding-right: 16px;
     overflow-y: scroll;
     user-select: none;
-    width: 232px;
+    width: 240px;
     display: none;
     font-size: 10pt;
 }
@@ -85,6 +85,10 @@
 
 #interface .collapsed .header button:after {
     content: "+";
+}
+
+#interface .content {
+    padding: 2px;
 }
 
 #interface .collapsed .content {

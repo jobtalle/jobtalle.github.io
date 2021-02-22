@@ -175,6 +175,8 @@ h1 {
 	margin-bottom: 8px;
 	max-width: 100%;
 	text-align: center;
+	padding-left: var(--figure-padding);
+	padding-right: var(--figure-padding);
 }
 
 #content ul {

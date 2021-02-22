@@ -36,7 +36,7 @@ InterfacePlane.prototype.createElement = function(symmetry, plane, removeMe, mov
     const buttonDown = document.createElement("button");
     const buttonDelete = document.createElement("button");
 
-    element.style.backgroundColor = "hsl(" + (360 * Math.random()) + ",40%,40%)";
+    element.style.backgroundColor = "hsla(" + (360 * Math.random()) + ",40%,40%,40%)";
 
     buttonUp.appendChild(document.createTextNode("▲"));
     buttonDown.appendChild(document.createTextNode("▼"));
