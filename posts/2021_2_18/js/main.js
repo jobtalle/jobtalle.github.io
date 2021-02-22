@@ -26,9 +26,12 @@
 
     requestAnimationFrame(loop);
 
-    new Interface(
-        symmetry,
-        document.getElementById("interface-rendering"),
-        document.getElementById("interface-root"),
-        document.getElementById("interface-planes"));
+    new InterfaceToggle(
+        document.getElementById("interface-toggle"),
+        new Interface(
+            symmetry,
+            document.getElementById("interface"),
+            document.getElementById("interface-rendering"),
+            document.getElementById("interface-root"),
+            document.getElementById("interface-planes")));
 }

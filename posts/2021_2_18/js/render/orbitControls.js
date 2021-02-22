@@ -24,14 +24,19 @@ const OrbitControls = function(element) {
     element.addEventListener("touchmove", event => {
         event.preventDefault();
 
-        this.mouseMove(event.touches[0].clientX, event.touches[0].clientY)
+        this.mouseMove(event.touches[0].clientX, event.touches[0].clientY);
     });
     element.addEventListener("mouseup", this.mouseUp.bind(this));
     element.addEventListener("touchend", this.mouseUp.bind(this));
     element.addEventListener("mousemove", event => this.mouseMove(event.clientX, event.clientY));
+    element.addEventListener("wheel", event => {
+        event.preventDefault();
+
+        this.moveZoom(Math.sign(event.deltaY));
+    });
 };
 
-OrbitControls.prototype.ZOOM_INITIAL = 2.5;
+OrbitControls.prototype.ZOOM_INITIAL = 2.2;
 OrbitControls.prototype.ZOOM_SPEED = .1;
 OrbitControls.prototype.ZOOM_LIMITS = new Range(.5, 10);
 OrbitControls.prototype.ROTATION_X_LIMITS = new Range(-Math.PI * .45, Math.PI * .45);
