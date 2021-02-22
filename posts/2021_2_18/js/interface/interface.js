@@ -15,6 +15,15 @@ const Interface = function(
     planes) {
     this.interfaceWrapper = interfaceWrapper;
 
+    while (rendering.firstChild)
+        rendering.removeChild(rendering.firstChild);
+
+    while (root.firstChild)
+        root.removeChild(root.firstChild);
+
+    while (planes.firstChild)
+        planes.removeChild(planes.firstChild);
+
     rendering.appendChild(new InterfaceRendering(symmetry.geometry));
     root.appendChild(new InterfaceRoot(symmetry.geometry));
     planes.appendChild(new InterfacePlanes(symmetry));

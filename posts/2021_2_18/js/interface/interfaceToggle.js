@@ -5,10 +5,10 @@
  * @constructor
  */
 const InterfaceToggle = function(element, interfaceWrapper) {
-    element.addEventListener("mousedown", () => {
+    element.onclick =  () => {
         interfaceWrapper.toggle();
         element.classList.toggle(this.CLASS_TOGGLE);
-    });
+    };
 };
 
 InterfaceToggle.prototype.CLASS_TOGGLE = "visible";
