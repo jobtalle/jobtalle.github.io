@@ -1,6 +1,6 @@
 <h2>Symmetry</h2>
 <p>In real time rendering, the most common application for symmetry is probably reflection rendering. In this context, a mirror that produces the reflection is the <em>symmetry plane</em>, and a symmetrical version of all the things that are in front of the mirror are then also rendered behind the mirror.</p>
-<p>In really, mirrors don't really intersect objects, but there is no reason they can't do that when rendering a digital scene. In fact, multiple mirrors can exist that can also intersect each other. In this article, a shader algorithm is explained that can apply symmetry to a mesh using any number of symmetry planes (or mirrors), that can intersect both the geometry and other symmetry planes. This can result in very interesting and exotic geometries that are unrecognizable from the original geometry that has been used as source material.</p>
+<p>In reality, mirrors don't really intersect objects, but there is no reason they can't do that when rendering a digital scene. In fact, multiple mirrors can exist that can also intersect each other. In this article, a shader algorithm is explained that can apply symmetry to a mesh using any number of symmetry planes (or mirrors), that can intersect both the geometry and other symmetry planes. This can result in very interesting and exotic geometries that are unrecognizable from the original geometry that has been used as source material.</p>
 <p>The source code for the algorithm explained in this article can be found <a target="_blank" href="https://github.com/jobtalle/Symmetry">on GitHub</a> under the MIT license.</p>
 <figure>
     <img local src="img/mirror_1.png" alt="Mirroring right to left">
@@ -8,7 +8,7 @@
 </figure>
 <figure>
     <img local src="img/mirror_2.png" alt="Mirroring top to bottom">
-    <figcaption>Figure 2: The horizontally mirrored scene from Figure 1 as mirrored for a second time, now vertically.</figcaption>
+    <figcaption>Figure 2: The horizontally mirrored scene from Figure 1 is mirrored for a second time, now vertically.</figcaption>
 </figure>
 <h2>A simple case</h2>
 <p>Figure 1 shows a simple case of symmetry. The blue cube is mirrored along the vertical axis in the image, towards the left. A mirrored version of the cube appears on the left.</p>
@@ -24,7 +24,7 @@
     <li>If there are more symmetry planes, repeat the algorithm for the next symmetry plane with the current state of the scene.</li>
 </ol>
 <p>For every iteration of the algorithm, the number of times the primitive is rendered doubles, since the effect stacks; every symmetry plane needs to take all previous planes into account.</p>
-<p>The interactive WebGL 2 renderer below shows the algorithm in action. The triangle at the right top can be used to toggle the controls. One to ten symmetry planes can be created to intersect a primitive, and the planes can be moved and rotate to create different transformations. The source code is <a target="_blank" href="https://github.com/jobtalle/Symmetry">on GitHub</a> under the MIT license.</p>
+<p>The interactive WebGL 2 renderer below shows the algorithm in action. The triangle at the right top can be used to toggle the controls. One to ten symmetry planes can be created to intersect a primitive, and the planes can be moved and rotated to create different transformations.</p>
 <div id="symmetry-wrapper">
     <div id="renderer-wrapper">
         <canvas id="renderer"></canvas>
@@ -39,11 +39,11 @@
     </div>
 </div>
 <p>A full screen version of this application can be opened <a target="_blank" href="http://jobtalle.com/Symmetry/">here</a>.</p>
-<p>The shader runs $2^p$ times, where each run requires the information of which planes the primitive should be mirrored through. For one plane, the algorithm runs twice where it is once mirrored and once not. For two planes, it contains both situations required for one plane twice; once with mirroring through the second plane and once without mirroring. For every subsequent plane, the number of runs doubles.</p>
-<p>The shader mirrors a vertex $\vec{v}$ through a plane defined by a point $\vec{o}$ and a normal vector $\vec{n}$ by$$\vec{m}=\vec{v}-2(\vec{n}\cdot(\vec{v}-\vec{o})),$$where $\vec{m}$ is the mirrored vertex. There is one issue with mirroring vertices: the winding of the triangles flips. That means that face culling no longer works well, back faces will be visible instead of front faces. When mirrored geometry is mirrored, the winding order reverses again. In the example above, face culling is disabled to circumvent this problem.</p>
+<p>The shader runs $2^p$ times, where each run requires information on which planes the primitive should be mirrored through. For one plane, the algorithm runs twice where it is once mirrored and once not. For two planes, it contains both situations required for one plane twice; once with mirroring through the second plane and once without mirroring. For every subsequent plane, the number of runs doubles.</p>
+<p>The shader mirrors a vertex $\vec{v}$ through a plane defined by a point $\vec{o}$ and a normal vector $\vec{n}$ by$$\vec{m}=\vec{v}-2(\vec{n}\cdot(\vec{v}-\vec{o})),$$where $\vec{m}$ is the mirrored vertex. There is one issue with mirroring vertices: the <em>winding order</em> of the triangles reverses. This means that face culling no longer works well, back facing triangles will be visible instead of front facing triangles. When mirrored geometry is mirrored, the winding order reverses again. In the example above, face culling is disabled to circumvent this problem.</p>
 <p>If the primitive has surface normals, they need to be reflected as well. This is done by vector reflection: surface normals are simply reflected through the surface normal of the current symmetry plane.</p>
 <h2>Intersections and exponential complexity</h2>
-<p>Since the number of times the primitive needs to be drawn is $2^p$, the performance of the algorithm steeply decreases for large number of symmetry planes. For larger number of planes, it will be more performant to split and mirror the mesh whenever the configuration of planes changes. The new mesh can then be rendered once.</p>
+<p>Since the number of times the primitive needs to be drawn is $2^p$, the performance of the algorithm steeply decreases for large number of symmetry planes. For larger number of planes, it will be more performant to split and mirror the mesh whenever the configuration of planes changes, even in real time. The new mesh can then be rendered once.</p>
 <p>In some cases, it is not required to draw $2^p$ variants of the geometry. Certain configurations of planes can for example rule out iterations: consider three symmetry planes placed in the shape of a six pointed star. The three planes will create $6$ spaces instead of $2^3=8$. In other configurations, entire spaces may become invisible when placed behind a new symmetry plane.</p>
 <h2>Conclusion</h2>
 <p>The proposed method is a viable way of applying one or more symmetry planes to geometry in real time. Since all work will be done by the shader program, the primitive or model does not need to be modified.</p>
