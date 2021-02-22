@@ -1,6 +1,7 @@
 <h2>Symmetry</h2>
 <p>In real time rendering, the most common application for symmetry is probably reflection rendering. In this context, a mirror that produces the reflection is the <em>symmetry plane</em>, and a symmetrical version of all the things that are in front of the mirror are then also rendered behind the mirror.</p>
 <p>In really, mirrors don't really intersect objects, but there is no reason they can't do that when rendering a digital scene. In fact, multiple mirrors can exist that can also intersect each other. In this article, a shader algorithm is explained that can apply symmetry to a mesh using any number of symmetry planes (or mirrors), that can intersect both the geometry and other symmetry planes. This can result in very interesting and exotic geometries that are unrecognizable from the original geometry that has been used as source material.</p>
+<p>The source code for the algorithm explained in this article can be found <a target="_blank" href="https://github.com/jobtalle/Symmetry">on GitHub</a> under the MIT license.</p>
 <figure>
     <img local src="img/mirror_1.png" alt="Mirroring right to left">
     <figcaption>Figure 1: A cube on the right is mirrored horizontally.</figcaption>
@@ -11,9 +12,41 @@
 </figure>
 <h2>A simple case</h2>
 <p>Figure 1 shows a simple case of symmetry. The blue cube is mirrored along the vertical axis in the image, towards the left. A mirrored version of the cube appears on the left.</p>
+<p>Thus, to render a cube with one symmetry plane, the cube needs to be rendered twice: once without transformation (unreflected), and once reflected through the plane.</p>
 <h2>Repeated application</h2>
 <p>Figure 2 shows another application of a symmetry plane; additionally to the horizontal mirroring, the cube is now also mirrored along the horizontal axis, creating four (partial) cubes.</p>
-<p>Without symmetry, one cube is rendered. With one symmetry plane, two cubes are rendered, and with two planes, four cubes are rendered. The number of times the original primitive is rendered is equal to $2^p$ where $p$ is the number of symmetry planes.</p>
+<p>Without symmetry, one cube is rendered. With one symmetry plane, two cubes are rendered, and with two planes, four cubes are rendered. The number of times the original primitive is rendered is equal to $2^p$ where $p$ is the number of symmetry planes. In other words, for every added symmetry plane, the number of times the original mesh needs to be rendered doubles: every plane requires everything to be rendered normally as well as mirrored.</p>
 <h2>Rendering real time symmetry with a shader</h2>
+<div id="symmetry-wrapper">
+    <div id="renderer-wrapper">
+        <canvas id="renderer"></canvas>
+    </div>
+    <div id="interface">
+        <div id="interface-rendering"></div>
+        <div id="interface-root"></div>
+        <div id="interface-planes"></div>
+    </div>
+</div>
 <h2>Intersections and exponential complexity</h2>
 <h2>Conclusion</h2>
+<script local src="js/utils/range.js"></script>
+<script local src="js/render/color.js"></script>
+<script local src="js/render/vector.js"></script>
+<script local src="js/render/matrix.js"></script>
+<script local src="js/render/shader.js"></script>
+<script local src="js/render/mesh.js"></script>
+<script local src="js/render/orbitControls.js"></script>
+<script local src="js/geometry/modelCube.js"></script>
+<script local src="js/geometry/modelSphere.js"></script>
+<script local src="js/geometry/modelCylinder.js"></script>
+<script local src="js/geometry/geometry.js"></script>
+<script local src="js/interface/interfaceElement.js"></script>
+<script local src="js/interface/interfaceRendering.js"></script>
+<script local src="js/interface/interfaceRoot.js"></script>
+<script local src="js/interface/interfacePlane.js"></script>
+<script local src="js/interface/interfacePlanes.js"></script>
+<script local src="js/interface/interface.js"></script>
+<script local src="js/plane/plane.js"></script>
+<script local src="js/plane/planeRenderer.js"></script>
+<script local src="js/symmetry.js"></script>
+<script local src="js/main.js"></script>
