@@ -21,6 +21,7 @@ InterfacePlanes.prototype.createElement = function(symmetry) {
     const planes = document.createElement("div");
     const add = document.createElement("button");
     const randomize = document.createElement("button");
+    const clear = document.createElement("button");
 
     const makeInterface = plane => {
         const planeInterface = new InterfacePlane(
@@ -60,7 +61,15 @@ InterfacePlanes.prototype.createElement = function(symmetry) {
             planes.appendChild(makeInterface(plane));
     };
 
+    clear.appendChild(document.createTextNode("Clear"));
+    clear.onclick = () => {
+        symmetry.clear();
+
+        this.clearElement(planes);
+    };
+
     element.appendChild(randomize);
+    element.appendChild(clear);
     element.appendChild(planes);
     element.appendChild(add);
 

@@ -48,6 +48,15 @@ Symmetry.prototype.randomize = function() {
 };
 
 /**
+ * Clear all planes
+ */
+Symmetry.prototype.clear = function() {
+    this.planes = [];
+
+    this.updatePlanes();
+};
+
+/**
  * Add a new plane
  * @returns {Plane|null} The new plane, or null if the capacity has been reached
  */
