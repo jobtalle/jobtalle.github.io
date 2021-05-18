@@ -9,15 +9,9 @@ const TERRAIN_GRADIENT_HEIGHT = 64;
 
 var terrainAtLayer;
 var terrainResolution;
-var terrainX;
-var terrainY;
 
 function terrainStart() {
-	const period = parseFloat(document.getElementById("terrain-period").value);
-	
 	terrainAtLayer = 0;
-	terrainX = Math.random() * period;
-	terrainY = Math.random() * period;
 	
 	terrainCalculateBounds();
 	terrainRenderBase();
@@ -110,7 +104,7 @@ function terrainRender(timeStep) {
 				for(var octave = 0; octave < octaves; ++octave) {
 					var config = cubicNoiseConfig(seed + octave, period / (octave + 1));
 					
-					sample += cubicNoiseSample(config, x + terrainX, y + terrainY) * amplitude;
+					sample += cubicNoiseSample(config, x, y) * amplitude;
 					
 					period /= 2;
 					amplitude /= falloff;
