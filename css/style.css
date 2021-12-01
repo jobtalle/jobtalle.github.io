@@ -299,6 +299,7 @@ h1 {
 }
 
 #footer {
+	clear: both;
 	font-size: 11px;
 	text-align: right;
 	color: var(--color-light);
