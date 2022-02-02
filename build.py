@@ -15,9 +15,9 @@ def compress(string):
 	return string.replace("\t", "").replace(">\n", ">")
 
 def replace_keys(keys, string):
-    regex = re.compile("|".join(map(re.escape, keys.keys())))
+	regex = re.compile("|".join(map(re.escape, keys.keys())))
 
-    return regex.sub(lambda match: keys[match.group(0)], string)
+	return regex.sub(lambda match: keys[match.group(0)], string)
 
 
 class Post:
@@ -290,6 +290,47 @@ class Post:
 			"</div>"
 
 
+class Game:
+	FILE_PROPERTIES = "properties.json"
+	FILE_PREVIEW = "preview.jpg"
+
+	CLASS = "game"
+	CLASS_SUMMARY = "summary"
+
+	KEY_TITLE = "title"
+	KEY_URL = "url"
+	KEY_DESCRIPTION = "description"
+
+	def __init__(self, site, directory):
+		self.site = site
+		self.directory = directory
+		self.properties = Site.DIR_GAMES + "/" + directory + "/" + self.FILE_PROPERTIES
+
+		self.read_properties()
+
+	def read_properties(self):
+		properties_file = open(self.properties)
+		self.properties = json.load(properties_file)
+		properties_file.close()
+
+	def build_title(self):
+		return "<h2>" + self.properties[self.KEY_TITLE] + "</h2>"
+
+	def build_image(self):
+		return "<a href=\"" + self.properties[self.KEY_URL] + "\" target=\"_blank\"><img src=\"" + Site.DIR_GAMES + "/" + self.directory + "/" + self.FILE_PREVIEW + "\"></a>"
+
+	def build_description(self):
+		return "<p>" + self.properties[self.KEY_DESCRIPTION] + "</p>"
+
+	def build_content(self):
+		return "<div class=\"" + self.CLASS_SUMMARY + "\">" + self.build_image() + self.build_title() + self.build_description() + "</div>"
+
+	def build(self):
+		self.site.log("Building game \"" + self.properties[self.KEY_TITLE] + "\"")
+
+		return "<div class=\"" + self.CLASS + "\">" + self.build_content() + "</div>"
+
+
 class Sketch:
 	FILE_PROPERTIES = "properties.json"
 	FILE_PREVIEW = "preview.jpg"
@@ -365,6 +406,7 @@ class Site:
 
 	DIR_POSTS = "posts"
 	DIR_SKETCHES = "sketches"
+	DIR_GAMES = "games"
 	DIR_JAVASCRIPT = "js"
 	DIR_TEMPLATES = "templates"
 
@@ -387,12 +429,14 @@ class Site:
 	MENU_PAGES = [
 		"index.html",
 		"sketches.html",
+		"games.html",
 		"about.html",
 		"contact.html"
 	]
 	MENU_TITLES = [
 		"Blog",
 		"Art",
+		"Games",
 		"About",
 		"Contact"
 	]
@@ -410,6 +454,7 @@ class Site:
 		self.template = self.read_template()
 		self.posts = self.get_posts()
 		self.sketches = self.get_sketches()
+		self.games = self.get_games()
 
 	@staticmethod
 	def clean():
@@ -458,16 +503,18 @@ class Site:
 
 		if page == "sketches.html":
 			source = source.replace("$sketches$", self.build_sketches())
+		elif page == "games.html":
+			source = source.replace("$games$", self.build_games())
 
 		result = replace_keys({
 			self.KEY_TITLE: self.TITLE + self.TITLE_DIVISOR + title,
-            self.KEY_DESCRIPTION: self.DESCRIPTION,
-            self.KEY_ADDITIONAL_CSS: "",
-            self.KEY_MENU_BUTTONS: self.build_menu(page),
-            self.KEY_CONTENT: source,
-            self.KEY_POST_SCRIPT: "",
-            self.KEY_YEAR: str(datetime.datetime.now().year),
-            self.KEY_META: ""
+			self.KEY_DESCRIPTION: self.DESCRIPTION,
+			self.KEY_ADDITIONAL_CSS: "",
+			self.KEY_MENU_BUTTONS: self.build_menu(page),
+			self.KEY_CONTENT: source,
+			self.KEY_POST_SCRIPT: "",
+			self.KEY_YEAR: str(datetime.datetime.now().year),
+			self.KEY_META: ""
 		}, self.template)
 
 		file = open(page, "w")
@@ -497,6 +544,14 @@ class Site:
 
 		for sketch in self.sketches:
 			result += sketch.build()
+
+		return result
+
+	def build_games(self):
+		result = ""
+
+		for game in self.games:
+			result += game.build()
 
 		return result
 
@@ -588,14 +643,14 @@ class Site:
 				content += self.get_load_more()
 
 			result = replace_keys({
-                self.KEY_TITLE: self.TITLE,
-                self.KEY_DESCRIPTION: self.DESCRIPTION,
-                self.KEY_ADDITIONAL_CSS: "",
-                self.KEY_MENU_BUTTONS: self.build_menu("index.html"),
-                self.KEY_CONTENT: content,
-                self.KEY_POST_SCRIPT: "<script>var indices = " + str(self.get_index_count()) + ";</script>" + self.SCRIPT_LOAD_MORE if self.get_index_count() > 1 else "",
-                self.KEY_YEAR: str(datetime.datetime.now().year),
-                self.KEY_META: ""
+				self.KEY_TITLE: self.TITLE,
+				self.KEY_DESCRIPTION: self.DESCRIPTION,
+				self.KEY_ADDITIONAL_CSS: "",
+				self.KEY_MENU_BUTTONS: self.build_menu("index.html"),
+				self.KEY_CONTENT: content,
+				self.KEY_POST_SCRIPT: "<script>var indices = " + str(self.get_index_count()) + ";</script>" + self.SCRIPT_LOAD_MORE if self.get_index_count() > 1 else "",
+				self.KEY_YEAR: str(datetime.datetime.now().year),
+				self.KEY_META: ""
 			}, self.template)
 		else:
 			result = content
@@ -653,6 +708,13 @@ class Site:
 		directories.sort(key=lambda x: datetime.datetime.strptime(x, '%Y_%m_%d'), reverse=True)
 
 		return [Sketch(self, dir) for dir in directories]
+
+	def get_games(self):
+		directories = [dir for dir in listdir(self.DIR_GAMES)]
+		directories.sort()
+
+		return [Game(self, dir) for dir in directories]
+
 
 def main():
 	site = None

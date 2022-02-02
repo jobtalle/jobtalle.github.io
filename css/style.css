@@ -382,6 +382,22 @@ h1 {
 	resize: none;
 }
 
+.game .summary h2 {
+	margin-top: 0;
+}
+
+.game .summary {
+	width: 100%;
+	float: left;
+}
+
+.game .summary img {
+	float: right;
+	padding-left: var(--figure-padding);
+	padding-bottom: var(--figure-padding);
+	max-width: 100%;
+}
+
 #sketches {
 	display: flex;
 	justify-content: space-between;
