@@ -402,7 +402,7 @@ class Site:
 	TITLE = "Job Talle"
 	TITLE_DIVISOR = " | "
 
-	DESCRIPTION = "A blog on software development, AI & Algorithms"
+	DESCRIPTION = "A blog about software development, AI & Algorithms"
 
 	DIR_POSTS = "posts"
 	DIR_SKETCHES = "sketches"
