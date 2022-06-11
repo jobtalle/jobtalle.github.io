@@ -1,5 +1,19 @@
 <h2>Koi Farm</h2>
-<p>First paragraph.</p>
+<p>Recently, I launched my game <em><a target="_blank" href="https://store.steampowered.com/app/1518810/Koi_Farm/">Koi Farm</a></em>. Koi Farm is a koi breeding game, in which the player breeds koi patterns by carefully selecting traits in the parents. This article explains how I implemented <em>crossbreeding</em> and <em>mutation</em> in koi patterns.</p>
+<figure>
+    <img local src="img/koifarm.jpg" alt="Koi Farm, the koi breeding game">
+    <figcaption>Figure 1: Koi Farm, the koi breeding game.</figcaption>
+</figure>
+<p>Koi Farm is open source, so the algorithms can be seen in their "natural environment" <a target="_blank" href="https://github.com/jobtalle/koi">on GitHub</a>.</p>
+<h2>Procedural mutable koi patterns</h2>
+<p>The fish in Koi Farm have many mutable properties, like shape, size and color, but this article mostly goes into generating the <em>patterns</em> on the fish bodies. Most koi patterns contain spots of varying shapes and sizes.</p>
+<p>The koi pattern generator needs to achieve the following main goals:</p>
+<ol>
+    <li>There should be a nearly infinite number of possible patterns.</li>
+    <li>The patterns should have plenty of variance.</li>
+    <li>The patterns must be able to mutate in small steps.</li>
+</ol>
+<p>The first goal is obvious: if the koi are procedurally generated, every fish should be unique. The second goal is important to make the game fun; if all patterns are unique but still look very similar to each other, breeding koi gets boring quickly. Finally, mutation of patterns should happen in small steps. This is crucial for the gameplay. Specific koi patterns can be bred by choosing parent koi that almost have that pattern, because their children have a chance to mutate towards the desired look. If mutation happens in large steps, or if it would be completely random, there is no way to tell how the offspring of two fish may turn out. In that case, the entire gameplay mechanic of choosing parents to breed specific traits doesn't work.</p>
 <figure>
     <canvas width="500" height="250" id="renderer"></canvas>
     <div id="controls" class="controls">
@@ -47,24 +61,24 @@
             </label>
             <label>
                 Threshold:
-                <input type="range" min="0.25" max="0.75" value="0.5" step="0.002" id="var-threshold">
+                <input type="range" min="0.3" max="0.7" value="0.5" step="0.002" id="var-threshold">
                 <input readonly type="text" id="field-threshold" value="0.5">
             </label>
             <label>
                 Scale:
-                <input type="range" min="1.5" max="8" value="4.5" step="0.03" id="var-scale">
+                <input type="range" min="2" max="10" value="4.5" step="0.03" id="var-scale">
                 <input readonly type="text" id="field-scale" value="4.5">
             </label>
         </div>
         <div class="controls hidden" id="controls-shape">
             <label>
                 Width:
-                <input type="range" min="0.5" max="1" value="0.8" step="0.001" id="var-width">
+                <input type="range" min="0.65" max="1" value="0.8" step="0.001" id="var-width">
                 <input readonly type="text" id="field-width" value="0.8">
             </label>
             <label>
                 Radius:
-                <input type="range" min="0.3" max="0.65" value="0.5" step="0.002" id="var-radius">
+                <input type="range" min="0.4" max="0.65" value="0.5" step="0.002" id="var-radius">
                 <input readonly type="text" id="field-radius" value="0.5">
             </label>
             <label>
