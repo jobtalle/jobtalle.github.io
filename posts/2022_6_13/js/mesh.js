@@ -3,6 +3,8 @@ import {Vector} from "./vector.js";
 
 export class Mesh {
     static SEGMENTS = 16;
+    static FLOW = 10;
+    static SPRING = .6;
 
     constructor(width, height) {
         this.width = width;
@@ -14,10 +16,8 @@ export class Mesh {
         this.spinePrevious = [];
         this.spineInterpolated = [];
         this.phase = 0;
-        this.phaseSpeed = .15;
-        this.amplitude = .2;
-        this.flow = 10;
-        this.spring = .55;
+        this.phaseSpeed = 0;
+        this.amplitude = 0;
 
         for (let segment = 0; segment < Mesh.SEGMENTS; ++segment) {
             this.spine.push(new Vector());
@@ -27,6 +27,11 @@ export class Mesh {
 
         gl.bindBuffer(gl.ARRAY_BUFFER, this.buffer);
         gl.bufferData(gl.ARRAY_BUFFER, this.mirror.byteLength, gl.DYNAMIC_DRAW);
+    }
+
+    setSpeed(speed) {
+        this.phaseSpeed = .15 + .1 * speed;
+        this.amplitude = .1 + .2 * speed;
     }
 
     initialize() {
@@ -62,7 +67,7 @@ export class Mesh {
                     continue;
                 }
 
-                this.spine[segment].x -= this.flow;
+                this.spine[segment].x -= Mesh.FLOW;
 
                 const tx = this.spine[segment - 1].x - dxp * this.spacing;
                 const ty = this.spine[segment - 1].y - dyp * this.spacing;
@@ -70,8 +75,8 @@ export class Mesh {
                 let dy = ty - this.spine[segment].y;
                 let d = Math.sqrt(dx * dx + dy * dy);
 
-                this.spine[segment].x += dx * this.spring;
-                this.spine[segment].y += dy * this.spring;
+                this.spine[segment].x += dx * Mesh.SPRING;
+                this.spine[segment].y += dy * Mesh.SPRING;
 
                 dx = this.spine[segment - 1].x - this.spine[segment].x;
                 dy = this.spine[segment - 1].y - this.spine[segment].y;

@@ -37,6 +37,7 @@ import {Mesh} from "./mesh.js";
     const sliderCenter = document.getElementById("var-center");
     const sliderThickness = document.getElementById("var-thickness");
     const sliderEyePosition = document.getElementById("var-eye-position");
+    const sliderSpeed = document.getElementById("var-speed");
     const fieldX = document.getElementById("field-x");
     const fieldY = document.getElementById("field-y");
     const fieldZ = document.getElementById("field-z");
@@ -48,6 +49,7 @@ import {Mesh} from "./mesh.js";
     const fieldCenter = document.getElementById("field-center");
     const fieldThickness = document.getElementById("field-thickness");
     const fieldEyePosition = document.getElementById("field-eye-position");
+    const fieldSpeed = document.getElementById("field-speed");
     const buttonRandomize = document.getElementById("button-randomize");
     const buttonMutate = document.getElementById("button-mutate");
     const modeTexture = document.getElementById("mode-texture");
@@ -66,6 +68,7 @@ import {Mesh} from "./mesh.js";
     let varCenter = Number.parseFloat(fieldCenter.value);
     let varThickness = Number.parseFloat(fieldThickness.value);
     let varEyePosition = Number.parseFloat(fieldEyePosition.value);
+    let varSpeed = Number.parseFloat(fieldSpeed.value);
 
     gl.bindTexture(gl.TEXTURE_2D, texturePattern);
     gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGB, width << 1, height << 1, 0, gl.RGB, gl.UNSIGNED_BYTE, null);
@@ -139,6 +142,10 @@ import {Mesh} from "./mesh.js";
 
                 break;
         }
+    };
+
+    const updateAnimationSpeed = () => {
+        mesh.setSpeed(varSpeed);
     };
 
     const formatFieldNumber = number => {
@@ -315,9 +322,18 @@ import {Mesh} from "./mesh.js";
         renderTextures();
     });
 
+    sliderSpeed.addEventListener("input", () => {
+        varSpeed = Number.parseFloat(sliderSpeed.value);
+        fieldSpeed.value = varSpeed.toString();
+
+        updateAnimationSpeed();
+    });
+
     renderTextures();
+    updateAnimationSpeed();
 
     controls.style.height = controls.clientHeight + "px";
+    modeShape.click();
 
     const updateRate = 1 / 20;
     let lastTime = performance.now();
