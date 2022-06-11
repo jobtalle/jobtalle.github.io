@@ -37,6 +37,7 @@ import {Mesh} from "./mesh.js";
     const sliderCenter = document.getElementById("var-center");
     const sliderThickness = document.getElementById("var-thickness");
     const sliderEyePosition = document.getElementById("var-eye-position");
+    const sliderWidth = document.getElementById("var-width");
     const sliderSpeed = document.getElementById("var-speed");
     const fieldX = document.getElementById("field-x");
     const fieldY = document.getElementById("field-y");
@@ -49,6 +50,7 @@ import {Mesh} from "./mesh.js";
     const fieldCenter = document.getElementById("field-center");
     const fieldThickness = document.getElementById("field-thickness");
     const fieldEyePosition = document.getElementById("field-eye-position");
+    const fieldWidth = document.getElementById("field-width");
     const fieldSpeed = document.getElementById("field-speed");
     const buttonRandomize = document.getElementById("button-randomize");
     const buttonMutate = document.getElementById("button-mutate");
@@ -68,6 +70,7 @@ import {Mesh} from "./mesh.js";
     let varCenter = Number.parseFloat(fieldCenter.value);
     let varThickness = Number.parseFloat(fieldThickness.value);
     let varEyePosition = Number.parseFloat(fieldEyePosition.value);
+    let varWidth = Number.parseFloat(fieldWidth.value);
     let varSpeed = Number.parseFloat(fieldSpeed.value);
 
     gl.bindTexture(gl.TEXTURE_2D, texturePattern);
@@ -118,13 +121,14 @@ import {Mesh} from "./mesh.js";
             case 1:
             case 2:
                 shaderShape.use();
-                shaderShape.setRadius(varRadius);
+                shaderShape.setRadius(varRadius * varWidth);
                 shaderShape.setCenter(varCenter);
                 shaderShape.setThickness(varThickness);
                 shaderShape.setShade(colorShade);
                 shaderShape.setSize(width, height);
                 shaderShape.setEye(colorEye);
                 shaderShape.setEyePosition(varEyePosition);
+                shaderShape.setWidth(varWidth);
 
                 gl.bindFramebuffer(gl.FRAMEBUFFER, framebufferShape);
                 gl.viewport(0, 0, width << 1, height << 1);
@@ -221,6 +225,7 @@ import {Mesh} from "./mesh.js";
             fieldCenter.value = formatFieldNumber(varCenter = randomizeSlider(sliderCenter));
             fieldThickness.value = formatFieldNumber(varThickness = randomizeSlider(sliderThickness));
             fieldEyePosition.value = formatFieldNumber(varEyePosition = randomizeSlider(sliderEyePosition));
+            fieldWidth.value = formatFieldNumber(varWidth = randomizeSlider(sliderWidth));
         }
 
         renderTextures();
@@ -240,6 +245,7 @@ import {Mesh} from "./mesh.js";
             fieldCenter.value = formatFieldNumber(varCenter = mutateSlider(sliderCenter));
             fieldThickness.value = formatFieldNumber(varThickness = mutateSlider(sliderThickness));
             fieldEyePosition.value = formatFieldNumber(varEyePosition = mutateSlider(sliderEyePosition));
+            fieldWidth.value = formatFieldNumber(varWidth = mutateSlider(sliderWidth));
         }
 
         renderTextures();
@@ -322,6 +328,13 @@ import {Mesh} from "./mesh.js";
         renderTextures();
     });
 
+    sliderWidth.addEventListener("input", () => {
+        varWidth = Number.parseFloat(sliderWidth.value);
+        fieldWidth.value = varWidth.toString();
+
+        renderTextures();
+    });
+
     sliderSpeed.addEventListener("input", () => {
         varSpeed = Number.parseFloat(sliderSpeed.value);
         fieldSpeed.value = varSpeed.toString();
@@ -333,7 +346,6 @@ import {Mesh} from "./mesh.js";
     updateAnimationSpeed();
 
     controls.style.height = controls.clientHeight + "px";
-    modeShape.click();
 
     const updateRate = 1 / 20;
     let lastTime = performance.now();

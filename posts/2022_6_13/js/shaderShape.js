@@ -17,22 +17,30 @@ export class ShaderShape extends Shader {
         uniform mediump float eyePosition;
         uniform lowp vec3 shade;
         uniform lowp vec3 eye;
+        uniform mediump float width;
         
         mediump float getR(mediump float x) {
+            if (x < 0. || x > 1.)
+                return 0.;
+                
             return pow(cos(3.141593 * (pow(1. - x, center) - .5)), thickness) * radius;
         }
         
+        mediump float applyWidth(mediump float value) {
+            return value / width - 0.5 / width + .5;
+        }
+        
         void main() {
-            mediump float r = getR(uv.x);
+            mediump float r = getR(applyWidth(uv.x));
             mediump float rEye = getR(eyePosition);
             
             if (abs(uv.y - .5) * 2. > r)
                 color = vec4(0.);
             else {
-                if (length(size * (vec2(uv.x, abs(uv.y - .5)) - vec2(eyePosition, rEye * .5))) < EYE_RADIUS)
+                if (length(vec2(size.x * width, size.y) * (vec2(applyWidth(uv.x), abs(uv.y - .5)) - vec2(eyePosition, rEye * .5))) < EYE_RADIUS)
                     color = vec4(eye, 1.);
                 else
-                    color = mix(vec4(shade, 1.), texture(source, uv), min(1., pow((r - abs(uv.y - .5) * 2.) / r, SHADE_POWER) * 1.05));
+                    color = mix(vec4(shade, 1.), texture(source, vec2(uv.x, uv.y)), min(1., pow((r - abs(uv.y - .5) * 2.) / r, SHADE_POWER) * 1.05));
             }
         }`;
 
@@ -46,6 +54,7 @@ export class ShaderShape extends Shader {
         this.size = this.getUniform("size");
         this.eye = this.getUniform("eye");
         this.eyePosition = this.getUniform("eyePosition");
+        this.width = this.getUniform("width");
     }
 
     setRadius(radius) {
@@ -74,5 +83,9 @@ export class ShaderShape extends Shader {
 
     setEyePosition(eyePosition) {
         gl.uniform1f(this.eyePosition, eyePosition);
+    }
+
+    setWidth(width) {
+        gl.uniform1f(this.width, width);
     }
 }
