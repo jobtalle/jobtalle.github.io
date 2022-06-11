@@ -5,6 +5,7 @@ export class Mesh {
     static SEGMENTS = 16;
     static FLOW = 10;
     static SPRING = .6;
+    static RADIUS = .65;
 
     constructor(width, height) {
         this.width = width;
@@ -118,15 +119,15 @@ export class Mesh {
             dx /= dl;
             dy /= dl;
 
-            this.mirror[segment << 3] = this.spineInterpolated[segment].x + dy * this.height * .5;
-            this.mirror[(segment << 3) + 1] = this.spineInterpolated[segment].y - dx * this.height * .5;
+            this.mirror[segment << 3] = this.spineInterpolated[segment].x + dy * this.height * .5 * Mesh.RADIUS;
+            this.mirror[(segment << 3) + 1] = this.spineInterpolated[segment].y - dx * this.height * .5 * Mesh.RADIUS;
             this.mirror[(segment << 3) + 2] = u;
-            this.mirror[(segment << 3) + 3] = 0;
+            this.mirror[(segment << 3) + 3] = .5 * (1 - Mesh.RADIUS);
 
-            this.mirror[(segment << 3) + 4] = this.spineInterpolated[segment].x + dy * this.height * -.5;
-            this.mirror[(segment << 3) + 5] = this.spineInterpolated[segment].y - dx * this.height * -.5;
+            this.mirror[(segment << 3) + 4] = this.spineInterpolated[segment].x + dy * this.height * -.5 * Mesh.RADIUS;
+            this.mirror[(segment << 3) + 5] = this.spineInterpolated[segment].y - dx * this.height * -.5 * Mesh.RADIUS;
             this.mirror[(segment << 3) + 6] = u;
-            this.mirror[(segment << 3) + 7] = 1;
+            this.mirror[(segment << 3) + 7] = 1 - .5 * (1 - Mesh.RADIUS);
         }
     }
 
