@@ -1,0 +1,34 @@
+:root {
+    --color-a: #edefef;
+    --color-b: #d33a35;
+    --color-shade: #0b141c;
+    --color-eye: #101010;
+}
+
+/*#wrapper {*/
+/*    width: 100vw;*/
+/*    height: 100vh;*/
+/*    display: flex;*/
+/*    justify-content: center;*/
+/*    align-items: center;*/
+/*}*/
+
+#renderer {
+    border: 1px solid black;
+    background-color: #447a9d;
+}
+
+.controls {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    user-select: none;
+}
+
+.hidden {
+    display: none;
+}
+
+.controls input[type=text] {
+    width: 64px;
+}
