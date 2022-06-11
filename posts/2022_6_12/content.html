@@ -8,31 +8,40 @@
 <h2>Procedural mutable koi patterns</h2>
 <p>The fish in Koi Farm have many mutable properties, like shape, size and color, but this article mostly goes into generating the <em>patterns</em> on the fish bodies. Most koi patterns contain spots of varying shapes and sizes.</p>
 <p>The koi pattern generator needs to achieve the following main goals:</p>
-<ol>
+<ul>
     <li>There should be a nearly infinite number of possible patterns.</li>
     <li>The patterns should have plenty of variance.</li>
     <li>The patterns must be able to mutate in small steps.</li>
-</ol>
+</ul>
 <p>The first goal is obvious: if the koi are procedurally generated, every fish should be unique. The second goal is important to make the game fun; if all patterns are unique but still look very similar to each other, breeding koi gets boring quickly. Finally, mutation of patterns should happen in small steps. This is crucial for the gameplay. Specific koi patterns can be bred by choosing parent koi that almost have that pattern, because their children have a chance to mutate towards the desired look. If mutation happens in large steps, or if it would be completely random, there is no way to tell how the offspring of two fish may turn out. In that case, the entire gameplay mechanic of choosing parents to breed specific traits doesn't work.</p>
+<h2>Slicing noise</h2>
+<p>To create spots, I chose a method based on <em>slicing</em> noise. The following steps generate a texture with random spots:</p>
+<ul>
+    <li>Generate a <em>3d noise</em>, in this case <a target="_blank" href="cubic_noise.html">Cubic Noise</a> was used.</li>
+    <li>Construct a <em>3d plane</em> that intersects the generated noise. The plane has the same size as the texture the generated spots are written to.</li>
+    <li>For every pixel on the plane corresponding to a pixel on the texture, the 3d noise is read. If the noise value is higher than a given threshold, this pixel is a spot. If it is lower, it's not a spot.</li>
+</ul>
 <figure>
     <canvas width="500" height="250" id="renderer"></canvas>
+    <div id="buttons">
+        <button id="button-mutate">Mutate</button>
+        <button id="button-randomize">Randomize</button>
+    </div>
     <div id="controls" class="controls">
-        <div id="buttons">
-            <button id="button-randomize">Randomize</button>
-            <button id="button-mutate">Mutate</button>
+        <div id="modes" class="controls">
+            <label>
+                Texture:
+                <input type="radio" name="mode" id="mode-texture" checked>
+            </label>
+            <label>
+                Shaped:
+                <input type="radio" name="mode" id="mode-shape">
+            </label>
+            <label>
+                Animated:
+                <input type="radio" name="mode" id="mode-animated">
+            </label>
         </div>
-        <label>
-            Texture:
-            <input type="radio" name="mode" id="mode-texture" checked>
-        </label>
-        <label>
-            Shaped:
-            <input type="radio" name="mode" id="mode-shape">
-        </label>
-        <label>
-            Animated:
-            <input type="radio" name="mode" id="mode-animated">
-        </label>
         <div class="controls" id="controls-texture">
             <label>
                 X:
@@ -97,7 +106,7 @@
                 <input readonly type="text" id="field-eye-position" value="0.92">
             </label>
         </div>
-        <div class="controls" id="controls-animation">
+        <div class="controls hidden" id="controls-animation">
             <label>
                 Speed:
                 <input type="range" min="0" max="1" value="0.5" step="0.01" id="var-speed">
@@ -106,4 +115,6 @@
         </div>
     </div>
 </figure>
+<p>The application on the right demonstrates the spot generator. The 3d noise is always the same, but the location and rotation of the 3d plane intersecting it can be changed to change the pattern. The scale of the plane determines the size of the spots; a very small plane contains only a small portion of the noise, while a scaled up plane contains a larger area and therefore more variation.</p>
+<p>The <em>randomize</em> button randomizes the pattern by randomizing every plane parameter. The <em>mutate</em> button mutates the pattern by only changing the parameters a little. Because the plane is "nudged" through the 3d noise by small increments, the new mutated pattern will look similar to the pattern that was generated before, while mutating many times can completely change the pattern to every possible pattern this algorithm can create.</p>
 <script type="module" local src="js/main.js"></script>

@@ -8,6 +8,15 @@
 #renderer {
     border: 1px solid black;
     background-color: #5c99c0;
+    max-width: 100%;
+}
+
+#controls {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: flex-start;
+    flex-wrap: wrap;
 }
 
 .controls {
