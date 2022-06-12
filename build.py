@@ -12,7 +12,7 @@ def format_page_name(name):
 	return name.replace(" ", "_").lower() + ".html"
 
 def compress(string):
-	return string.replace("\t", "").replace(">\n", ">")
+	return string.replace("\t", "").replace(">\n", ">").replace("    ", "")
 
 def replace_keys(keys, string):
     regex = re.compile("|".join(map(re.escape, keys.keys())))
@@ -461,13 +461,13 @@ class Site:
 
 		result = replace_keys({
 			self.KEY_TITLE: self.TITLE + self.TITLE_DIVISOR + title,
-            self.KEY_DESCRIPTION: self.DESCRIPTION,
-            self.KEY_ADDITIONAL_CSS: "",
-            self.KEY_MENU_BUTTONS: self.build_menu(page),
-            self.KEY_CONTENT: source,
-            self.KEY_POST_SCRIPT: "",
-            self.KEY_YEAR: str(datetime.datetime.now().year),
-            self.KEY_META: ""
+			self.KEY_DESCRIPTION: self.DESCRIPTION,
+			self.KEY_ADDITIONAL_CSS: "",
+			self.KEY_MENU_BUTTONS: self.build_menu(page),
+			self.KEY_CONTENT: source,
+			self.KEY_POST_SCRIPT: "",
+			self.KEY_YEAR: str(datetime.datetime.now().year),
+			self.KEY_META: ""
 		}, self.template)
 
 		file = open(page, "w")

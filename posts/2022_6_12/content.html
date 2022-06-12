@@ -1,8 +1,8 @@
 <h2>Koi Farm</h2>
-<p>Recently, I launched my game <em><a target="_blank" href="https://store.steampowered.com/app/1518810/Koi_Farm/">Koi Farm</a></em>. Koi Farm is a koi breeding game, in which the player breeds koi patterns by carefully selecting traits in the parents. This article explains how I implemented <em>crossbreeding</em> and <em>mutation</em> in koi patterns.</p>
+<p>Recently, I launched my game <em><a target="_blank" href="https://store.steampowered.com/app/1518810/Koi_Farm/">Koi Farm</a></em>. Koi Farm is a koi breeding and collecting game, in which the player breeds koi patterns by carefully selecting traits in the parents. This article explains how I implemented <em>crossbreeding</em> and <em>mutation</em> in koi patterns.</p>
 <figure>
-    <img local src="img/koifarm.jpg" alt="Koi Farm, the koi breeding game">
-    <figcaption>Figure 1: Koi Farm, the koi breeding game.</figcaption>
+    <img local src="img/breeding.gif" alt="Crossbreeding in Koi Farm">
+    <figcaption>Figure 1: Crossbreeding in Koi Farm.</figcaption>
 </figure>
 <p>Koi Farm is open source, so the algorithms can be seen in their "natural environment" <a target="_blank" href="https://github.com/jobtalle/koi">on GitHub</a>.</p>
 <h2>Procedural mutable koi patterns</h2>
@@ -17,7 +17,7 @@
 <h2>Slicing noise</h2>
 <p>To create spots, I chose a method based on <em>slicing</em> noise. The following steps generate a texture with random spots:</p>
 <ul>
-    <li>Generate a <em>3d noise</em>, in this case <a target="_blank" href="cubic_noise.html">Cubic Noise</a> was used.</li>
+    <li>Generate a <em>3d noise</em>, in this case <a target="_blank" href="cubic_noise.html">Cubic Noise</a> was used. This type of noise is less uniformly distributed than for example Perlin noise, which is good for variance.</li>
     <li>Construct a <em>3d plane</em> that intersects the generated noise. The plane has the same size as the texture the generated spots are written to.</li>
     <li>For every pixel on the plane corresponding to a pixel on the texture, the 3d noise is read. If the noise value is higher than a given threshold, this pixel is a spot. If it is lower, it's not a spot.</li>
 </ul>
@@ -30,91 +30,92 @@
     <div id="controls" class="controls">
         <div id="modes" class="controls">
             <label>
-                Texture:
-                <input type="radio" name="mode" id="mode-texture" checked>
+                Texture:<input type="radio" name="mode" id="mode-texture" checked>
             </label>
             <label>
-                Shaped:
-                <input type="radio" name="mode" id="mode-shape">
+                Shaped:<input type="radio" name="mode" id="mode-shape">
             </label>
             <label>
-                Animated:
-                <input type="radio" name="mode" id="mode-animated">
+                Animated:<input type="radio" name="mode" id="mode-animated">
             </label>
         </div>
         <div class="controls" id="controls-texture">
             <label>
-                X:
-                <input type="range" min="-1" max="1" value="0" step="0.005" id="var-x">
+                X:<input type="range" min="-1" max="1" value="0" step="0.005" id="var-x">
                 <input readonly type="text" id="field-x" value="0">
             </label>
             <label>
-                Y:
-                <input type="range" min="-1" max="1" value="0" step="0.005" id="var-y">
+                Y:<input type="range" min="-1" max="1" value="0" step="0.005" id="var-y">
                 <input readonly type="text" id="field-y" value="0">
             </label>
             <label>
-                Z:
-                <input type="range" min="-1" max="1" value="0" step="0.005" id="var-z">
+                Z:<input type="range" min="-1" max="1" value="0" step="0.005" id="var-z">
                 <input readonly type="text" id="field-z" value="0">
             </label>
             <label>
-                X rotation:
-                <input type="range" min="-180" max="180" value="0" step="1" id="var-x-rotation">
+                X rotation:<input type="range" min="-180" max="180" value="0" step="1" id="var-x-rotation">
                 <input readonly type="text" id="field-x-rotation" value="0">
             </label>
             <label>
-                Y rotation:
-                <input type="range" min="-180" max="180" value="0" step="1" id="var-y-rotation">
+                Y rotation:<input type="range" min="-180" max="180" value="0" step="1" id="var-y-rotation">
                 <input readonly type="text" id="field-y-rotation" value="0">
             </label>
             <label>
-                Threshold:
-                <input type="range" min="0.3" max="0.7" value="0.5" step="0.002" id="var-threshold">
+                Threshold:<input type="range" min="0.3" max="0.7" value="0.5" step="0.002" id="var-threshold">
                 <input readonly type="text" id="field-threshold" value="0.5">
             </label>
             <label>
-                Scale:
-                <input type="range" min="2" max="10" value="4.5" step="0.03" id="var-scale">
+                Scale:<input type="range" min="2" max="10" value="4.5" step="0.03" id="var-scale">
                 <input readonly type="text" id="field-scale" value="4.5">
             </label>
         </div>
         <div class="controls hidden" id="controls-shape">
             <label>
-                Width:
-                <input type="range" min="0.65" max="1" value="0.8" step="0.001" id="var-width">
+                Width:<input type="range" min="0.65" max="1" value="0.8" step="0.001" id="var-width">
                 <input readonly type="text" id="field-width" value="0.8">
             </label>
             <label>
-                Radius:
-                <input type="range" min="0.4" max="0.65" value="0.5" step="0.002" id="var-radius">
+                Radius:<input type="range" min="0.4" max="0.65" value="0.5" step="0.002" id="var-radius">
                 <input readonly type="text" id="field-radius" value="0.5">
             </label>
             <label>
-                Center:
-                <input type="range" min="0.45" max="0.6" value="0.5" step="0.002" id="var-center">
+                Center:<input type="range" min="0.45" max="0.6" value="0.5" step="0.002" id="var-center">
                 <input readonly type="text" id="field-center" value="0.5">
             </label>
             <label>
-                Thickness:
-                <input type="range" min="0.6" max="1.2" value="1" step="0.002" id="var-thickness">
-                <input readonly type="text" id="field-thickness" value="1">
+                Thickness:<input type="range" min="0.65" max="1" value="0.9" step="0.002" id="var-thickness">
+                <input readonly type="text" id="field-thickness" value="0.9">
             </label>
             <label>
-                Eye position:
-                <input type="range" min="0.88" max="0.95" value="0.92" step="0.001" id="var-eye-position">
+                Eye position:<input type="range" min="0.88" max="0.95" value="0.92" step="0.001" id="var-eye-position">
                 <input readonly type="text" id="field-eye-position" value="0.92">
             </label>
         </div>
         <div class="controls hidden" id="controls-animation">
             <label>
-                Speed:
-                <input type="range" min="0" max="1" value="0.5" step="0.01" id="var-speed">
+                Speed:<input type="range" min="0" max="0.7" value="0.5" step="0.01" id="var-speed">
                 <input readonly type="text" id="field-speed" value="0.5">
             </label>
         </div>
     </div>
+    <script type="module" local src="js/main.js"></script>
 </figure>
 <p>The application on the right demonstrates the spot generator. The 3d noise is always the same, but the location and rotation of the 3d plane intersecting it can be changed to change the pattern. The scale of the plane determines the size of the spots; a very small plane contains only a small portion of the noise, while a scaled up plane contains a larger area and therefore more variation.</p>
 <p>The <em>randomize</em> button randomizes the pattern by randomizing every plane parameter. The <em>mutate</em> button mutates the pattern by only changing the parameters a little. Because the plane is "nudged" through the 3d noise by small increments, the new mutated pattern will look similar to the pattern that was generated before, while mutating many times can completely change the pattern to every possible pattern this algorithm can create.</p>
-<script type="module" local src="js/main.js"></script>
+<h2>Rendering the fish</h2>
+<p>After generating a pattern, the koi can be rendered. The example application has two other modes besides <em>Texture</em>.</p>
+<ul>
+    <li><em>Shaped</em> shows a cutout of the spots texture in the shape of a fish. The shape has several parameters, and it also mutates when the mutate button is pressed.</li>
+    <li><em>Animated</em> shows the cutout with animation, which resembles the way the fish will look like in the game.</li>
+</ul>
+<p>There is no advanced 3d lighting in Koi Farm, but lighting is approximated by making the fish darker near the edges of its shape. Eyes are rendered on top of the texture. In Koi Farm, several fins are added as well, but they are not shown in this example.</p>
+<h2>Crossbreeding</h2>
+<p>Crossbreeding involves more than just mutating. To "mix" the properties of two parents, child patterns are created by taking the two 3d planes that sliced the parent patterns, and choosing a plane that lies between them. While child planes tend to lie close to either parent, they may be anywhere between. This causes most offspring to look like one of their parents, but if parents are sufficiently different, they can use a plane that doesn't contain any pattern seen on the parent. Finally, after a new 3d plane is created for the child pattern, mutation is applied to add more variance.</p>
+<p>If the parents contain different colors and different patterns, the crossbreeding methods are a bit more involved, but that's outside the scope of this article.</p>
+<h2>Conclusion</h2>
+<p>In Koi Farm, I've used some additional techniques to make the patterns more interesting:</p>
+<ul>
+    <li>Multiple patterns can be layered, so koi can have more than two colors. When mutating, colors may change and patterns may be added or removed.</li>
+    <li>In addition to spots, there are also stripes, ridges and brindle patterns. They are generated in somewhat similar ways.</li>
+    <li>Patterns can be stretched to change the shapes further.</li>
+</ul>

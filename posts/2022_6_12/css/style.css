@@ -7,8 +7,16 @@
 
 #renderer {
     border: 1px solid black;
-    background-color: #5c99c0;
+    background-color: #68a6ce;
     max-width: 100%;
+}
+
+#buttons {
+    display: flex;
+}
+
+#buttons button {
+    flex-grow: 1;
 }
 
 #controls {

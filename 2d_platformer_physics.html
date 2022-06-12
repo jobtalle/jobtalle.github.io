@@ -12,7 +12,7 @@
   this.nodes = [];
   
   for(var i = 0; i < this.width * this.height; ++i)
-    this.cells.push(new PlatformerGridCell());
+this.cells.push(new PlatformerGridCell());
 }
 </pre><p>Note that the <code class="prettyprint lang-js">width</code> and <code class="prettyprint lang-js">height</code> properties are incremented by one. This is done because cells can only define their left and top edges; a 2x2 grid wouldn't be able to define a 2x2 box because there wouldn't be enough cells to close the box on the right and bottom side, so I pad the grid with an extra row and an extra column.</p><h2>The node</h2><p>Nodes are the moving parts on a grid. These can be players, enemies or debris for that matter; it's anything that moves <em>and</em> collides. All nodes have a rectangular hit box with which they interact with the environment. They also have an x and y position, and x and y velocity. Note that I keep horizontal and vertical velocity separated instead of defining and using it as one vector, this keeps movement and collision handling simpler. To get a node moving, the user only needs to change the speed variables. Finally, each node has a boolean <code class="prettyprint lang-js">onGround</code> indicating whether the node is resting on a horizontal surface. This is a very useful variable, because certain actions should only be possible when a node is resting on the ground (like jumping) or when it is flying (like double jumping). The constructor for a node is given below:</p><pre class="prettyprint lang-js">function PlatformerNode(x, y, width, height) {
   this.x = x;
