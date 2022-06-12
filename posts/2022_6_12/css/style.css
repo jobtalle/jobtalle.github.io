@@ -1,6 +1,8 @@
 :root {
     --color-a: #edefef;
     --color-b: #d33a35;
+    --color-c: #d7a526;
+    --color-d: #464646;
     --color-shade: #0b141c;
     --color-eye: #101010;
 }
@@ -9,6 +11,40 @@
     border: 1px solid black;
     background-color: #68a6ce;
     max-width: 100%;
+}
+
+#pattern-generator {
+    position: relative;
+}
+
+#palettes {
+    position: absolute;
+    left: 0;
+    top: 0;
+}
+
+#palettes .palette {
+    width: 16px;
+    height: 16px;
+    border: 1px solid black;
+    cursor: pointer;
+    margin: 4px;
+}
+
+#palettes .palette.selected {
+    border-color: white;
+}
+
+#palette-white-red {
+    background: linear-gradient(135deg, var(--color-a) 50%, var(--color-b) 50%);
+}
+
+#palette-white-orange {
+    background: linear-gradient(135deg, var(--color-a) 50%, var(--color-c) 50%);
+}
+
+#palette-white-black {
+    background: linear-gradient(135deg, var(--color-a) 50%, var(--color-d) 50%);
 }
 
 #buttons {

@@ -22,80 +22,87 @@
     <li>For every pixel on the plane corresponding to a pixel on the texture, the 3d noise is read. If the noise value is higher than a given threshold, this pixel is a spot. If it is lower, it's not a spot.</li>
 </ul>
 <figure>
-    <canvas width="500" height="250" id="renderer"></canvas>
-    <div id="buttons">
-        <button id="button-mutate">Mutate</button>
-        <button id="button-randomize">Randomize</button>
-    </div>
-    <div id="controls" class="controls">
-        <div id="modes" class="controls">
-            <label>
-                Texture:<input type="radio" name="mode" id="mode-texture" checked>
-            </label>
-            <label>
-                Shaped:<input type="radio" name="mode" id="mode-shape">
-            </label>
-            <label>
-                Animated:<input type="radio" name="mode" id="mode-animated">
-            </label>
+    <div id="pattern-generator">
+        <canvas width="500" height="250" id="renderer"></canvas>
+        <div id="palettes">
+            <div id="palette-white-red" class="palette selected"></div>
+            <div id="palette-white-orange" class="palette"></div>
+            <div id="palette-white-black" class="palette"></div>
         </div>
-        <div class="controls" id="controls-texture">
-            <label>
-                X:<input type="range" min="-1" max="1" value="0" step="0.005" id="var-x">
-                <input readonly type="text" id="field-x" value="0">
-            </label>
-            <label>
-                Y:<input type="range" min="-1" max="1" value="0" step="0.005" id="var-y">
-                <input readonly type="text" id="field-y" value="0">
-            </label>
-            <label>
-                Z:<input type="range" min="-1" max="1" value="0" step="0.005" id="var-z">
-                <input readonly type="text" id="field-z" value="0">
-            </label>
-            <label>
-                X rotation:<input type="range" min="-180" max="180" value="0" step="1" id="var-x-rotation">
-                <input readonly type="text" id="field-x-rotation" value="0">
-            </label>
-            <label>
-                Y rotation:<input type="range" min="-180" max="180" value="0" step="1" id="var-y-rotation">
-                <input readonly type="text" id="field-y-rotation" value="0">
-            </label>
-            <label>
-                Threshold:<input type="range" min="0.3" max="0.7" value="0.5" step="0.002" id="var-threshold">
-                <input readonly type="text" id="field-threshold" value="0.5">
-            </label>
-            <label>
-                Scale:<input type="range" min="2" max="10" value="4.5" step="0.03" id="var-scale">
-                <input readonly type="text" id="field-scale" value="4.5">
-            </label>
+        <div id="buttons">
+            <button id="button-mutate">Mutate</button>
+            <button id="button-randomize">Randomize</button>
         </div>
-        <div class="controls hidden" id="controls-shape">
-            <label>
-                Width:<input type="range" min="0.65" max="1" value="0.8" step="0.001" id="var-width">
-                <input readonly type="text" id="field-width" value="0.8">
-            </label>
-            <label>
-                Radius:<input type="range" min="0.4" max="0.65" value="0.5" step="0.002" id="var-radius">
-                <input readonly type="text" id="field-radius" value="0.5">
-            </label>
-            <label>
-                Center:<input type="range" min="0.45" max="0.6" value="0.5" step="0.002" id="var-center">
-                <input readonly type="text" id="field-center" value="0.5">
-            </label>
-            <label>
-                Thickness:<input type="range" min="0.65" max="1" value="0.9" step="0.002" id="var-thickness">
-                <input readonly type="text" id="field-thickness" value="0.9">
-            </label>
-            <label>
-                Eye position:<input type="range" min="0.88" max="0.95" value="0.92" step="0.001" id="var-eye-position">
-                <input readonly type="text" id="field-eye-position" value="0.92">
-            </label>
-        </div>
-        <div class="controls hidden" id="controls-animation">
-            <label>
-                Speed:<input type="range" min="0" max="0.7" value="0.5" step="0.01" id="var-speed">
-                <input readonly type="text" id="field-speed" value="0.5">
-            </label>
+        <div id="controls" class="controls">
+            <div id="modes" class="controls">
+                <label>
+                    Texture:<input type="radio" name="mode" id="mode-texture" checked>
+                </label>
+                <label>
+                    Shaped:<input type="radio" name="mode" id="mode-shape">
+                </label>
+                <label>
+                    Animated:<input type="radio" name="mode" id="mode-animated">
+                </label>
+            </div>
+            <div class="controls" id="controls-texture">
+                <label>
+                    X:<input type="range" min="-1" max="1" value="0" step="0.005" id="var-x">
+                    <input readonly type="text" id="field-x" value="0">
+                </label>
+                <label>
+                    Y:<input type="range" min="-1" max="1" value="0" step="0.005" id="var-y">
+                    <input readonly type="text" id="field-y" value="0">
+                </label>
+                <label>
+                    Z:<input type="range" min="-1" max="1" value="0" step="0.005" id="var-z">
+                    <input readonly type="text" id="field-z" value="0">
+                </label>
+                <label>
+                    X rotation:<input type="range" min="-180" max="180" value="0" step="1" id="var-x-rotation">
+                    <input readonly type="text" id="field-x-rotation" value="0">
+                </label>
+                <label>
+                    Y rotation:<input type="range" min="-180" max="180" value="0" step="1" id="var-y-rotation">
+                    <input readonly type="text" id="field-y-rotation" value="0">
+                </label>
+                <label>
+                    Threshold:<input type="range" min="0.3" max="0.7" value="0.5" step="0.002" id="var-threshold">
+                    <input readonly type="text" id="field-threshold" value="0.5">
+                </label>
+                <label>
+                    Scale:<input type="range" min="2" max="10" value="4.5" step="0.03" id="var-scale">
+                    <input readonly type="text" id="field-scale" value="4.5">
+                </label>
+            </div>
+            <div class="controls hidden" id="controls-shape">
+                <label>
+                    Width:<input type="range" min="0.65" max="1" value="0.8" step="0.001" id="var-width">
+                    <input readonly type="text" id="field-width" value="0.8">
+                </label>
+                <label>
+                    Radius:<input type="range" min="0.4" max="0.65" value="0.5" step="0.002" id="var-radius">
+                    <input readonly type="text" id="field-radius" value="0.5">
+                </label>
+                <label>
+                    Center:<input type="range" min="0.45" max="0.6" value="0.5" step="0.002" id="var-center">
+                    <input readonly type="text" id="field-center" value="0.5">
+                </label>
+                <label>
+                    Thickness:<input type="range" min="0.65" max="1" value="0.9" step="0.002" id="var-thickness">
+                    <input readonly type="text" id="field-thickness" value="0.9">
+                </label>
+                <label>
+                    Eye:<input type="range" min="0.88" max="0.95" value="0.92" step="0.001" id="var-eye-position">
+                    <input readonly type="text" id="field-eye-position" value="0.92">
+                </label>
+            </div>
+            <div class="controls hidden" id="controls-animation">
+                <label>
+                    Speed:<input type="range" min="0" max="0.7" value="0.5" step="0.01" id="var-speed">
+                    <input readonly type="text" id="field-speed" value="0.5">
+                </label>
+            </div>
         </div>
     </div>
     <script type="module" local src="js/main.js"></script>
@@ -112,10 +119,18 @@
 <h2>Crossbreeding</h2>
 <p>Crossbreeding involves more than just mutating. To "mix" the properties of two parents, child patterns are created by taking the two 3d planes that sliced the parent patterns, and choosing a plane that lies between them. While child planes tend to lie close to either parent, they may be anywhere between. This causes most offspring to look like one of their parents, but if parents are sufficiently different, they can use a plane that doesn't contain any pattern seen on the parent. Finally, after a new 3d plane is created for the child pattern, mutation is applied to add more variance.</p>
 <p>If the parents contain different colors and different patterns, the crossbreeding methods are a bit more involved, but that's outside the scope of this article.</p>
-<h2>Conclusion</h2>
+<h2>Additions</h2>
 <p>In Koi Farm, I've used some additional techniques to make the patterns more interesting:</p>
 <ul>
     <li>Multiple patterns can be layered, so koi can have more than two colors. When mutating, colors may change and patterns may be added or removed.</li>
     <li>In addition to spots, there are also stripes, ridges and brindle patterns. They are generated in somewhat similar ways.</li>
     <li>Patterns can be stretched to change the shapes further.</li>
+    <li>Koi have many more mutable properties than just their pattern. Properties like behaviour, fins, fertility, size and grow speed also mutate.</li>
 </ul>
+<figure>
+    <img local src="img/koifarm.jpg" alt="Koi Farm, the koi breeding game">
+    <figcaption>Figure 2: Koi Farm, the koi breeding game.</figcaption>
+</figure>
+<h2>Conclusion</h2>
+<p>The koi pattern generator made the main gameplay mechanic in Koi Farm possible thanks to its ability to mutate and mix procedurally generated patterns. The gameplay was further extended by adding a koi collecting element to the game.</p>
+<p>Koi Farm is available on <a target="_blank" href="https://store.steampowered.com/app/1518810">Steam</a> (PC and Linux), <a target="_blank" href="https://jobtalle.itch.io/koifarm">Itch.io</a> (PC, Linux & Mac) and <a target="_blank" href="https://apps.apple.com/us/app/koi-farm/id1607489625">the App Store</a> (iOS), and the source code is on <a target="_blank" href="https://github.com/jobtalle/koi">GitHub</a>.</p>

@@ -7,10 +7,15 @@ import {ShaderMesh} from "./shaderMesh.js";
 import {Mesh} from "./mesh.js";
 
 {
-    const colorA = Color.fromHex(getComputedStyle(document.body).getPropertyValue("--color-a").trim());
-    const colorB = Color.fromHex(getComputedStyle(document.body).getPropertyValue("--color-b").trim());
+    const colorWhite = Color.fromHex(getComputedStyle(document.body).getPropertyValue("--color-a").trim());
+    const colorRed = Color.fromHex(getComputedStyle(document.body).getPropertyValue("--color-b").trim());
+    const colorOrange = Color.fromHex(getComputedStyle(document.body).getPropertyValue("--color-c").trim());
+    const colorBlack = Color.fromHex(getComputedStyle(document.body).getPropertyValue("--color-d").trim());
     const colorShade = Color.fromHex(getComputedStyle(document.body).getPropertyValue("--color-shade").trim());
     const colorEye = Color.fromHex(getComputedStyle(document.body).getPropertyValue("--color-eye").trim());
+    const colorToggleWhiteRed = document.getElementById("palette-white-red");
+    const colorToggleWhiteOrange = document.getElementById("palette-white-orange");
+    const colorToggleWhiteBlack = document.getElementById("palette-white-black");
     const renderer = document.getElementById("renderer");
     const width = renderer.width;
     const height = renderer.height;
@@ -58,6 +63,8 @@ import {Mesh} from "./mesh.js";
     const modeShape = document.getElementById("mode-shape");
     const modeAnimated = document.getElementById("mode-animated");
     const mesh = new Mesh(width, height);
+    let colorA = colorWhite;
+    let colorB = colorRed;
     let mode = 0;
     let varX = Number.parseFloat(fieldX.value);
     let varY = Number.parseFloat(fieldY.value);
@@ -178,6 +185,39 @@ import {Mesh} from "./mesh.js";
 
         return value;
     };
+
+    colorToggleWhiteRed.addEventListener("click", () => {
+        colorToggleWhiteRed.classList.add("selected");
+        colorToggleWhiteOrange.classList.remove("selected");
+        colorToggleWhiteBlack.classList.remove("selected");
+
+        colorA = colorWhite;
+        colorB = colorRed;
+
+        renderTextures();
+    });
+
+    colorToggleWhiteOrange.addEventListener("click", () => {
+        colorToggleWhiteRed.classList.remove("selected");
+        colorToggleWhiteOrange.classList.add("selected");
+        colorToggleWhiteBlack.classList.remove("selected");
+
+        colorA = colorWhite;
+        colorB = colorOrange;
+
+        renderTextures();
+    });
+
+    colorToggleWhiteBlack.addEventListener("click", () => {
+        colorToggleWhiteRed.classList.remove("selected");
+        colorToggleWhiteOrange.classList.remove("selected");
+        colorToggleWhiteBlack.classList.add("selected");
+
+        colorA = colorWhite;
+        colorB = colorBlack;
+
+        renderTextures();
+    });
 
     modeTexture.addEventListener("click", () => {
         mode = 0;
