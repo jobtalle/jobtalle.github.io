@@ -77,3 +77,7 @@
 .controls input[type=text] {
     width: 64px;
 }
+
+.controls input[type=range] {
+    width: 96px;
+}
