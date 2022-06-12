@@ -1,0 +1,5 @@
+{
+  "title": "Digital koi breeding",
+  "abstract": "In my fish breeding game Koi Farm, an infinite number of koi patterns can be explored through crossbreeding. The techniques I've used to simulate pattern mutation and crossbreeding are explained in this article, and an interactive javascript based pattern generator and mutator is included to demonstrate the algorithms.",
+  "preview": "img/preview.jpg"
+}

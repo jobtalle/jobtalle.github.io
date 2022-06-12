@@ -12,7 +12,7 @@ def format_page_name(name):
 	return name.replace(" ", "_").lower() + ".html"
 
 def compress(string):
-	return string.replace("\t", "").replace(">\n", ">")
+	return string.replace("\t", "").replace(">\n", ">").replace("    ", "")
 
 def replace_keys(keys, string):
 	regex = re.compile("|".join(map(re.escape, keys.keys())))
