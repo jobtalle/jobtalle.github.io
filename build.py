@@ -435,7 +435,7 @@ class Site:
 	]
 	MENU_TITLES = [
 		"Blog",
-		"Art",
+		"Sketches",
 		"Games",
 		"About",
 		"Contact"
