@@ -340,6 +340,10 @@ h1 {
 	background-image: url("../img/ico_github.svg");
 }
 
+#icon-mastodon {
+	background-image: url("../img/ico_mastodon.svg");
+}
+
 #icon-linkedin {
 	background-image: url("../img/ico_linkedin.svg");
 }
