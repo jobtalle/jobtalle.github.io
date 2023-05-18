@@ -56,6 +56,9 @@ h1 {
 
 #menu-toggle {
 	cursor: pointer;
+	z-index: 3;
+	backface-visibility: hidden;
+	-webkit-backface-visibility: hidden;
 	width: 100%;
 	height: 40px;
 	flex-direction: column;
