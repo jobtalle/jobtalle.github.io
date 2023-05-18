@@ -433,12 +433,12 @@ h1 {
 	max-width: 100%;
 }
 
-.product:nth-child(odd) .summary img {
+.product:nth-child(even) .summary img {
 	float: right;
 	padding-left: var(--figure-padding);
 }
 
-.product:nth-child(even) .summary img {
+.product:nth-child(odd) .summary img {
 	float: left;
 	padding-right: var(--figure-padding);
 }
