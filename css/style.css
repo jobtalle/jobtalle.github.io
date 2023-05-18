@@ -2,10 +2,10 @@
 	--color-white: #FFFFFF;
 	--color-gray: #444444;
 	--color-elements: #445979;
-	--color-background: #F9F3EA;
+	--color-background: #ebeef6;
 	--color-hover: #7287a6;
 	--color-light: #7A7A7A;
-	--color-code: #F0F0F0;
+	--color-code: var(--color-background);
 	--max-width: 960px;
 	--bold-weight: 900;
 	--button-padding-x: 16px;
