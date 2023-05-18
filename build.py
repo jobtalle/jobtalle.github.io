@@ -301,11 +301,11 @@ class Post:
 			"</div>"
 
 
-class Game:
+class Product:
 	FILE_PROPERTIES = "properties.json"
 	FILE_PREVIEW = "preview.jpg"
 
-	CLASS = "game"
+	CLASS = "product"
 	CLASS_SUMMARY = "summary"
 
 	KEY_TITLE = "title"
@@ -315,7 +315,7 @@ class Game:
 	def __init__(self, site, directory):
 		self.site = site
 		self.directory = directory
-		self.properties = Site.DIR_GAMES + "/" + directory + "/" + self.FILE_PROPERTIES
+		self.properties = directory + "/" + self.FILE_PROPERTIES
 
 		self.read_properties()
 
@@ -328,7 +328,7 @@ class Game:
 		return "<h2>" + self.properties[self.KEY_TITLE] + "</h2>"
 
 	def build_image(self):
-		return "<a href=\"" + self.properties[self.KEY_URL] + "\" target=\"_blank\"><img src=\"" + Site.DIR_GAMES + "/" + self.directory + "/" + self.FILE_PREVIEW + "\"></a>"
+		return "<a href=\"" + self.properties[self.KEY_URL] + "\" target=\"_blank\"><img src=\"" + self.directory + "/" + self.FILE_PREVIEW + "\"></a>"
 
 	def build_description(self):
 		return "<p>" + self.properties[self.KEY_DESCRIPTION] + "</p>"
@@ -418,6 +418,7 @@ class Site:
 	DIR_POSTS = "posts"
 	DIR_SKETCHES = "sketches"
 	DIR_GAMES = "games"
+	DIR_WORK = "work"
 	DIR_JAVASCRIPT = "js"
 	DIR_TEMPLATES = "templates"
 
@@ -469,6 +470,7 @@ class Site:
 		self.posts = self.get_posts()
 		self.sketches = self.get_sketches()
 		self.games = self.get_games()
+		self.work = self.get_work()
 
 	@staticmethod
 	def clean():
@@ -519,6 +521,8 @@ class Site:
 			source = source.replace("$sketches$", self.build_sketches())
 		elif page == "games.html":
 			source = source.replace("$games$", self.build_games())
+		elif page == "work.html":
+			source = source.replace("$work$", self.build_work())
 
 		result = replace_keys({
 			self.KEY_TITLE: self.TITLE + self.TITLE_DIVISOR + title,
@@ -566,6 +570,14 @@ class Site:
 
 		for game in self.games:
 			result += game.build()
+
+		return result
+
+	def build_work(self):
+		result = ""
+
+		for work in self.work:
+			result += work.build()
 
 		return result
 
@@ -727,7 +739,13 @@ class Site:
 		directories = [dir for dir in listdir(self.DIR_GAMES)]
 		directories.sort()
 
-		return [Game(self, dir) for dir in directories]
+		return [Product(self, self.DIR_GAMES + "\\" + dir) for dir in directories]
+
+	def get_work(self):
+		directories = [dir for dir in listdir(self.DIR_WORK)]
+		directories.sort()
+
+		return [Product(self, self.DIR_WORK + "\\" + dir) for dir in directories]
 
 
 def main():

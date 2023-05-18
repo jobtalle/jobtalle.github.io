@@ -419,26 +419,26 @@ h1 {
 	resize: none;
 }
 
-.game .summary h2 {
+.product .summary h2 {
 	margin-top: 0;
 }
 
-.game .summary {
+.product .summary {
 	width: 100%;
 	float: left;
 }
 
-.game .summary img {
+.product .summary img {
 	padding-bottom: var(--figure-padding);
 	max-width: 100%;
 }
 
-.game:nth-child(even) .summary img {
+.product:nth-child(odd) .summary img {
 	float: right;
 	padding-left: var(--figure-padding);
 }
 
-.game:nth-child(odd) .summary img {
+.product:nth-child(even) .summary img {
 	float: left;
 	padding-right: var(--figure-padding);
 }
