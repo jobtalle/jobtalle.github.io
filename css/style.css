@@ -1,9 +1,9 @@
 :root {
 	--color-white: #FFFFFF;
 	--color-gray: #444444;
-	--color-elements: #50314C;
+	--color-elements: #445979;
 	--color-background: #F9F3EA;
-	--color-hover: #9C7E50;
+	--color-hover: #7287a6;
 	--color-light: #7A7A7A;
 	--color-code: #F0F0F0;
 	--max-width: 960px;
@@ -26,6 +26,14 @@ body {
 
 h1 {
 	font-size: 36px;
+}
+
+.icon .icon-body {
+	fill: var(--color-elements);
+}
+
+.icon:hover .icon-body {
+	fill: var(--color-hover);
 }
 
 #menu-wrapper {
@@ -324,36 +332,9 @@ h1 {
 	margin: 0 1px 0 1px;
 }
 
-.icon:hover {
-	background-position: 32px 0;
-}
-
-#icon-mail {
-	background-image: url("../img/ico_mail.svg");
-}
-
-#icon-orcid {
-	background-image: url("../img/ico_orcid.svg");
-}
-
-#icon-github {
-	background-image: url("../img/ico_github.svg");
-}
-
-#icon-mastodon {
-	background-image: url("../img/ico_mastodon.svg");
-}
-
-#icon-linkedin {
-	background-image: url("../img/ico_linkedin.svg");
-}
-
-#icon-twitter {
-	background-image: url("../img/ico_twitter.svg");
-}
-
-#icon-rss {
-	background-image: url("../img/ico_rss.svg");
+.icon svg {
+	width: 100%;
+	height: 100%;
 }
 
 #load-more {

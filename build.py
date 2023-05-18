@@ -19,6 +19,17 @@ def replace_keys(keys, string):
 
 	return regex.sub(lambda match: keys[match.group(0)], string)
 
+def inline_icons(string):
+	regex = re.compile("\$icon-(.+)\$")
+
+	def replace_icon(match):
+		name = "img/ico_" + match.group(1) + ".svg"
+
+		with open(name, 'r') as icon_file:
+			return icon_file.read()
+
+	return regex.sub(replace_icon, string)
+
 
 class Post:
 	FILE_CONTENT = "content.html"
@@ -421,6 +432,7 @@ class Site:
 	KEY_DESCRIPTION = "$description$"
 	KEY_META = "$additional-meta$"
 	KEY_YEAR = "$year$"
+	KEY_ICON = "$icon"
 
 	INDEX_LINKS_PER_PAGE = 100
 
@@ -451,7 +463,7 @@ class Site:
 		if self.exclusive is not None:
 			self.log("Only building " + exclusive)
 
-		self.template = self.read_template()
+		self.template = inline_icons(self.read_template())
 		self.posts = self.get_posts()
 		self.sketches = self.get_sketches()
 		self.games = self.get_games()
