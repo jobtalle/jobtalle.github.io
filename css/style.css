@@ -431,14 +431,6 @@ h1 {
 .product .summary img {
 	padding-bottom: var(--figure-padding);
 	max-width: 100%;
-}
-
-.product:nth-child(even) .summary img {
-	float: right;
-	padding-left: var(--figure-padding);
-}
-
-.product:nth-child(odd) .summary img {
 	float: left;
 	padding-right: var(--figure-padding);
 }
