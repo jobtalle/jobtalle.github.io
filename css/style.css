@@ -1,5 +1,5 @@
 :root {
-	--color-white: #FFFFFF;
+	--color-white: #fff;
 	--color-gray: #444444;
 	--color-elements: #445979;
 	--color-background: #ebeef6;
@@ -43,13 +43,34 @@ h1 {
 }
 
 #menu-buttons {
+	display: flex;
 	z-index: 3;
 	backface-visibility: hidden;
 	-webkit-backface-visibility: hidden;
 	position: fixed;
 	top: 0;
 	width: var(--max-width);
+	max-width: 100%;
 	background-color: var(--color-elements);
+}
+
+#menu-toggle {
+	cursor: pointer;
+	width: 100%;
+	height: 40px;
+	flex-direction: column;
+	padding: 4px;
+	display: none;
+	position: fixed;
+	top: 0;
+}
+
+#menu-toggle .burger-slice {
+	width: 32px;
+	flex-grow: 1;
+	background-color: var(--color-white);
+	margin: 3px;
+	border-radius: 3px;
 }
 
 .menu-button {
@@ -59,7 +80,6 @@ h1 {
 	outline: none;
 	font-size: 20px;
 	color: var(--color-white);
-	text-align: center;
 	padding: 8px 12px 8px 12px;
 	user-select: none;
 }
@@ -72,6 +92,34 @@ h1 {
 	background-color: var(--color-white);
 	color: inherit;
 	pointer-events: none;
+}
+
+@media (max-width: 960px) {
+	#menu-toggle {
+		display: flex;
+		height: 32px;
+	}
+
+	#menu-buttons {
+		top: 40px;
+		flex-direction: column;
+		width: min-content;
+		flex-grow: 1;
+		display: none;
+	}
+
+	#menu-buttons.visible {
+		display: flex;
+	}
+
+	.menu-button {
+		width: 100%;
+	}
+
+	.menu-button-current {
+		color: var(--color-white);
+		background-color: var(--color-hover);
+	}
 }
 
 #wrapper {

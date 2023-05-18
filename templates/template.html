@@ -14,7 +14,14 @@
 	</head>
 	<body>
 		<div id="container">
-			<div id="menu-wrapper"><div id="menu-buttons">$menu-buttons$</div></div>
+			<div id="menu-wrapper">
+				<div class="menu-button" id="menu-toggle" onclick="document.getElementById('menu-buttons').classList.toggle('visible')">
+					<div class="burger-slice"></div>
+					<div class="burger-slice"></div>
+					<div class="burger-slice"></div>
+				</div>
+				<div id="menu-buttons">$menu-buttons$</div>
+			</div>
 			<div id="wrapper" class="container">
 				<div id="header">
 					<h1>Job Talle</h1>
