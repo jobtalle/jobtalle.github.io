@@ -378,10 +378,18 @@ h1 {
 }
 
 .game .summary img {
-	float: right;
-	padding-left: var(--figure-padding);
 	padding-bottom: var(--figure-padding);
 	max-width: 100%;
+}
+
+.game:nth-child(even) .summary img {
+	float: right;
+	padding-left: var(--figure-padding);
+}
+
+.game:nth-child(odd) .summary img {
+	float: left;
+	padding-right: var(--figure-padding);
 }
 
 #sketches {
