@@ -442,6 +442,7 @@ class Site:
 		"index.html",
 		"sketches.html",
 		"games.html",
+		"work.html",
 		"about.html",
 		"contact.html"
 	]
@@ -449,6 +450,7 @@ class Site:
 		"Blog",
 		"Sketches",
 		"Games",
+		"Work",
 		"About",
 		"Contact"
 	]
