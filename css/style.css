@@ -224,7 +224,6 @@ h1 {
 }
 
 #content figure img {
-	border: 1px solid var(--color-gray);
 	max-width: 100%;
 }
 
