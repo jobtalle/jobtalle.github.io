@@ -23,7 +23,20 @@
 <p>Because pixel opacity is stored in just one byte, this value is stored in the range $[0, 1]$ just like the three other color channel values are stored, where $0.5$ is the edge, so if the distance is $<0.5$, a pixel is outside the shape.</p>
 <p>Rendering textures with SDFs is therefore fairly straightforward; the texture can be sampled normally using linear interpolation (and mipmapping if mipmaps are generated), and the alpha value is interpreted as the signed distance. If it is lower than $0.5$, the pixel should not be rendered, and if it is larger, the pixel should be opaque.</p>
 <h2>Generating SDFs</h2>
-<p>To generate SDFs, I have created a tool called <a target="_blank" href="https://jobtalle.com/SDFMaker/">SDF maker</a>. It takes either raster images or vector images and converts them to images with SDFs with a configurable output resolution and SDF radius.</p>
-<h2>Usage</h2>
+<p>To generate SDFs, I have created an online tool called <a target="_blank" href="https://jobtalle.com/SDFMaker/"><em>SDF maker</em></a>. It takes either raster images or vector images and converts them to images with SDFs with a configurable output resolution and SDF radius. This paragraph explains how the tool was developed. The source code for this tool is released <a target="_blank" href="https://github.com/jobtalle/SDFMaker">on GitHub</a> under the MIT license.</p>
+<p>While generating assets using tooling and shipping generated assets works well, it may also be useful to generate signed distance fields at runtime. Luckily, the algorithms used by this tool are fast enough to use live.</p>
+<p>SDF maker requires a high resolution version of the texture that needs to be exported with a SDF. The resolution must be higher, because the SDF essentially stores a higher resolution shape than the lower resolution could otherwise contain. The algorithm performs the following steps to produce the lower resolution image with a SDF:</p>
+<figure>
+    <img local src="img/voronoi.jpg" alt="The Voronoi color texture and the output texture">
+    <figcaption>Figure 2: The Voronoi color texture compared to the output texture.</figcaption>
+</figure>
+<ol>
+    <li>The high resolution source image is read.</li>
+    <li>The algorithm creates two <em>Voronoi diagrams</em> using the <em>Jump Flooding Algorithm</em>, one seeded with all opaque pixels and another one seeded with all transparent pixels.</li>
+    <li>A color texture is created. This texture has the same resolution as the input image, but every transparent pixel stores the color of the nearest opaque pixel instead. This is crucial for mipmapping, as explained in the next paragraph.</li>
+    <li>Mipmaps are generated for the color texture, which is then downscaled and rendered to the output image using mipmapping.</li>
+    <li>The distance to the edge is calculated from the Voronoi diagrams and stored on the output image. For every transparent pixel, the distance to the nearest opaque pixel is queried from the diagram, and every opaque pixels reads the distance to the nearest transparent pixel.</li>
+</ol>
 <h2>Mipmapping</h2>
+<h2>Anti aliasing</h2>
 <h2>Conclusion</h2>
