@@ -22,7 +22,8 @@
 <p>Signed distance field calculate for every pixel on the output image how far the center of that pixel is removed from the actual edge from the image. This is either a positive or a negative distance, since a pixel can be either inside or outside the shape described by the SDF. That's why the distance field is signed. If the distance towards the edge is negative the pixel is outside the shape, and if it's possible the distance is positive.</p>
 <p>Because pixel opacity is stored in just one byte, this value is stored in the range $[0, 1]$ just like the three other color channel values are stored, where $0.5$ is the edge, so if the distance is $<0.5$, a pixel is outside the shape.</p>
 <p>Rendering textures with SDFs is therefore fairly straightforward; the texture can be sampled normally using linear interpolation (and mipmapping if mipmaps are generated), and the alpha value is interpreted as the signed distance. If it is lower than $0.5$, the pixel should not be rendered, and if it is larger, the pixel should be opaque.</p>
-<h2>The algorithm</h2>
+<h2>Generating SDFs</h2>
+<p>To generate SDFs, I have created a tool called <a target="_blank" href="https://jobtalle.com/SDFMaker/">SDF maker</a>. It takes either raster images or vector images and converts them to images with SDFs with a configurable output resolution and SDF radius.</p>
 <h2>Usage</h2>
 <h2>Mipmapping</h2>
 <h2>Conclusion</h2>
