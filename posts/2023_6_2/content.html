@@ -1,5 +1,9 @@
 <h2>Textures with transparency</h2>
 <p>Textures and sprite with (partially) transparent pixels are often used in computer graphics to add detail to 3D assets that's not in the model itself. Foliage rendering often makes use of textures containing many grass blades, instead of modelling every grass blade individually. This has performance benefits and allows the artist to add lots of small details to the scenery.</p>
+<figure>
+    <img local src="img/sdf.png" alt="SDF edges on a low resolution texture">
+    <figcaption>Figure 1: A low resolution texture with edges defined by a signed distance field in its alpha channel.</figcaption>
+</figure>
 <p>Contrary to 3D models, the edges of these details become jagged and pixelated when zoomed in. If you look close enough, the separate pixels can be told apart. This can be mitigated by using higher resolution assets, but this hurts performance. To fix this problem, this article goes into generating <em>signed distance fields</em>, which can be used instead of pixel alpha values to define shapes on an image. Using SDFs over the alpha channel for transparency has several advantages:</p>
 <ul>
     <li>Smooth shape outlines which don't ever become pixelated when magnified</li>
@@ -8,10 +12,11 @@
     <li>The technique allows for <em>anti aliasing</em> the edges it describes, which is not possible with normal transparency.</li>
     <li>SDFs retain fidelity even at low resolutions.</li>
 </ul>
+<p>Figure 1 shows a low resolution (125 by 125 pixels) texture of the <a target="_blank" href="https://store.steampowered.com/app/1518810/Koi_Farm/">Koi Farm</a> logo which contains a signed distance field in its alpha channel. The part inside the black circle uses this data to reconstruct smooth edges.</p>
 <p>There are drawbacks too:</p>
 <ul>
     <li>SDFs can only store information about fully opaque shapes. There can't be partially transparent pixels on a texture that contains a SDF in its alpha channel.</li>
-    <li>SDFs need to be generated using a higher resolution version of the asset.</li>
+    <li>SDFs need to be generated using a higher resolution version of the asset. This is only a problem if the input image is a raster image, since vector images can always be magnified.</li>
 </ul>
 <h2>Signed distance fields</h2>
 
