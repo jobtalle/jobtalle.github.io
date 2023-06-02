@@ -1,5 +1,5 @@
 {
-  "title": "SDF based transparency",
-  "abstract": "",
+  "title": "Distance field transparency",
+  "abstract": "Edges of partially transparent textures and sprites look pixelated and jagged when magnified. To increase the quality of these edges, signed distance fields can be used to render smooth edges that don't lose detail when zoomed in. This article provides a fast method and a tool to generate SDFs, and it goes into several ways of rendering them.",
   "preview": "img/preview.jpg"
 }
