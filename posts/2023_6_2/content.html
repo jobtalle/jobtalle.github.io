@@ -1,5 +1,20 @@
-<h2>The problem</h2>
+<h2>Textures with transparency</h2>
+<p>Textures and sprite with (partially) transparent pixels are often used in computer graphics to add detail to 3D assets that's not in the model itself. Foliage rendering often makes use of textures containing many grass blades, instead of modelling every grass blade individually. This has performance benefits and allows the artist to add lots of small details to the scenery.</p>
+<p>Contrary to 3D models, the edges of these details become jagged and pixelated when zoomed in. If you look close enough, the separate pixels can be told apart. This can be mitigated by using higher resolution assets, but this hurts performance. To fix this problem, this article goes into generating <em>signed distance fields</em>, which can be used instead of pixel alpha values to define shapes on an image. Using SDFs over the alpha channel for transparency has several advantages:</p>
+<ul>
+    <li>Smooth shape outlines which don't ever become pixelated when magnified</li>
+    <li>The SDF data fits into the alpha channel of a texture, so no new data needs to be allocated.</li>
+    <li>SDFs are very fast to use. They won't degrade performance.</li>
+    <li>The technique allows for <em>anti aliasing</em> the edges it describes, which is not possible with normal transparency.</li>
+    <li>SDFs retain fidelity even at low resolutions.</li>
+</ul>
+<p>There are drawbacks too:</p>
+<ul>
+    <li>SDFs can only store information about fully opaque shapes. There can't be partially transparent pixels on a texture that contains a SDF in its alpha channel.</li>
+    <li>SDFs need to be generated using a higher resolution version of the asset.</li>
+</ul>
 <h2>Signed distance fields</h2>
+
 <h2>Requirements</h2>
 <h2>The algorithm</h2>
 <h2>Usage</h2>
