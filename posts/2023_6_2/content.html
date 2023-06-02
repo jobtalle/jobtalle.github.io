@@ -39,10 +39,32 @@
     <li>The distance to the edge is calculated from the Voronoi diagrams and stored on the output image. For every transparent pixel, the distance to the nearest opaque pixel is queried from the diagram, and every opaque pixels reads the distance to the nearest transparent pixel.</li>
 </ol>
 <p>The radius of the stored distance can be changed as well. If rendering a shape is enough, the radius can be $1$, since no extra information is needed. If the rendered textures need an outline of several pixels wide, the SDF radius can be increased to store enough information for outlines.</p>
-<h2>Mipmapping</h2>
 <figure>
     <img local src="img/mipmapping.jpg" alt="Mipmapping SDF textures with and without a Voronoi color texture">
     <figcaption>Figure 3: Mipmapping SDF textures with and without a Voronoi color texture.</figcaption>
 </figure>
+<h2>Mipmapping</h2>
+<p>Most 3D renderers use mipmapping on textures to improve visual quality and performance. This means the texture is stored at lower resolutions, which are sampled when the texture is viewed from a distance or at an angle.</p>
+<p>Downscaling textures with transparent regions can cause problems. Transparent regions naturally have no color, but these pixels have a color value nonetheless - it's just not visible. These "invisible colors" blend into neighboring pixels when downscaling however, causing the issue demonstrated on the right half of Figure 3. The transparent pixels were black. The texture should still contain white shapes in the distance, but they now become darker and muddy because the black transparent pixels blended into the visible white pixels.</p>
+<p>That's where the color texture from Figure 2 comes in. The transparent pixels assume the color from the color texture, which is the color of the nearest opaque pixel. The resulting texture now has proper colors, even at the lower mipmap levels. The left half of Figure 3 shows a texture with proper colors on the transparent pixels.</p>
 <h2>Anti aliasing</h2>
+<p>Another advantage of SDF transparency is the possibility to anti-alias the edges of shapes described by the SDF. Without anti-aliasing, the GLSL shader code to query opacity would look something like this:</p>
+<pre class="prettyprint">
+vec4 pixel = texture(source, uv);
+
+vec4 color = vec4(pixel.rgb, step(0.5, pixel.a));
+</pre>
+<p>In this case, the alpha value of the color pixel will be either $0$ or $1$, creating sharp non aliased edges. Anti aliasing can be achieved by ramping from $0$ to $1$ over the length of one pixel, which can look like this in GLSL:</p>
+<pre class="prettyprint">
+vec4 pixel = texture(source, uv);
+
+vec4 color = vec4(pixel.rgb, clamp((pixel.a - 0.5) * 2.0 / fwidth(pixel.a), 0., 1.)));
+</pre>
+<p>In this example, the <code class="prettyprint">fwidth</code> function is used to make sure the ramp is the same for all edges. Zooming in on edges won't make them more blurry.</p>
 <h2>Conclusion</h2>
+<p>The Voronoi diagrams used by this algorithm serve two purposes simultaneously:<p>
+<ol>
+    <li>To calculate the distance to the edge, and</li>
+    <li>To find the appropriate colors for the color texture.</li>
+</ol>
+<p>One caveat of the Jump Flooding algorithm is that it is has a very small error rate. The errors are typically small and unnoticeable, but a pixel may be off now and then. To reduce the error rate, I have implemented the JFA variant <a target="_blank" href="https://ieeexplore.ieee.org/document/4276119"><em>1+JFA</em></a> in SDF maker, which reduces the error rate significantly at the cost of one extra pass.</p>
