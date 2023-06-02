@@ -337,7 +337,7 @@ class Product:
 		return "<div class=\"" + self.CLASS_SUMMARY + "\">" + self.build_image() + self.build_title() + self.build_description() + "</div>"
 
 	def build(self):
-		self.site.log("Building game \"" + self.properties[self.KEY_TITLE] + "\"")
+		self.site.log("Building product \"" + self.properties[self.KEY_TITLE] + "\"")
 
 		return "<div class=\"" + self.CLASS + "\">" + self.build_content() + "</div>"
 
