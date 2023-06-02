@@ -4,7 +4,8 @@
     <img local src="img/sdf.png" alt="SDF edges on a low resolution texture">
     <figcaption>Figure 1: A low resolution texture with edges defined by a signed distance field in its alpha channel.</figcaption>
 </figure>
-<p>Contrary to 3D models, the edges of these details become jagged and pixelated when zoomed in. If you look close enough, the separate pixels can be told apart. This can be mitigated by using higher resolution assets, but this hurts performance. To fix this problem, this article goes into generating <em>signed distance fields</em>, which can be used instead of pixel alpha values to define shapes on an image. Using SDFs over the alpha channel for transparency has several advantages:</p>
+<p>Contrary to 3D models, the edges of these details become jagged and pixelated when zoomed in. If you look close enough, the separate pixels can be told apart. This can be mitigated by using higher resolution assets, but this hurts performance. To fix this problem, this article goes into generating <em>signed distance fields</em>, which can be used instead of pixel alpha values to define shapes on an image. This technique was popularized by Valve <a target="_blank" href="https://steamcdn-a.akamaihd.net/apps/valve/2007/SIGGRAPH2007_AlphaTestedMagnification.pdf">with this paper</a>, who used it for <em>glyphs</em> and fonts in Team Fortress 2. Nowadays, the technique is often used for rendering text in real time graphics when rendering vector graphics is too slow.</p>
+<p>Using SDFs over the alpha channel for transparency has several advantages:</p>
 <ul>
     <li>Smooth shape outlines which don't ever become pixelated when magnified</li>
     <li>The SDF data fits into the alpha channel of a texture, so no new data needs to be allocated.</li>
@@ -39,5 +40,9 @@
 </ol>
 <p>The radius of the stored distance can be changed as well. If rendering a shape is enough, the radius can be $1$, since no extra information is needed. If the rendered textures need an outline of several pixels wide, the SDF radius can be increased to store enough information for outlines.</p>
 <h2>Mipmapping</h2>
+<figure>
+    <img local src="img/mipmapping.jpg" alt="Mipmapping SDF textures with and without a Voronoi color texture">
+    <figcaption>Figure 3: Mipmapping SDF textures with and without a Voronoi color texture.</figcaption>
+</figure>
 <h2>Anti aliasing</h2>
 <h2>Conclusion</h2>
