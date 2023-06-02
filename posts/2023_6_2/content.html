@@ -32,11 +32,12 @@
 </figure>
 <ol>
     <li>The high resolution source image is read.</li>
-    <li>The algorithm creates two <em>Voronoi diagrams</em> using the <em>Jump Flooding Algorithm</em>, one seeded with all opaque pixels and another one seeded with all transparent pixels.</li>
-    <li>A color texture is created. This texture has the same resolution as the input image, but every transparent pixel stores the color of the nearest opaque pixel instead. This is crucial for mipmapping, as explained in the next paragraph.</li>
-    <li>Mipmaps are generated for the color texture, which is then downscaled and rendered to the output image using mipmapping.</li>
+    <li>The algorithm creates two <a target="_blank" href="https://en.wikipedia.org/wiki/Voronoi_diagram"><em>Voronoi diagrams</em></a> using the <a target="_blank" href="https://en.wikipedia.org/wiki/Jump_flooding_algorithm"><em>Jump Flooding Algorithm</em></a>, one seeded with all opaque pixels and another one seeded with all transparent pixels. These Voronoi diagrams store the coordinates of both the nearest opaque and the nearest transparent pixel for every pixel.</li>
+    <li>A color texture is created. This texture has the same resolution as the input image, but every transparent pixel stores the color of the nearest opaque pixel instead. This is crucial for mipmapping, as explained in the next paragraph. Figure 2 shows how this color texture looks.</li>
+    <li>Mipmaps are generated for the color texture, which is then downscaled and rendered to the output image in the output resolution using mipmapping for downscaling.</li>
     <li>The distance to the edge is calculated from the Voronoi diagrams and stored on the output image. For every transparent pixel, the distance to the nearest opaque pixel is queried from the diagram, and every opaque pixels reads the distance to the nearest transparent pixel.</li>
 </ol>
+<p>The radius of the stored distance can be changed as well. If rendering a shape is enough, the radius can be $1$, since no extra information is needed. If the rendered textures need an outline of several pixels wide, the SDF radius can be increased to store enough information for outlines.</p>
 <h2>Mipmapping</h2>
 <h2>Anti aliasing</h2>
 <h2>Conclusion</h2>
