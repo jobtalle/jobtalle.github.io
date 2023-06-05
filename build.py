@@ -328,7 +328,12 @@ class Product:
 		return "<h2>" + self.properties[self.KEY_TITLE] + "</h2>"
 
 	def build_image(self):
-		return "<a href=\"" + self.properties[self.KEY_URL] + "\" target=\"_blank\"><img src=\"" + self.directory + "/" + self.FILE_PREVIEW + "\"></a>"
+		image = "<img src=\"" + self.directory + "/" + self.FILE_PREVIEW + "\">"
+
+		if self.KEY_URL in self.properties:
+			return "<a href=\"" + self.properties[self.KEY_URL] + "\" target=\"_blank\">" + image + "</a>"
+
+		return image
 
 	def build_description(self):
 		return "<p>" + self.properties[self.KEY_DESCRIPTION] + "</p>"
