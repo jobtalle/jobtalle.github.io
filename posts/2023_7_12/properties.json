@@ -1,5 +1,5 @@
 {
-  "title": "Generating tree structures",
-  "abstract": "",
+  "title": "Procedural tree structures",
+  "abstract": "This algorithm for generating procedural tree structures creates realistic looking branches in real time. It also takes collisions and the environment into account, which makes it useful for generating plants in an existing environment with obstacles and various environmental conditions.",
   "preview": "img/preview.jpg"
 }
