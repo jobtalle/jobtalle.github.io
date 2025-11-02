@@ -446,17 +446,17 @@ class Site:
 
 	MENU_PAGES = [
 		"index.html",
-		"sketches.html",
 		"games.html",
 		"work.html",
+		"sketches.html",
 		"about.html",
 		"contact.html"
 	]
 	MENU_TITLES = [
 		"Blog",
-		"Sketches",
-		"Games",
+        "Games",
 		"Work",
+		"Sketches",
 		"About",
 		"Contact"
 	]
