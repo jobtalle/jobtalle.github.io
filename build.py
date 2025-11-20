@@ -748,7 +748,7 @@ class Site:
 
 	def get_work(self):
 		directories = [dir for dir in listdir(self.DIR_WORK)]
-		directories.sort()
+		directories.sort(reverse=True)
 
 		return [Product(self, self.DIR_WORK + "\\" + dir) for dir in directories]
 
